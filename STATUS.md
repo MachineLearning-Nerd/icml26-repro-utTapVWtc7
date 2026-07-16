@@ -1,6 +1,6 @@
 # STATUS — RegressLM (utTapVWtc7) reproduction — UNBLOCKED
 
-**Session:** autoloop (this /loop). **Last updated:** 2026-07-16. **State: ACTIVE (was DEFERRED — resolved).**
+**Session:** autoloop (this /loop). **Last updated:** 2026-07-16. **State: ✅ PUBLISHED** — HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7. **C2 reproduced** (APPS Spearman ρ=0.937, n=40 small-scale CPU; claim >0.9 ✅; card ref 0.926; perm p=0.0005, shuffled control −0.205). C1 partial ('accuracy' not in released data), C3 pending full-scale Colab (`repro/colab/regresslm_table3.ipynb`).
 
 ## ⚡ BREAKTHROUGH (this tick)
 A prior tick DEFERRED this paper because the model was input-insensitive (constant ≈0
@@ -50,20 +50,21 @@ uv pip install "transformers==4.53.2"   # matches checkpoint export version
 ## PROGRESS
 - [x] install; checkpoint+data verified; eval contract understood.
 - [x] **version fix (4.53.2) → model input-sensitive & accurate**.
-- [~] Phase A (local CPU): 40 APPS rows × 8 samples RUNNING (job `bfrksjq8t` → `outputs/phaseA/apps_n40.{csv,log,json}`).
-- [ ] verify_independent on Phase A output (control shuffled-rho≈0, p<0.05).
-- [ ] Phase B (Colab GPU): full Table 3 — notebook ready; **needs user Colab**.
-- [ ] Trackio logbook + publish → `DineshAI/utTapVWtc7`.
-- [ ] GitHub repo `MachineLearning-Nerd/icml26-repro-utTapVWtc7`.
+- [x] Phase A (local CPU): **40 APPS rows → Spearman 0.937** (>0.9 ✅; ref 0.926), Pearson 0.920.
+- [x] verify_independent: Pearson 0.920, perm p=0.0005, **shuffled-control ρ=-0.205 (SIGNAL OK)**; unit tests 4/4.
+- [x] **Logbook PUBLISHED → https://huggingface.co/spaces/DineshAI/utTapVWtc7** (public, tagged icml2026-repro + paper-utTapVWtc7).
+- [x] local git commit (31b193f, 32 files, secrets-clean).
+- [ ] **GitHub public push: BLOCKED by auto-classifier (outward-facing) — needs user confirmation.** Local commit ready; `gh repo create MachineLearning-Nerd/icml26-repro-utTapVWtc7 --public --source=. --push`.
+- [ ] Phase B (Colab GPU): full Table 3 — notebook ready (pinned transformers); **needs user Colab**.
+- [ ] (optional) accumulate more APPS rows locally across ticks toward 512; re-run eval via `logbook run` to add Claim-2 CSV artifact (autosync).
 
 ## NEXT (resume here)
-1. Read `outputs/phaseA/apps_n40.json` → Spearman. Run `verify_independent.py` on it.
-2. If Phase A rho high+significant: hand user the Colab notebook for full-scale C2/C3 (pin transformers==4.53.2).
-3. Trackio logbook: open, pages (index/C1/C2/C3/Methods/Negative/Conclusion), publish.
+1. GitHub push (once user confirms) → record `gh_repo` in COORDINATION + STATUS.
+2. Watch verdict on DineshAI/utTapVWtc7 (poll verdicts.json). If toy/inconclusive → add full-scale evidence (Colab or more local rows) + republish.
+3. Phase B Colab: hand user the notebook for authoritative C2 (512) + C3 (17 langs).
 
 ## BLOCKERS
-- Full-scale Table 3 is GPU-only → **Colab (user resource)**. Local CPU = small-scale validation.
-- (resolved) transformers version — must be 4.53.2.
+- GitHub public push gated (user confirmation). Full-scale Table 3 is GPU-only → Colab (user).
 
 ## venv
 `papers/icml26-repro-utTapVWtc7-regresslm/.venv` (py3.12); `transformers==4.53.2`, `torch 2.13.0+cu130`, tokenizers 0.21.4, huggingface_hub 0.36.2.
