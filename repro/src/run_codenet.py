@@ -2,44 +2,71 @@
 """RegressLM Claim 3 driver — average Spearman across the 17 CodeNet languages.
 
 CodeNet's 17 languages are the top-17 by count in the CDSS space (confirmed by
-inspect_data.py): C++, Python, Java, C, Ruby, C#, Rust, Go, Haskell, Kotlin,
-JavaScript, PHP, D, Scala, OCaml, Perl, Fortran. For each, fetch `--limit` CDSS
-rows filtered by metadata.language, predict (8 samples -> median, authors' recipe),
-and report per-language Spearman + the average (claim 3: >0.5).
+inspect_data.py). This driver makes a SINGLE pass over CDSS, bucketing rows by
+language until every language has `limit` rows (reading the huge CDSS partition
+once, not once-per-language), then predicts each bucket with the authors' recipe
+(8 samples -> median) and reports per-language Spearman + the average (claim 3: >0.5).
 
-Reuses run_eval.load_model / fetch_rows / predict / decode_seq so the recipe is
-identical to Claim 2. Output: outputs/codenet/per_lang.csv + .json.
+Reuses run_eval.load_model / predict / pick_device so the recipe is identical to
+Claim 2. Output: outputs/codenet/per_lang.csv + .json.
 """
 import argparse
 import csv
 import json
 import math
 import os
+from ast import literal_eval
 
 import numpy as np
+import pyarrow as pa
+import pyarrow.dataset as ds
+import torch
 from scipy import stats
 
-from run_eval import load_model, predict, pick_device
-import torch
+from run_eval import load_model, predict, pick_device, PARQUET
 
 CODENET_17 = ["C++", "Python", "Java", "C", "Ruby", "C#", "Rust", "Go", "Haskell",
               "Kotlin", "JavaScript", "PHP", "D", "Scala", "OCaml", "Perl", "Fortran"]
 
 
-def fetch_lang(space, lang, limit):
-    # local import to reuse the pyarrow fetch with language filter
-    from run_eval import fetch_rows
-    return fetch_rows(space, lang=lang, limit=limit)
+def fetch_all_langs(langs, limit):
+    """One pass over CDSS; bucket rows by language; stop when every lang has `limit`."""
+    dataset = ds.dataset(PARQUET, format="parquet")
+    flt = pa.compute.equal(pa.compute.field("space"), "CDSS")
+    wanted = set(langs)
+    buckets = {l: [] for l in langs}
+    seen = 0
+    scanner = dataset.scanner(columns=["input", "target", "metadata"], filter=flt, batch_size=512)
+    for batch in scanner.to_batches():
+        for inp, tgt, md in zip(batch.column("input"), batch.column("target"), batch.column("metadata")):
+            seen += 1
+            try:
+                mdd = literal_eval(md.as_py()) if md.is_valid else {}
+            except Exception:
+                mdd = {}
+            lang = mdd.get("language")
+            if lang in wanted and len(buckets[lang]) < limit:
+                if not tgt.is_valid or not inp.is_valid:
+                    continue
+                x = f"# CDSS\n# Language: {lang}\n{inp.as_py()}"
+                buckets[lang].append((x, float(tgt.as_py())))
+        full = sum(1 for l in wanted if len(buckets[l]) >= limit)
+        if seen % 25000 == 0:
+            print(f"  scanned {seen} CDSS rows; filled {full}/{len(wanted)} langs", flush=True)
+        if full == len(wanted):
+            break
+    print(f"  fetched in one pass: scanned {seen} CDSS rows; "
+          + ", ".join(f"{l}={len(buckets[l])}" for l in langs), flush=True)
+    return buckets
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--limit", type=int, default=150, help="rows per language")
+    ap.add_argument("--limit", type=int, default=25, help="rows per language")
     ap.add_argument("--num_samples", type=int, default=8)
     ap.add_argument("--batch_size", type=int, default=8)
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--langs", default=",".join(CODENET_17),
-                    help="comma-sep languages (default = CodeNet 17)")
+    ap.add_argument("--langs", default=",".join(CODENET_17))
     ap.add_argument("--device", default=None)
     ap.add_argument("--model_path", default=None)
     ap.add_argument("--out", default=os.path.join("outputs", "codenet", "per_lang.csv"))
@@ -55,12 +82,17 @@ def main():
     print(f"params: {sum(p.numel() for p in model.parameters())/1e6:.1f}M | n_out={n_out}", flush=True)
 
     langs = [l.strip() for l in args.langs.split(",") if l.strip()]
+    print(f"single-pass fetch over CDSS for {len(langs)} langs (limit={args.limit}) ...", flush=True)
+    buckets = fetch_all_langs(langs, args.limit)
+
     rows, per_lang = [], []
     for li, lang in enumerate(langs):
-        inputs, targets = fetch_lang("CDSS", lang, args.limit)
-        if len(inputs) < 20:
-            print(f"  [{li+1}/{len(langs)}] {lang}: skip (only {len(inputs)} rows)", flush=True)
+        inputs_targets = buckets[lang]
+        if len(inputs_targets) < 20:
+            print(f"  [{li+1}/{len(langs)}] {lang}: skip (only {len(inputs_targets)} rows)", flush=True)
             continue
+        inputs = [x for x, _ in inputs_targets]
+        targets = [t for _, t in inputs_targets]
         yt = np.array(targets, dtype=float)
         yp = np.array(predict(tok, model, inputs, args.num_samples, device, n_out,
                                args.batch_size, dtype), dtype=float)
