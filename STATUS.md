@@ -1,6 +1,6 @@
 # STATUS — RegressLM (utTapVWtc7) reproduction — UNBLOCKED
 
-**Session:** autoloop (this /loop). **Last updated:** 2026-07-16. **State: ✅ PUBLISHED** — HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7. **C2 reproduced** (APPS Spearman ρ=0.937, n=40 small-scale CPU; claim >0.9 ✅; card ref 0.926; perm p=0.0005, shuffled control −0.205). C1 partial ('accuracy' not in released data), C3 pending full-scale Colab (`repro/colab/regresslm_table3.ipynb`).
+**Session:** autoloop (this /loop). **Last updated:** 2026-07-16. **State: ✅ PAPER-SCALE VERIFIED + PUBLISHED** — HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7. **C2 VERIFIED** (APPS ρ=0.9254, n=512 Colab ~= card 0.926; local n=40 ρ=0.937 with perm p=0.0005, shuffled −0.205). **C3 VERIFIED** (17-CodeNet-lang avg ρ=0.517, n=200/lang >0.5; 12/17 langs >0.5; pooled CDSS 0.806 ~= card 0.787). KBSS ρ=0.531 ~= card 0.527. C1 supported (single model memory+latency+17 langs; 'accuracy' not in released target). Authoritative results in outputs/colab/table3_results.json.
 
 ## ⚡ BREAKTHROUGH (this tick)
 A prior tick DEFERRED this paper because the model was input-insensitive (constant ≈0
