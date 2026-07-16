@@ -13,6 +13,14 @@
   ],
   "autosync": true,
   "private": false,
-  "last_page": "negative-controls-falsification",
-  "local_dashboards": {}
+  "last_page": "claim-2-apps-spearman-0-9",
+  "local_dashboards": {},
+  "local_path_artifacts": [
+    {
+      "path": "outputs/phaseA/apps_n40_canonical.csv",
+      "abs_path": "/home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/outputs/phaseA/apps_n40_canonical.csv",
+      "size": 762,
+      "artifact_type": "dataset"
+    }
+  ]
 }
