@@ -1,0 +1,14 @@
+[
+  {
+    "file": "outputs/phaseA/apps_n40.csv",
+    "n": 40,
+    "spearman": 0.9374237733370859,
+    "pearson": 0.920236967571928,
+    "spearman_ci95": [
+      0.8405259758527969,
+      0.9729818113446693
+    ],
+    "perm_pvalue": 0.0004997501249375312,
+    "control_shuffled_spearman": -0.20517872220658598
+  }
+]

@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+*.parquet
+# keep summary CSVs/JSONs under outputs/, drop raw verbose logs + large dumps
+outputs/**/raw/
+outputs/**/*.txt
+outputs/**/*.log
+# vendored upstream clone (re-clone via README; pinned commit 6c23ccb)
+upstream/
+.trackio/.serve.log
+.trackio/cache/
+.trackio/db/
+# paper HTML mirror (regenerate from arxiv)
+docs/paper.html
+# downloaded checkpoints / hf cache
+checkpoints/
+hf-cache/
+.trackio/*.tmp
+
+.trackio/logbook/.serve.log

@@ -1,0 +1,39 @@
+{
+  "APPS": {
+    "n": 1980,
+    "min": 5260.0,
+    "max": 100960435.0,
+    "mean": 181663.5186868687
+  },
+  "KBSS": {
+    "n": 2000,
+    "min": 0.012734,
+    "max": 23.194554,
+    "mean": 0.0804737415
+  },
+  "CDSS": {
+    "n": 2000,
+    "min": 0.0,
+    "max": 689280.0,
+    "mean": 12272.806
+  },
+  "cdss_langs": [
+    "C++",
+    "Python",
+    "Java",
+    "C",
+    "Ruby",
+    "C#",
+    "Rust",
+    "Go",
+    "Haskell",
+    "Kotlin",
+    "JavaScript",
+    "PHP",
+    "D",
+    "Scala",
+    "OCaml",
+    "Perl",
+    "Fortran"
+  ]
+}
