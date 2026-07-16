@@ -1,0 +1,18 @@
+{
+  "space_id": "DineshAI/utTapVWtc7",
+  "emoji": "🎯",
+  "created_at": "2026-07-16T12:36:03+00:00",
+  "title": "Repro - Regression Language Models for Code (RegressLM)",
+  "paper": {
+    "arxiv_id": "2509.26476",
+    "openreview_id": "utTapVWtc7"
+  },
+  "tags": [
+    "icml2026-repro",
+    "paper-utTapVWtc7"
+  ],
+  "autosync": true,
+  "private": false,
+  "last_page": "negative-controls-falsification",
+  "local_dashboards": {}
+}
