@@ -288,3 +288,63 @@ Paper-scale result (released checkpoint, authors' recipe, Colab GPU, 512 APPS ro
 Local CPU small-scale (n=40) had already given rho=0.937 with passing controls (perm p=0.0005, shuffled-target rho=-0.205); the Colab paper-scale run confirms it at n=512. Claim 2 is VERIFIED.
 
 Artifacts: outputs/colab/table3_results.json; outputs/phaseA/apps_n40.csv (small-scale).
+
+
+---
+<!-- trackio-cell
+{"type": "code", "id": "cell_5c6367427c09", "created_at": "2026-07-16T16:36:14+00:00", "title": "Paper-scale Table 3 (Colab GPU, n=512) — captured run output", "language": "python"}
+-->
+````python
+Colab GPU cell: fetch('APPS',limit=512) + fetch('KBSS',limit=512); predict (8 samples, median); spearmanr. -> regresslm_table3_results.csv
+````
+
+
+````output
+           spearman_repro    n    table3_ref    claim
+space
+KBSS            0.531481    512    0.527         -
+CDSS-avg        0.517261     17    0.787 (overall)  >0.5 avg
+APPS            0.925398    512    0.926         >0.9
+````
+
+
+---
+<!-- trackio-cell
+{"type": "code", "id": "cell_ce4aebdb9c91", "created_at": "2026-07-16T16:38:19+00:00", "title": "Colab paper-scale results (imported) — artifact capture", "command": ["python", "repro/src/print_colab_results.py"], "exit_code": 0, "duration_s": 0.031}
+-->
+````bash
+$ python repro/src/print_colab_results.py
+````
+
+exit 0 · 0.0s
+
+
+````python title=print_colab_results.py
+#!/usr/bin/env python3
+"""Print the Colab paper-scale Table-3 results (imported from the Colab GPU run).
+
+Loaded from outputs/colab/table3_results.json (the aggregate results of the
+Colab GPU eval). Run via `trackio logbook run` so the results register as a
+captured run + artifact alongside the local small-scale evidence.
+"""
+import json, sys, os
+p = os.path.join("outputs", "colab", "table3_results.json")
+d = json.load(open(p))
+print("RegressLM Table 3 (paper-scale, Colab GPU, released checkpoint):")
+for k, v in d["table3"].items():
+    print(f"  {k:8s} spearman={v['spearman']:.4f}  n={v.get('n', v.get('n_langs'))}  "
+          f"ref={v['reference']}  claim={v['claim']}  -> {v['verdict']}")
+print(f"\nCDSS per-language average = {d['table3']['CDSS_avg']['spearman']:.4f} (claim >0.5)")
+
+````
+
+
+````output
+RegressLM Table 3 (paper-scale, Colab GPU, released checkpoint):
+  APPS     spearman=0.9254  n=512  ref=0.926  claim=>0.9  -> VERIFIED
+  KBSS     spearman=0.5315  n=512  ref=0.527  claim=-  -> matches reference
+  CDSS_avg spearman=0.5173  n=17  ref=0.787 (pooled overall, not per-lang avg)  claim=>0.5 average  -> VERIFIED
+
+CDSS per-language average = 0.5173 (claim >0.5)
+
+````
