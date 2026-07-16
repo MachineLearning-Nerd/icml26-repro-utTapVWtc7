@@ -272,4 +272,19 @@ wrote outputs/phaseA/apps_n40_canonical.csv
 -->
 **📦 Artifact** `outputs/phaseA/apps_n40_canonical.csv` · dataset · 762 B
 
-trackio-local-path://outputs/phaseA/apps_n40_canonical.csv
+https://huggingface.co/buckets/DineshAI/utTapVWtc7-artifacts#logbook-files/outputs/phaseA/apps_n40_canonical.csv
+
+
+---
+<!-- trackio-cell
+{"type": "markdown", "id": "cell_5f410196697e", "created_at": "2026-07-16T14:45:43+00:00", "title": "✅ C2 VERIFIED at paper scale (Colab GPU): APPS rho=0.925, n=512"}
+-->
+Claim: 300M RLM (T5Gemma init) obtains >0.9 Spearman on APPS.
+
+Paper-scale result (released checkpoint, authors' recipe, Colab GPU, 512 APPS rows x 8 samples):
+- **APPS Spearman rho = 0.9254** -- EXCEEDS the >0.9 claim and essentially matches the dataset-card reference (0.926).
+- KBSS rho = 0.5315 (n=512) -- matches card reference 0.527.
+
+Local CPU small-scale (n=40) had already given rho=0.937 with passing controls (perm p=0.0005, shuffled-target rho=-0.205); the Colab paper-scale run confirms it at n=512. Claim 2 is VERIFIED.
+
+Artifacts: outputs/colab/table3_results.json; outputs/phaseA/apps_n40.csv (small-scale).

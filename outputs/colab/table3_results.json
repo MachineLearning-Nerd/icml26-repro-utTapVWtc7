@@ -1,0 +1,20 @@
+{
+  "source": "Colab GPU (Phase B, regresslm_table3.ipynb) — released checkpoint, authors' exact recipe, transformers==4.53.2",
+  "date": "2026-07-16",
+  "table3": {
+    "APPS":    {"spearman": 0.925398, "n": 512,  "reference": 0.926, "claim": ">0.9",          "verdict": "VERIFIED"},
+    "KBSS":    {"spearman": 0.531481, "n": 512,  "reference": 0.527, "claim": "-",              "verdict": "matches reference"},
+    "CDSS_avg": {"spearman": 0.517261, "n_langs": 17, "rows_per_lang": 200, "reference": "0.787 (pooled overall, not per-lang avg)", "claim": ">0.5 average", "verdict": "VERIFIED"}
+  },
+  "cdss_per_language": {
+    "C++": 0.732, "Python": 0.601, "Java": 0.545, "C": 0.690, "Ruby": 0.429,
+    "C#": 0.408, "Rust": 0.586, "Go": 0.632, "Haskell": 0.593, "Kotlin": 0.577,
+    "JavaScript": 0.213, "PHP": 0.272, "D": 0.595, "Scala": 0.399, "OCaml": 0.599,
+    "Perl": 0.560, "Fortran": 0.364
+  },
+  "claims": {
+    "C1": "Substantially supported: a SINGLE released checkpoint predicts across APPS (memory, rho=0.925) + KBSS (latency, rho=0.531) + CDSS (memory, 17 languages, avg rho=0.517). 'accuracy' is named in the claim but not present as a target in the released Code-Regression parquet (target column = memory bytes / latency ms), so accuracy is not independently reproduced from this release.",
+    "C2": "VERIFIED at paper scale: APPS Spearman = 0.9254 (n=512) > 0.9; matches card reference 0.926.",
+    "C3": "VERIFIED at paper scale: average Spearman across 17 CodeNet languages = 0.517 (n=200/lang) > 0.5."
+  }
+}

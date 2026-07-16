@@ -13,7 +13,7 @@
   ],
   "autosync": true,
   "private": false,
-  "last_page": "negative-controls-falsification",
+  "last_page": "claim-1-unified-multi-metric-model",
   "local_dashboards": {},
   "local_path_artifacts": [
     {
@@ -28,5 +28,6 @@
       "size": 8949,
       "artifact_type": "dataset"
     }
-  ]
+  ],
+  "artifacts_bucket": "DineshAI/utTapVWtc7-artifacts"
 }

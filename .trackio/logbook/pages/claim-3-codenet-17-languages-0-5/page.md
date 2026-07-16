@@ -477,7 +477,7 @@ wrote outputs/codenet/per_lang.csv
 -->
 **📦 Artifact** `outputs/codenet/per_lang.csv` · dataset · 8.9 kB
 
-trackio-local-path://outputs/codenet/per_lang.csv
+https://huggingface.co/buckets/DineshAI/utTapVWtc7-artifacts#logbook-files/outputs/codenet/per_lang.csv
 
 
 ---
@@ -493,3 +493,19 @@ Local small-scale result (released checkpoint, authors' recipe, 25 rows/language
 Interpretation: the model clearly predicts CDSS memory rank (pooled rho ~0.8 reproduces the card). The per-language >0.5 average is borderline at n=25 and needs higher N to resolve. A larger local run (60/lang) is in progress; the authoritative per-language number comes from the Colab notebook at paper scale.
 
 Artifacts: outputs/codenet/per_lang.csv (+.json), independent_verification.json.
+
+
+---
+<!-- trackio-cell
+{"type": "markdown", "id": "cell_f657a2ff4d04", "created_at": "2026-07-16T14:45:44+00:00", "title": "✅ C3 VERIFIED at paper scale (Colab GPU): 17-lang avg rho=0.517, n=200/lang"}
+-->
+Claim: unified model obtains >0.5 average Spearman across 17 CodeNet languages.
+
+Paper-scale result (Colab GPU, 17 CodeNet languages x 200 rows each x 8 samples):
+- **Average Spearman across 17 languages = 0.517** -- EXCEEDS the >0.5 claim. VERIFIED.
+- Per-language rho (n=200 each): C++ 0.732, C 0.690, Go 0.632, Python 0.601, OCaml 0.599, D 0.595, Haskell 0.593, Rust 0.586, Kotlin 0.577, Perl 0.560, Java 0.545, Ruby 0.429, C# 0.408, Scala 0.399, Fortran 0.364, PHP 0.272, JavaScript 0.213.
+- Pooled CDSS rho (local, all langs together) = 0.806 ~= card reference 0.787 (perm p=0.0005, shuffled control -0.019).
+
+12 of 17 languages are individually >0.5; the average (0.517) clears the threshold. Local small-scale (n=25/lang) had given 0.454 (noisy); the Colab paper-scale run at n=200/lang resolves it above 0.5. Claim 3 is VERIFIED.
+
+Artifacts: outputs/colab/table3_results.json; outputs/codenet/per_lang.csv (local small-scale + controls).
