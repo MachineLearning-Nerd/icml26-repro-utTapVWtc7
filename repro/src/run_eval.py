@@ -52,7 +52,17 @@ def pick_device(arg):
 
 def load_model(device, dtype, path=None):
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-    src = path or (os.path.abspath(_LOCAL_CKPT) if os.path.isdir(_LOCAL_CKPT) else REPO)
+    if path:
+        src = path
+    elif os.path.isdir(_LOCAL_CKPT):
+        src = os.path.abspath(_LOCAL_CKPT)
+    else:
+        # Load from the LOCAL snapshot dir, not the repo-id. The P10 tokenizer only
+        # uses the bundled encoder_tokenizer/ subdir when Path(model_path).exists();
+        # a repo-id string makes it fall back to the GATED google/t5gemma-s-s-prefixlm
+        # for the encoder vocab -> 401 GatedRepoError.
+        from huggingface_hub import snapshot_download
+        src = snapshot_download(REPO)
     print(f"loading model from: {src}", flush=True)
     tok = AutoTokenizer.from_pretrained(src, trust_remote_code=True)
     model = AutoModelForSeq2SeqLM.from_pretrained(
