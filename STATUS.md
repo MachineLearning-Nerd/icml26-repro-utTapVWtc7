@@ -1,6 +1,7 @@
-# STATUS — RegressLM (utTapVWtc7) reproduction — UNBLOCKED
+# STATUS — RegressLM (utTapVWtc7) reproduction — REVISED (resubmitted)
 
-**Session:** autoloop (this /loop). **Last updated:** 2026-07-16. **State: ✅ PAPER-SCALE VERIFIED + PUBLISHED** — HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7. **C2 VERIFIED** (APPS ρ=0.9254, n=512 Colab ~= card 0.926; local n=40 ρ=0.937 with perm p=0.0005, shuffled −0.205). **C3 VERIFIED** (17-CodeNet-lang avg ρ=0.517, n=200/lang >0.5; 12/17 langs >0.5; pooled CDSS 0.806 ~= card 0.787). KBSS ρ=0.531 ~= card 0.527. C1 supported (single model memory+latency+17 langs; 'accuracy' not in released target). Authoritative results in outputs/colab/table3_results.json.
+**Session:** autoloop. **Last updated:** 2026-07-16. **State: 🔄 REVISED + REPUBLISHED (awaiting re-judge).** Prior official verdict was **2/6** (C1 inconclusive, C2 toy, C3 toy) at SHA `1dc729c` — judge accepted executed small-scale but wanted paper-scale results in EXECUTED cells w/ captured output + the 181.5M-vs-300M & accuracy scope addressed. **Revision done (commit 4e2997d):** (1) executed `cell code` cells on Claim 2 & 3 with verbatim Colab GPU output (APPS ρ=0.9254 n=512; 17-lang avg ρ=0.517 n=200/lang, full per-language list) + `logbook run` capturing results JSON as artifact; (2) Methods cell documents 181.5M = T5Gemma-s encoder + 13-token numeric decoder (claim's '300M' = T5Gemma init class) + accuracy scope. HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7. **Pending:** import the raw Colab per-row CSV (`regresslm_table3_results.csv`) for a verbatim artifact (asked user). Results: outputs/colab/table3_results.json (+ colab_*.txt).
+
 
 ## ⚡ BREAKTHROUGH (this tick)
 A prior tick DEFERRED this paper because the model was input-insensitive (constant ≈0
