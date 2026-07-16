@@ -1,0 +1,14 @@
+[
+  {
+    "file": "outputs/codenet/per_lang.csv",
+    "n": 425,
+    "spearman": 0.8061707707057375,
+    "pearson": 0.4030749567817209,
+    "spearman_ci95": [
+      0.762616197994575,
+      0.8439232159738025
+    ],
+    "perm_pvalue": 0.0004997501249375312,
+    "control_shuffled_spearman": -0.019234067215644805
+  }
+]
