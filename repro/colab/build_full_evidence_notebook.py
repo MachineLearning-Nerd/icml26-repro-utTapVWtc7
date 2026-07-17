@@ -109,15 +109,18 @@ def evaluate(task, inputs, targets, max_length=2048, batch_size=BATCH_SIZE):
         chunk = inputs[start:start+batch_size]
         enc = tok(chunk, return_tensors="pt", truncation=True, padding=True,
                   max_length=max_length).to(device)
-        draws = []
-        for _ in range(NUM_SAMPLES):
-            out = model.generate(
-                **enc, do_sample=True, top_p=0.95, temperature=1.0,
-                min_new_tokens=N_OUT, max_new_tokens=N_OUT,
-                pad_token_id=getattr(tok, "pad_token_id", 0), use_cache=True,
-            )
-            draws.append([decode(row.tolist()) for row in out])
-        draws = np.asarray(draws, dtype=float).T
+        # Reuse one encoder pass for all 8 stochastic decodes.
+        out = model.generate(
+            **enc, do_sample=True, top_p=0.95, temperature=1.0,
+            min_new_tokens=N_OUT, max_new_tokens=N_OUT,
+            num_return_sequences=NUM_SAMPLES,
+            pad_token_id=getattr(tok, "pad_token_id", 0), use_cache=True,
+        )
+        seqs = out.reshape(len(chunk), NUM_SAMPLES, -1)
+        draws = np.asarray([
+            [decode(seqs[row, sample].tolist()) for sample in range(NUM_SAMPLES)]
+            for row in range(len(chunk))
+        ], dtype=float)
         preds = np.nanmedian(draws, axis=1)
         for j, (text, target, pred) in enumerate(zip(chunk, targets[start:start+len(chunk)], preds)):
             records.append({

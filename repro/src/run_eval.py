@@ -117,24 +117,26 @@ def predict(tok, model, inputs, num_samples, device, n_out, batch_size, dtype):
         chunk = inputs[i:i + batch_size]
         enc = tok(chunk, return_tensors="pt", truncation=True, padding=True,
                   max_length=2048).to(device)
-        draws = []
-        for _ in range(num_samples):
-            out = model.generate(
-                **enc, do_sample=True, top_p=0.95, temperature=1.0,
-                min_new_tokens=n_out, max_new_tokens=n_out,
-                pad_token_id=getattr(tok, "pad_token_id", 0),
-                use_cache=True,
-            )
-            seqs = out.view(enc["input_ids"].shape[0], -1) if out.dim() == 2 else out
-            vals = []
-            for r in range(seqs.shape[0]):
-                ids = seqs[r].tolist()
+        # One generate call reuses the encoder pass for all samples. Hugging Face
+        # emits num_samples contiguous sequences per input, so reshape to
+        # (batch, samples, tokens). This is numerically the same 8-draw median
+        # protocol but avoids recomputing the long code encoder eight times.
+        out = model.generate(
+            **enc, do_sample=True, top_p=0.95, temperature=1.0,
+            min_new_tokens=n_out, max_new_tokens=n_out,
+            num_return_sequences=num_samples,
+            pad_token_id=getattr(tok, "pad_token_id", 0),
+            use_cache=True,
+        )
+        seqs = out.reshape(len(chunk), num_samples, -1)
+        draws = np.full((len(chunk), num_samples), np.nan, dtype=float)
+        for row in range(len(chunk)):
+            for sample in range(num_samples):
                 try:
-                    vals.append(decode_seq(tok, ids))
+                    draws[row, sample] = decode_seq(tok, seqs[row, sample].tolist())
                 except Exception:
-                    vals.append(math.nan)
-            draws.append(vals)
-        med = np.nanmedian(np.array(draws, dtype=float), axis=0)
+                    pass
+        med = np.nanmedian(draws, axis=1)
         for j, v in enumerate(med):
             preds[i + j] = float(v)
         print(f"    batch {i//batch_size + 1}/{(len(inputs)+batch_size-1)//batch_size} "
