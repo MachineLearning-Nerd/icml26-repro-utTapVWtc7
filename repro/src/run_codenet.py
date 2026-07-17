@@ -21,6 +21,7 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.dataset as ds
 import torch
+import requests
 from scipy import stats
 
 from run_eval import load_model, predict, pick_device, PARQUET
@@ -60,6 +61,36 @@ def fetch_all_langs(langs, limit):
     return buckets
 
 
+def fetch_all_langs_server(langs, limit):
+    """Fetch only evaluated rows through the HF dataset-server SQL index."""
+    url = "https://datasets-server.huggingface.co/filter"
+    buckets = {lang: [] for lang in langs}
+    for li, lang in enumerate(langs):
+        escaped = lang.replace("'", "''")
+        where = (f'"space"=\'CDSS\' AND "metadata" LIKE '
+                 f"'%''language'': ''{escaped}''%'")
+        offset = 0
+        while len(buckets[lang]) < limit:
+            length = min(100, limit - len(buckets[lang]))
+            response = requests.get(url, params={
+                "dataset": "akhauriyash/Code-Regression", "config": "default",
+                "split": "train", "where": where, "offset": offset, "length": length,
+            }, timeout=600)
+            response.raise_for_status()
+            rows = response.json().get("rows", [])
+            if not rows:
+                break
+            for item in rows:
+                row = item["row"]
+                buckets[lang].append((
+                    f"# CDSS\n# Language: {lang}\n{row['input']}", float(row["target"])
+                ))
+            offset += len(rows)
+        print(f"  server fetch [{li+1}/{len(langs)}] {lang}: "
+              f"{len(buckets[lang])}/{limit}", flush=True)
+    return buckets
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--limit", type=int, default=25, help="rows per language")
@@ -69,12 +100,13 @@ def main():
     ap.add_argument("--langs", default=",".join(CODENET_17))
     ap.add_argument("--device", default=None)
     ap.add_argument("--model_path", default=None)
+    ap.add_argument("--data_source", choices=["server", "parquet"], default="server")
     ap.add_argument("--out", default=os.path.join("outputs", "codenet", "per_lang.csv"))
     args = ap.parse_args()
 
     torch.manual_seed(args.seed); np.random.seed(args.seed)
     device = pick_device(args.device)
-    dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
+    dtype = torch.float16 if device.startswith("cuda") else torch.float32
     print(f"device={device} dtype={dtype}", flush=True)
     tok, model = load_model(device, dtype, args.model_path)
     n_out = int(getattr(model.config, "num_tokens_per_obj", 9)) * \
@@ -82,8 +114,10 @@ def main():
     print(f"params: {sum(p.numel() for p in model.parameters())/1e6:.1f}M | n_out={n_out}", flush=True)
 
     langs = [l.strip() for l in args.langs.split(",") if l.strip()]
-    print(f"single-pass fetch over CDSS for {len(langs)} langs (limit={args.limit}) ...", flush=True)
-    buckets = fetch_all_langs(langs, args.limit)
+    print(f"fetching CDSS for {len(langs)} langs (limit={args.limit}, "
+          f"source={args.data_source}) ...", flush=True)
+    buckets = (fetch_all_langs_server(langs, args.limit)
+               if args.data_source == "server" else fetch_all_langs(langs, args.limit))
 
     rows, per_lang = [], []
     for li, lang in enumerate(langs):

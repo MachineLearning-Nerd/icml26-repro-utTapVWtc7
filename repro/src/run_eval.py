@@ -158,7 +158,9 @@ def main():
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
     device = pick_device(args.device)
-    dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
+    # FP16 is supported by both the local Pascal GPU and Colab T4/L4.  Pascal
+    # has no native BF16, and emulation is slower and less predictable.
+    dtype = torch.float16 if device.startswith("cuda") else torch.float32
     print(f"device={device} dtype={dtype}", flush=True)
 
     tok, model = load_model(device, dtype, args.model_path)
