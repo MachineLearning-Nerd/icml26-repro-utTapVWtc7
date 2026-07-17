@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "bundle": "outputs/colab/regresslm_evidence_bundle.zip",
+  "bundle_sha256": "b1d33e20922194cab7dfd20526cac13680f1ca16ce51ad7836a358feee5ebd1f",
+  "environment": {
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "torch": "2.11.0+cu128",
+    "cuda_runtime": "12.8",
+    "gpu": "Tesla T4",
+    "transformers": "4.53.2",
+    "dtype": "torch.bfloat16",
+    "seed": 42
+  },
+  "model": {
+    "repo": "akhauriyash/RegressLM-gemma-s-RLM-table3",
+    "checkpoint_commit": "5e5002672f870399ce012896332363e271582509",
+    "parameters": 181458944,
+    "n_out_tokens": 9,
+    "load_seconds": 16.99227237701416,
+    "config_sha256": "932c1d603bdb3e1e09409a5ce04480cd997c23e72161a8061d236059babb9bad"
+  },
+  "raw_prediction_rows": 3464,
+  "raw_stochastic_draws": 27712,
+  "all_predictions_equal_median_of_8_draws": true,
+  "codenet": {
+    "languages": 17,
+    "rows_per_language": 200,
+    "average_spearman_recomputed": 0.5298501742814378,
+    "claim_threshold": 0.5,
+    "claim_pass": true
+  },
+  "onnx_nasbench101": {
+    "rows": 64,
+    "spearman_recomputed": 0.3506032648186407,
+    "dataset_card_reference": 0.384
+  },
+  "duplicate_input_audit": {
+    "codenet_perl.csv": {
+      "groups": 1,
+      "rows": 2,
+      "all_targets_identical": false
+    }
+  }
+}
