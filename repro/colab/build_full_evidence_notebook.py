@@ -39,7 +39,9 @@ RUN_ALREADY_ACCEPTED_APPS_KBSS = False
 
 ROWS_PER_LANGUAGE = 200
 ONNX_ROWS_PER_SPACE = 64
-ONNX_SPACES = ["NASBench101", "ENAS", "NASNet"]
+# The current HF indexed conversion is partial but contains NASBench101. This
+# supplies the missing real accuracy metric without a 4.1 GB parquet download.
+ONNX_SPACES = ["NASBench101"]
 NUM_SAMPLES = 8
 BATCH_SIZE = 16
 SEED = 42
@@ -105,8 +107,12 @@ print(json.dumps(model_info, indent=2), flush=True)
 @torch.inference_mode()
 def evaluate(task, inputs, targets, max_length=2048, batch_size=BATCH_SIZE):
     started = time.time(); records = []
-    for start in range(0, len(inputs), batch_size):
-        chunk = inputs[start:start+batch_size]
+    ordered = sorted(enumerate(zip(inputs, targets)), key=lambda pair: len(pair[1][0]))
+    for start in range(0, len(ordered), batch_size):
+        indexed_chunk = ordered[start:start+batch_size]
+        original_indices = [index for index, _ in indexed_chunk]
+        chunk = [pair[0] for _, pair in indexed_chunk]
+        chunk_targets = [pair[1] for _, pair in indexed_chunk]
         enc = tok(chunk, return_tensors="pt", truncation=True, padding=True,
                   max_length=max_length).to(device)
         # Reuse one encoder pass for all 8 stochastic decodes.
@@ -122,16 +128,17 @@ def evaluate(task, inputs, targets, max_length=2048, batch_size=BATCH_SIZE):
             for row in range(len(chunk))
         ], dtype=float)
         preds = np.nanmedian(draws, axis=1)
-        for j, (text, target, pred) in enumerate(zip(chunk, targets[start:start+len(chunk)], preds)):
+        for j, (index, text, target, pred) in enumerate(zip(
+                original_indices, chunk, chunk_targets, preds)):
             records.append({
-                "task": task, "i": start+j,
+                "task": task, "i": index,
                 "input_sha256": hashlib.sha256(text.encode()).hexdigest(),
                 "target": float(target), "prediction": float(pred),
                 **{f"draw_{d}": float(draws[j, d]) for d in range(NUM_SAMPLES)},
             })
         print(f"[{task}] batch {start//batch_size+1}/{math.ceil(len(inputs)/batch_size)} "
               f"({start+len(chunk)}/{len(inputs)}) elapsed={time.time()-started:.1f}s", flush=True)
-    frame = pd.DataFrame(records)
+    frame = pd.DataFrame(records).sort_values("i").reset_index(drop=True)
     valid = np.isfinite(frame.target) & np.isfinite(frame.prediction)
     rho = float(stats.spearmanr(frame.loc[valid, "target"], frame.loc[valid, "prediction"]).statistic)
     frame.to_csv(RESULTS / f"{task}.csv", index=False)
@@ -180,12 +187,16 @@ if RUN_CODENET_17:
     code("""# Claim 1 missing metric: server-side filtering avoids downloading the 4.1 GB ONNX parquet.
 def fetch_grapharch(space, limit):
     url = "https://datasets-server.huggingface.co/filter"
-    where = '"space"=' + repr(space)
+    # Spaces around '=' avoid an intermittent dataset-server index-loading bug.
+    where = '"space" = ' + repr(space)
     params = {"dataset": "akhauriyash/GraphArch-Regression", "config": "default",
               "split": "train", "where": where, "offset": 0, "length": limit}
     response = requests.get(url, params=params, timeout=600); response.raise_for_status()
     rows = response.json()["rows"]
-    assert len(rows) == limit, (space, len(rows), limit)
+    if len(rows) != limit:
+        raise RuntimeError(
+            f"server index has {len(rows)}/{limit} {space} rows; use NASBench101 "
+            "or explicitly download the 4.1 GB original parquet")
     return [f"{space}\\n\\n{r['row']['input']}" for r in rows], [float(r["row"]["val_accuracy"]) for r in rows]
 
 onnx_results = []
