@@ -1,0 +1,53 @@
+{
+  "source_csv": "outputs/codenet/full_gpu_n200.csv",
+  "n_languages": 17,
+  "rows_per_language": {
+    "C++": 200,
+    "Python": 200,
+    "Java": 200,
+    "C": 200,
+    "Ruby": 200,
+    "C#": 200,
+    "Rust": 200,
+    "Go": 200,
+    "Haskell": 200,
+    "Kotlin": 200,
+    "JavaScript": 200,
+    "PHP": 200,
+    "D": 200,
+    "Scala": 200,
+    "OCaml": 200,
+    "Perl": 200,
+    "Fortran": 200
+  },
+  "per_language_spearman": {
+    "C++": 0.7875703786112256,
+    "Python": 0.6109206813152552,
+    "Java": 0.4560287379647812,
+    "C": 0.7350963371224605,
+    "Ruby": 0.4094448153702033,
+    "C#": 0.3674079391548636,
+    "Rust": 0.5874052437632312,
+    "Go": 0.7201143804776121,
+    "Haskell": 0.5851790044873265,
+    "Kotlin": 0.5349484857725428,
+    "JavaScript": 0.32908877101266076,
+    "PHP": 0.2365872996179201,
+    "D": 0.5780801173261673,
+    "Scala": 0.44584571520066285,
+    "OCaml": 0.6245816560727914,
+    "Perl": 0.4772349886718073,
+    "Fortran": 0.41232329246430627
+  },
+  "average_spearman": 0.5234034026121069,
+  "bootstrap_ci95": [
+    0.49477706156261997,
+    0.5483543486504281
+  ],
+  "permutation_pvalue_one_sided": 0.0004997501249375312,
+  "control_shuffled_average_once": 0.011623678139084931,
+  "permutation_null_mean": -0.0005081630319633039,
+  "permutation_null_std": 0.017287512707892076,
+  "claim_threshold": 0.5,
+  "claim_pass": true
+}

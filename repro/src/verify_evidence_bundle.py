@@ -13,6 +13,8 @@ from collections import defaultdict
 import numpy as np
 from scipy import stats
 
+from verify_codenet import bootstrap_ci, permutation_test
+
 
 def read_csv(archive, name):
     return list(csv.DictReader(io.TextIOWrapper(archive.open(name))))
@@ -34,7 +36,7 @@ def spearman(rows):
     ).correlation)
 
 
-def verify(path):
+def verify(path, repetitions=2000, seed=0):
     bundle_sha256 = hashlib.sha256(open(path, "rb").read()).hexdigest()
     duplicate_audit = {}
     with zipfile.ZipFile(path) as archive:
@@ -43,6 +45,7 @@ def verify(path):
             raise AssertionError(f"corrupt ZIP member: {bad_member}")
         summary = json.loads(archive.read("summary.json"))
         language_correlations = []
+        grouped = {}
         total_rows = 0
         for expected in summary["claim_3_codenet"]["per_language"]:
             filename = expected["task"] + ".csv"
@@ -57,6 +60,10 @@ def verify(path):
                     correlation, expected["spearman"], rel_tol=0, abs_tol=1e-12):
                 raise AssertionError(f"{filename}: stored Spearman does not recompute")
             language_correlations.append(correlation)
+            grouped[expected["language"]] = (
+                np.asarray([float(row["target"]) for row in rows]),
+                np.asarray([float(row["prediction"]) for row in rows]),
+            )
             total_rows += len(rows)
 
             by_hash = defaultdict(list)
@@ -79,6 +86,9 @@ def verify(path):
             summary["claim_3_codenet"]["average_spearman"])
         if not math.isclose(average, stored_average, rel_tol=0, abs_tol=1e-15):
             raise AssertionError("stored CodeNet average does not recompute")
+        ci95 = bootstrap_ci(grouped, repetitions=repetitions, seed=seed)
+        pvalue, shuffled_once, null_mean, null_std = permutation_test(
+            grouped, average, repetitions=repetitions, seed=seed + 1)
 
         onnx_expected = summary["claim_1_onnx_accuracy"][0]
         onnx_rows = read_csv(archive, "onnx_nasbench101.csv")
@@ -107,6 +117,11 @@ def verify(path):
             "languages": len(language_correlations),
             "rows_per_language": 200,
             "average_spearman_recomputed": average,
+            "bootstrap_ci95": ci95,
+            "permutation_pvalue_one_sided": pvalue,
+            "control_shuffled_average_once": shuffled_once,
+            "permutation_null_mean": null_mean,
+            "permutation_null_std": null_std,
             "claim_threshold": 0.5,
             "claim_pass": average > 0.5,
         },
@@ -123,8 +138,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bundle", required=True)
     parser.add_argument("--out")
+    parser.add_argument("--repetitions", type=int, default=2000)
+    parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
-    result = verify(args.bundle)
+    result = verify(args.bundle, repetitions=args.repetitions, seed=args.seed)
     rendered = json.dumps(result, indent=2) + "\n"
     print(rendered, end="")
     if args.out:
