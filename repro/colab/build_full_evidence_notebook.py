@@ -137,29 +137,33 @@ def evaluate(task, inputs, targets, max_length=2048, batch_size=BATCH_SIZE):
     print("RESULT", json.dumps(result), flush=True)
     return result
 """),
-    code("""# Claim 3: fetch all 17 CodeNet language buckets in one parquet pass.
+    code("""# Claim 3: server-side SQL returns only the 3,400 evaluated rows (no 5.6 GB download).
 CODENET_17 = ["C++", "Python", "Java", "C", "Ruby", "C#", "Rust", "Go", "Haskell",
               "Kotlin", "JavaScript", "PHP", "D", "Scala", "OCaml", "Perl", "Fortran"]
 codenet_results = []
 if RUN_CODENET_17:
-    print("Downloading released Code-Regression parquet (5.6 GB, cached by Colab)...", flush=True)
-    parquet = hf_hub_download("akhauriyash/Code-Regression", "data.parquet", repo_type="dataset")
-    dataset = ds.dataset(parquet, format="parquet")
-    flt = pa.compute.equal(pa.compute.field("space"), "CDSS")
-    buckets = {lang: [] for lang in CODENET_17}; scanned = 0
-    for batch in dataset.scanner(columns=["input", "target", "metadata"], filter=flt,
-                                 batch_size=2048).to_batches():
-        for inp, target, metadata in zip(batch.column("input"), batch.column("target"), batch.column("metadata")):
-            scanned += 1
-            try: meta = literal_eval(metadata.as_py()) if metadata.is_valid else {}
-            except Exception: meta = {}
-            lang = meta.get("language")
-            if lang in buckets and len(buckets[lang]) < ROWS_PER_LANGUAGE and inp.is_valid and target.is_valid:
-                buckets[lang].append((f"# CDSS\\n# Language: {lang}\\n{inp.as_py()}", float(target.as_py())))
-        filled = sum(len(v) >= ROWS_PER_LANGUAGE for v in buckets.values())
-        if scanned % 100000 < 2048: print(f"fetch: scanned={scanned}, filled={filled}/17", flush=True)
-        if filled == 17: break
-    print("bucket sizes", {k: len(v) for k, v in buckets.items()}, flush=True)
+    url = "https://datasets-server.huggingface.co/filter"
+    buckets = {lang: [] for lang in CODENET_17}
+    for li, lang in enumerate(CODENET_17):
+        escaped = lang.replace("'", "''")
+        where = (f'"space"=\\'CDSS\\' AND "metadata" LIKE '
+                 f"'%''language'': ''{escaped}''%'")
+        offset = 0
+        while len(buckets[lang]) < ROWS_PER_LANGUAGE:
+            length = min(100, ROWS_PER_LANGUAGE - len(buckets[lang]))
+            response = requests.get(url, params={
+                "dataset": "akhauriyash/Code-Regression", "config": "default", "split": "train",
+                "where": where, "offset": offset, "length": length,
+            }, timeout=600)
+            response.raise_for_status(); rows = response.json().get("rows", [])
+            assert rows, (lang, offset)
+            for item in rows:
+                row = item["row"]
+                buckets[lang].append((
+                    f"# CDSS\\n# Language: {lang}\\n{row['input']}", float(row["target"])
+                ))
+            offset += len(rows)
+        print(f"server fetch [{li+1}/17] {lang}: {len(buckets[lang])}", flush=True)
     assert all(len(v) == ROWS_PER_LANGUAGE for v in buckets.values())
     for lang in CODENET_17:
         pairs = buckets[lang]
