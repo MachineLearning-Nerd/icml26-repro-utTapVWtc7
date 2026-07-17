@@ -110,13 +110,21 @@ def decode_seq(tok, ids):
 
 
 @torch.inference_mode()
-def predict(tok, model, inputs, num_samples, device, n_out, batch_size, dtype):
+def predict(tok, model, inputs, num_samples, device, n_out, batch_size, dtype,
+            max_length=2048):
     """Return one median prediction per input (num_samples draws each)."""
     preds = [math.nan] * len(inputs)
-    for i in range(0, len(inputs), batch_size):
-        chunk = inputs[i:i + batch_size]
+    # Bucket similarly sized programs together. Attention cost is set by the
+    # longest item in a padded batch, so preserving arbitrary dataset order can
+    # waste most of the work on padding. Keep original indices so predictions
+    # are restored to exact input/target order after inference.
+    ordered = sorted(enumerate(inputs), key=lambda pair: len(pair[1]))
+    for i in range(0, len(ordered), batch_size):
+        indexed_chunk = ordered[i:i + batch_size]
+        original_indices = [idx for idx, _ in indexed_chunk]
+        chunk = [value for _, value in indexed_chunk]
         enc = tok(chunk, return_tensors="pt", truncation=True, padding=True,
-                  max_length=2048).to(device)
+                  max_length=max_length).to(device)
         # One generate call reuses the encoder pass for all samples. Hugging Face
         # emits num_samples contiguous sequences per input, so reshape to
         # (batch, samples, tokens). This is numerically the same 8-draw median
@@ -137,8 +145,8 @@ def predict(tok, model, inputs, num_samples, device, n_out, batch_size, dtype):
                 except Exception:
                     pass
         med = np.nanmedian(draws, axis=1)
-        for j, v in enumerate(med):
-            preds[i + j] = float(v)
+        for original_idx, v in zip(original_indices, med):
+            preds[original_idx] = float(v)
         print(f"    batch {i//batch_size + 1}/{(len(inputs)+batch_size-1)//batch_size} "
               f"done ({i+len(chunk)}/{len(inputs)})", flush=True)
     return preds
