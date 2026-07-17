@@ -27,6 +27,14 @@
     "languages": 17,
     "rows_per_language": 200,
     "average_spearman_recomputed": 0.5298501742814378,
+    "bootstrap_ci95": [
+      0.502556976606873,
+      0.5542456354315358
+    ],
+    "permutation_pvalue_one_sided": 0.0004997501249375312,
+    "control_shuffled_average_once": 0.03516785663407507,
+    "permutation_null_mean": -0.0008449077066796388,
+    "permutation_null_std": 0.017390607334870765,
     "claim_threshold": 0.5,
     "claim_pass": true
   },

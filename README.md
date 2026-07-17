@@ -18,6 +18,7 @@ that emits IEEE/P10 float tokens.
 - Code: [google-deepmind/regress-lm](https://github.com/google-deepmind/regress-lm) — vendored unmodified in `upstream/` (commit `6c23ccb`).
 - Checkpoint: [`akhauriyash/RegressLM-gemma-s-RLM-table3`](https://huggingface.co/akhauriyash/RegressLM-gemma-s-RLM-table3) (not gated).
 - Data: [`akhauriyash/Code-Regression`](https://huggingface.co/datasets/akhauriyash/Code-Regression) (`data.parquet`, 5.6 GB).
+- Accuracy data: [`akhauriyash/GraphArch-Regression`](https://huggingface.co/datasets/akhauriyash/GraphArch-Regression) (ONNX-readable graphs, `val_accuracy`).
 
 ## Reproduce
 
@@ -47,10 +48,11 @@ uv pip install --python .venv/bin/python "transformers==4.53.2"   # MUST overrid
 ```
 On a CPU box the 40-row run takes ~20 min (the GTX 1050 is sm_61, unsupported by torch cu130 → CPU only).
 
-### Phase B — full Table-3 scale (Colab GPU)
-Open `repro/colab/regresslm_table3.ipynb` on a T4/L4/A100 Colab runtime. It pins
-`transformers==4.53.2`, then runs APPS (512) + KBSS (512) + the 17 CodeNet languages × 8
-samples (median aggregation) and prints Spearman vs Table 3 (APPS 0.926 / CDSS 0.787 / KBSS 0.527).
+### Phase B — full claim evidence (Colab GPU)
+Open `repro/colab/regresslm_full_evidence_colab.ipynb` on a T4/L4/A100 runtime. It pins
+`transformers==4.53.2`, runs 17 CodeNet languages × 200 rows × 8 samples, evaluates real
+NASBench101 ONNX `val_accuracy`, records environment/model hashes and all raw draws, then
+downloads a self-contained evidence ZIP.
 
 ## Inference protocol (authors' dataset-card recipe)
 The regression `target` is the **metric value** — memory bytes for APPS/CDSS, latency ms for
@@ -60,18 +62,24 @@ Input prefix is **required**: `"{SPACE}\n{input}"` for APPS/KBSS,
 `generate(do_sample=True, top_p=0.95, temperature=1.0, min=max_new_tokens=9, use_cache=True)`,
 8 samples → `token_ids_to_floats`[0] → `np.nanmedian` → scipy `spearmanr`.
 
-## Result (Phase A, small scale)
-APPS Spearman **0.937** (claim >0.9 ✅) — Pearson 0.920, permutation p=0.0005,
-shuffled-target control ρ=−0.205 (signal destroyed as required). Full-scale (512 + 17 langs)
-via the Colab notebook. Logbook: https://huggingface.co/spaces/DineshAI/utTapVWtc7
+## Results
+
+- Claim 1 accuracy: NASBench101 ONNX `val_accuracy` **ρ=0.350603, n=64** (card reference 0.384).
+- Claim 2: APPS **ρ=0.9268, n=512** (>0.9; card reference 0.926).
+- Claim 3: CodeNet 17-language mean **ρ=0.529850, n=200/language**, stratified bootstrap
+  95% CI **[0.502557, 0.554246]**, permutation p=0.000500. A second full local run gave
+  **ρ=0.523403**.
+- The Colab bundle retains 3,464 raw rows and 27,712 stochastic draws. The independent
+  verifier recomputes all medians and statistics exactly.
+
+Logbook: https://huggingface.co/spaces/DineshAI/utTapVWtc7
 
 ## Layout
 ```
 upstream/          vendored regress-lm (pinned 6c23ccb; re-clone per README, gitignored)
-repro/src/         run_eval.py (filter → infer → Spearman), verify_independent.py,
-                   inspect_data.py (cheap data probe)
-repro/colab/       regresslm_table3.ipynb (full-scale Phase B)
-repro/tests/       test_verify.py (4/4 pass)
+repro/src/         evaluators plus independent bundle/CodeNet verification
+repro/colab/       regresslm_full_evidence_colab.ipynb (one-click full evidence)
+repro/tests/       verification tests (6/6 pass)
 outputs/phaseA/    apps_n40.csv (+.json), independent_verification.json
 docs/              methodology.md
 .trackio/          Trackio logbook → publishes to DineshAI/utTapVWtc7
