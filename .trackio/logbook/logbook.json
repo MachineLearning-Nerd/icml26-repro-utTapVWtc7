@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "title": "Repro - Regression Language Models for Code (RegressLM)",
+  "title": "Repro — Regression Language Models for Code (RegressLM)",
   "emoji": "🎯",
   "space_id": "DineshAI/utTapVWtc7",
   "paper": {
@@ -11,22 +11,22 @@
     "icml2026-repro",
     "paper-utTapVWtc7"
   ],
-  "updated_at": "2026-07-17T06:32:07+00:00",
+  "updated_at": "2026-07-18T23:09:32+00:00",
   "root": {
     "slug": "index",
-    "title": "Repro - Regression Language Models for Code (RegressLM)",
+    "title": "Repro — Regression Language Models for Code (RegressLM)",
     "file": "pages/index.md",
     "children": [
-      {
-        "slug": "claim-1-unified-multi-metric-model",
-        "title": "Claim 1 — unified multi-metric model",
-        "file": "pages/claim-1-unified-multi-metric-model/page.md",
-        "children": []
-      },
       {
         "slug": "claim-2-apps-spearman-0-9",
         "title": "Claim 2 — APPS Spearman >0.9",
         "file": "pages/claim-2-apps-spearman-0-9/page.md",
+        "children": []
+      },
+      {
+        "slug": "negative-controls-falsification",
+        "title": "Negative controls & falsification",
+        "file": "pages/negative-controls-falsification/page.md",
         "children": []
       },
       {
@@ -42,19 +42,19 @@
         "children": []
       },
       {
-        "slug": "negative-controls-falsification",
-        "title": "Negative controls & falsification",
-        "file": "pages/negative-controls-falsification/page.md",
-        "children": []
-      },
-      {
         "slug": "conclusion",
         "title": "Conclusion",
         "file": "pages/conclusion/page.md",
         "children": []
+      },
+      {
+        "slug": "claim-1-unified-multi-metric-model",
+        "title": "Claim 1 — unified memory, latency, and accuracy model",
+        "file": "pages/claim-1-unified-multi-metric-model/page.md",
+        "children": []
       }
     ]
   },
-  "agent_view_tokens": 7885,
-  "revision": "1784269927884482786"
+  "agent_view_tokens": 6819,
+  "revision": "1784416172678156429"
 }

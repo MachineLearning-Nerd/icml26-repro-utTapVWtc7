@@ -1,5 +1,5 @@
 ---
-title: "Repro - Regression Language Models for Code (RegressLM)"
+title: "Repro — Regression Language Models for Code (RegressLM)"
 emoji: 🎯
 colorFrom: yellow
 colorTo: red
@@ -13,6 +13,6 @@ tags:
  - paper-utTapVWtc7
 ---
 
-# Repro - Regression Language Models for Code (RegressLM)
+# Repro — Regression Language Models for Code (RegressLM)
 
 An open experiment logbook, published with [Trackio](https://github.com/gradio-app/trackio).

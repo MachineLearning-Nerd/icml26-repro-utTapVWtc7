@@ -11,23 +11,9 @@
     "icml2026-repro",
     "paper-utTapVWtc7"
   ],
-  "autosync": true,
+  "autosync": false,
   "private": false,
-  "last_page": "claim-2-apps-spearman-0-9",
+  "last_page": "claim-1-unified-multi-metric-model",
   "local_dashboards": {},
-  "local_path_artifacts": [
-    {
-      "path": "outputs/phaseA/apps_n40_canonical.csv",
-      "abs_path": "/home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/outputs/phaseA/apps_n40_canonical.csv",
-      "size": 762,
-      "artifact_type": "dataset"
-    },
-    {
-      "path": "outputs/codenet/per_lang.csv",
-      "abs_path": "/home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/outputs/codenet/per_lang.csv",
-      "size": 8949,
-      "artifact_type": "dataset"
-    }
-  ],
   "artifacts_bucket": "DineshAI/utTapVWtc7-artifacts"
 }

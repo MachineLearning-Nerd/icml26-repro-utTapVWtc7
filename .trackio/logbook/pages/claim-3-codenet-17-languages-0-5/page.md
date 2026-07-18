@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
 ````output
 device=cpu dtype=torch.float32
-loading model from: /home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/checkpoints/rlm-table3
+loading model from: checkpoints/rlm-table3
 params: 181.5M | n_out=9
 single-pass fetch over CDSS for 17 langs (limit=25) ...
   scanned 0 CDSS rows; filled 0/17 langs
@@ -556,7 +556,7 @@ exit -15 · 305.5s
 
 ````output
 device=cuda dtype=torch.float16
-loading model from: /home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/checkpoints/rlm-table3
+loading model from: checkpoints/rlm-table3
 params: 181.5M | n_out=9
 fetching CDSS for 17 langs (limit=200, source=server) ...
   server fetch [1/17] C++: 200/200
@@ -594,7 +594,7 @@ exit 130 · 123.8s
 
 ````output
 device=cuda dtype=torch.float16
-loading model from: /home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/checkpoints/rlm-table3
+loading model from: checkpoints/rlm-table3
 params: 181.5M | n_out=9
 fetching CDSS for 17 langs (limit=200, source=server) ...
   server fetch [1/17] C++: 200/200
@@ -702,7 +702,7 @@ exit 0 · 4304.5s
 
 ````output
 device=cuda dtype=torch.float16
-loading model from: /home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/checkpoints/rlm-table3
+loading model from: checkpoints/rlm-table3
 params: 181.5M | n_out=9
 fetching CDSS for 17 langs (limit=200, source=server) ...
   server fetch [1/17] C++: 200/200
@@ -1178,7 +1178,7 @@ wrote outputs/codenet/full_gpu_n200.csv
 -->
 **📦 Artifact** `outputs/codenet/full_gpu_n200.csv` · dataset · 70.9 kB
 
-trackio-local-path://outputs/codenet/full_gpu_n200.csv
+https://huggingface.co/buckets/DineshAI/utTapVWtc7-artifacts#logbook-files/outputs/codenet/full_gpu_n200.csv
 
 
 ---
@@ -1187,11 +1187,11 @@ trackio-local-path://outputs/codenet/full_gpu_n200.csv
 -->
 **📦 Artifact** `outputs/colab/regresslm_table3_results.csv` · dataset · 170 B
 
-trackio-local-path://outputs/colab/regresslm_table3_results.csv
+https://huggingface.co/buckets/DineshAI/utTapVWtc7-artifacts#logbook-files/outputs/colab/regresslm_table3_results.csv
 
 
 ---
 <!-- trackio-cell
-{"type": "markdown", "id": "cell_e4f8277d7e60", "created_at": "2026-07-17T06:29:02+00:00", "title": "Claim 3 repaired: two full 17-language runs with raw provenance and controls", "pinned": true, "pinned_at": "2026-07-17T06:32:02+00:00"}
+{"type": "markdown", "id": "cell_e4f8277d7e60", "created_at": "2026-07-17T06:29:02+00:00", "title": "Claim 3 repaired: two full 17-language runs with raw provenance and controls"}
 -->
 Claim 3 is verified twice at the full stated scale. Colab T4: 17 CodeNet languages x 200 rows/language x 8 stochastic draws; independently recomputed mean per-language Spearman = 0.529850. Stratified bootstrap 95% CI = [0.502557, 0.554246], entirely above the 0.5 claim threshold; within-language permutation p = 0.000500 and shuffled control average = 0.0352. A separate local GTX 1050 run with the same fixed seed and protocol produced mean rho = 0.523403 over another complete 3,400-row execution; permutation p = 0.000500 and shuffled control = 0.0116. The Colab bundle contains 3,400 raw CodeNet rows, input hashes, eight raw draws per row, and exact median predictions. All stored per-language correlations and the headline average recompute exactly. Raw Colab bundle: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/raw/master/outputs/colab/regresslm_evidence_bundle.zip . Audit: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/colab/evidence_bundle_verification.json . Independent local verification: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/codenet/full_gpu_n200_verification.json .

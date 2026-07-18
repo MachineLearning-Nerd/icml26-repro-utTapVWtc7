@@ -167,7 +167,7 @@ def render_index(result: dict, created_at: str) -> str:
         "input-shuffle falsification control. The deficient first claim was investigated through "
         "exactly 10 pre-registered evidence approaches, never an additional route.",
         "",
-        "Paper: https://arxiv.org/abs/2509.26476  ",
+        "Paper: https://arxiv.org/abs/2509.26476",
         "Repository: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7",
         "",
     ]
