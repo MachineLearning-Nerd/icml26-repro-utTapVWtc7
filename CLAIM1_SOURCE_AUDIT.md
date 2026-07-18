@@ -19,7 +19,8 @@ The previous NASBench101 experiment therefore used the correct target
 (`val_accuracy`), but 64 rows were too small for the official judge. The repair
 uses the author-card evaluation scale and spaces: 512 rows each from
 NASBench101, ENAS, and NASNet, with eight stochastic draws and a median point
-prediction.
+prediction. The card reports released-checkpoint Spearman references of 0.384,
+0.211, and 0.209 for those spaces, respectively.
 
 ## One checkpoint, not three separately fitted models
 
