@@ -19,9 +19,11 @@ GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
 - The Claim-1 ledger is frozen at exactly 10 routes—no route 11. Routes 6–8
   reproduce the author-card 512-row ONNX protocol on NASBench101, ENAS, and
   NASNet; routes 9–10 provide uncertainty/permutation and input-shuffle checks.
-- Route 6 is currently running locally with resumable per-batch raw draws. The
-  full released parquet is being acquired once for ENAS/NASNet, which are
-  absent from Hugging Face's partial converted view.
+- Route 6 is complete at the full 512-row scale: NASBench101 Spearman is
+  **0.406599** (4,096 raw draws, zero decode failures), above the author-card
+  reference of 0.384. Route 7 (ENAS) is running with resumable per-batch raw
+  draws; route 8 (NASNet) follows automatically from the same verified full
+  GraphArch parquet.
 - Thirteen scoped tests pass.
 
 ## 2026-07-17 repair result
