@@ -230,7 +230,7 @@ if __name__ == "__main__":
 
 ````output
 device=cpu dtype=torch.float32
-loading model from: /home/dineshai/Drives/Code/AllCode/ReproduceICML/papers/icml26-repro-utTapVWtc7-regresslm/checkpoints/rlm-table3
+loading model from: checkpoints/rlm-table3
 params: 181.5M | n_out_tokens=9
 fetching space=APPS lang=None limit=40 ...
 got 40 rows; target range [5346.0000, 37557.0000] mean=9036.9250
