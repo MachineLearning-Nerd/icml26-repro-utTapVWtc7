@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "approaches_executed": 10,
+  "approaches_passed": 10,
+  "approaches_adverse_retained": 0,
+  "approaches": [
+    {
+      "number": 1,
+      "name": "primary-source scope and protocol audit",
+      "status": "pass",
+      "paper_accuracy_target": "trained-neural-network validation accuracy from ONNX"
+    },
+    {
+      "number": 2,
+      "name": "unified-checkpoint identity audit",
+      "status": "pass",
+      "weights_sha256": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c",
+      "critical_shared_files": 8
+    },
+    {
+      "number": 3,
+      "name": "APPS memory reproduction",
+      "status": "pass",
+      "n": 512,
+      "spearman": 0.9268067718469594
+    },
+    {
+      "number": 4,
+      "name": "KernelBook latency reproduction",
+      "status": "pass",
+      "n": 512,
+      "spearman": 0.5352789637599933
+    },
+    {
+      "number": 5,
+      "name": "CodeNet multi-language memory reproduction",
+      "status": "pass",
+      "languages": 17,
+      "average_spearman": 0.5234034026121069
+    },
+    {
+      "number": 6,
+      "name": "NASBench101 ONNX accuracy reproduction",
+      "status": "pass",
+      "space": "NASBench101",
+      "n": 512,
+      "spearman": 0.4065993610622034,
+      "bootstrap_ci95": [
+        0.3319366099221084,
+        0.4763170539865802
+      ]
+    },
+    {
+      "number": 7,
+      "name": "ENAS ONNX accuracy reproduction",
+      "status": "pass",
+      "space": "ENAS",
+      "n": 512,
+      "spearman": 0.24946117751369043,
+      "bootstrap_ci95": [
+        0.15966279605884995,
+        0.3291495921338195
+      ]
+    },
+    {
+      "number": 8,
+      "name": "NASNet ONNX accuracy reproduction",
+      "status": "pass",
+      "space": "NASNet",
+      "n": 512,
+      "spearman": 0.20673752343866375,
+      "bootstrap_ci95": [
+        0.12205549844390134,
+        0.28541191432251395
+      ]
+    },
+    {
+      "number": 9,
+      "name": "accuracy uncertainty and permutation route",
+      "status": "pass",
+      "mean_spearman": 0.28759935400485254,
+      "permutation_pvalue_one_sided": 0.0004997501249375312,
+      "permutation_null_mean": 0.00016907574423914896
+    },
+    {
+      "number": 10,
+      "name": "ONNX input-shuffle falsification route",
+      "status": "pass",
+      "shuffled_spearman_per_space": {
+        "NASBench101": 0.043386530390742174,
+        "ENAS": 0.0152066140383861,
+        "NASNet": -0.0983142578997609
+      },
+      "shuffled_mean_spearman": -0.013240371156877545
+    }
+  ],
+  "accuracy": {
+    "rows": 1536,
+    "raw_draws": 12288,
+    "per_space": [
+      {
+        "space": "NASBench101",
+        "n": 512,
+        "spearman": 0.4065993610622034,
+        "bootstrap_ci95": [
+          0.3319366099221084,
+          0.4763170539865802
+        ]
+      },
+      {
+        "space": "ENAS",
+        "n": 512,
+        "spearman": 0.24946117751369043,
+        "bootstrap_ci95": [
+          0.15966279605884995,
+          0.3291495921338195
+        ]
+      },
+      {
+        "space": "NASNet",
+        "n": 512,
+        "spearman": 0.20673752343866375,
+        "bootstrap_ci95": [
+          0.12205549844390134,
+          0.28541191432251395
+        ]
+      }
+    ],
+    "mean_spearman": 0.28759935400485254,
+    "permutation_pvalue_one_sided": 0.0004997501249375312,
+    "permutation_null_mean": 0.00016907574423914896,
+    "input_shuffle_spearman_per_space": {
+      "NASBench101": 0.043386530390742174,
+      "ENAS": 0.0152066140383861,
+      "NASNet": -0.0983142578997609
+    }
+  }
+}

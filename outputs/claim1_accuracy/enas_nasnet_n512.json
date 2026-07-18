@@ -1,0 +1,41 @@
+{
+  "dataset": "akhauriyash/GraphArch-Regression",
+  "dataset_revision": "c557392740094b539bbdb527d03e3a78e5b34a38",
+  "dataset_parquet_sha256": "2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0",
+  "model_alias": "akhauriyash/RLM-GemmaS-Code-v0",
+  "model_weights_sha256": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c",
+  "same_checkpoint_as_code_metric_runs": true,
+  "protocol": {
+    "limit_per_space": 512,
+    "num_samples": 8,
+    "batch_size": 4,
+    "max_length": 4096,
+    "seed": 42,
+    "aggregation": "median"
+  },
+  "per_space": [
+    {
+      "space": "ENAS",
+      "n": 512,
+      "spearman": 0.24946117751369043,
+      "pearson": 0.07267987643163486,
+      "mse": 132.73235902148434,
+      "nan_rate": 0.0,
+      "target_min": 0.0,
+      "target_max": 95.03
+    },
+    {
+      "space": "NASNet",
+      "n": 512,
+      "spearman": 0.20673752343866375,
+      "pearson": 0.018585286048032622,
+      "mse": 38.70868409472657,
+      "nan_rate": 0.0,
+      "target_min": 0.09999999999999432,
+      "target_max": 95.27
+    }
+  ],
+  "average_spearman": 0.22809935047617708,
+  "rows": 1024,
+  "raw_draws": 8192
+}

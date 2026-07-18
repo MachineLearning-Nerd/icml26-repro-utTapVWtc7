@@ -64,7 +64,11 @@ Input prefix is **required**: `"{SPACE}\n{input}"` for APPS/KBSS,
 
 ## Results
 
-- Claim 1 accuracy: NASBench101 ONNX `val_accuracy` **ρ=0.350603, n=64** (card reference 0.384).
+- Claim 1 accuracy (same released checkpoint, n=512/space, eight draws/row):
+  **NASBench101 ρ=0.406599**, **ENAS ρ=0.249461**, **NASNet ρ=0.206738**
+  (card references 0.384/0.211/0.209). Mean ρ=0.287599; permutation p=0.000500;
+  input-shuffle mean ρ=-0.013240. The retained evidence has 1,536 rows and
+  12,288 raw draws.
 - Claim 2: APPS **ρ=0.9268, n=512** (>0.9; card reference 0.926).
 - Claim 3: CodeNet 17-language mean **ρ=0.529850, n=200/language**, stratified bootstrap
   95% CI **[0.502557, 0.554246]**, permutation p=0.000500. A second full local run gave
