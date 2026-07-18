@@ -35,6 +35,9 @@ def main() -> None:
     require(all(f"| {index} |" in ledger for index in range(1, 11)), "ledger routes missing")
     require("| 11 |" not in ledger, "more than ten routes listed")
     require((ROOT / "CLAIM1_SOURCE_AUDIT.md").exists(), "source/scope audit missing")
+    source_audit = json.loads((ROOT / "outputs/claim1_source_audit.json").read_text())
+    require(source_audit["status"] == "PASS", "machine-readable source audit failed")
+    require(source_audit["dataset"]["local_matches_hub"], "full parquet does not match Hub LFS")
     require((ROOT / "outputs/claim1_accuracy/full_n512.csv").exists(), "raw accuracy CSV missing")
 
     pages = sorted((ROOT / ".trackio/logbook/pages").glob("*/page.md"))
