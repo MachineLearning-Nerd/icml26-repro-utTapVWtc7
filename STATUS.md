@@ -21,9 +21,10 @@ GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
   NASNet; routes 9–10 provide uncertainty/permutation and input-shuffle checks.
 - Route 6 is complete at the full 512-row scale: NASBench101 Spearman is
   **0.406599** (4,096 raw draws, zero decode failures), above the author-card
-  reference of 0.384. Route 7 (ENAS) is running with resumable per-batch raw
-  draws; route 8 (NASNet) follows automatically from the same verified full
-  GraphArch parquet.
+  reference of 0.384. Route 7 is also complete: ENAS Spearman is **0.249461**
+  over 512 rows / 4,096 draws with zero failures, above the card reference of
+  0.211. Route 8 (NASNet) is running from the same verified full GraphArch
+  parquet and frozen checkpoint.
 - Fifteen scoped tests pass, including fail-closed report finalization: exactly
   one pin, exactly 10 numbered routes, canonical scale, and no host-path leak.
 
