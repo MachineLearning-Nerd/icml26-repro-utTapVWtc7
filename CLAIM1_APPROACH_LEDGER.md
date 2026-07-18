@@ -15,9 +15,9 @@ fewer. Checks within a route are subchecks, not additional approaches.
 | 5 | CodeNet multi-language memory reproduction | 17 languages × 200 rows × eight draws; mean per-language Spearman `.5299` | complete |
 | 6 | NASBench101 ONNX accuracy reproduction | 512 released rows × eight draws; Spearman `.4066`, zero decode failures | complete |
 | 7 | ENAS ONNX accuracy reproduction | 512 released rows × eight draws; Spearman `.2495`, zero decode failures | complete |
-| 8 | NASNet ONNX accuracy reproduction | 512 released rows × eight draws, author-card 4,096-token protocol | running |
-| 9 | Accuracy uncertainty and permutation route | Per-space bootstrap intervals, pooled/mean correlations, and label-permutation null | pending on routes 6–8 |
-| 10 | ONNX input-shuffle falsification route | Re-pair predictions and targets after deterministic input permutation; unified signal must collapse relative to paired results | pending on routes 6–8 |
+| 8 | NASNet ONNX accuracy reproduction | 512 released rows × eight draws; Spearman `.2067`, zero decode failures | complete |
+| 9 | Accuracy uncertainty and permutation route | Mean accuracy Spearman `.2876`; one-sided permutation p=`.000500` | complete |
+| 10 | ONNX input-shuffle falsification route | Shuffled mean Spearman `-.0132` versus paired `.2876` | complete |
 
 Fail-closed invariant: the machine-readable validation output must report
 `approaches_executed == 10`, contain route numbers 1 through 10 exactly once,

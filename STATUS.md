@@ -1,7 +1,8 @@
 # STATUS — RegressLM (utTapVWtc7) reproduction — REVISED (resubmitted)
 
 **Session:** perfect-score campaign. **Last updated:** 2026-07-18.
-**State: Claim 1 paper-scale repair running with exactly 10 routes.** The latest
+**State: Claim 1 paper-scale repair complete with exactly 10/10 routes passing;
+publication finalization active.** The latest
 official verdict at Space SHA `40a78a2a039622516af008c75f074ce07cb44cf1`
 is medium quality (5/6): Claims 2 and 3 are verified; Claim 1 remains `toy`
 because the correct ONNX `val_accuracy` experiment covered only 64
@@ -23,8 +24,11 @@ GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
   **0.406599** (4,096 raw draws, zero decode failures), above the author-card
   reference of 0.384. Route 7 is also complete: ENAS Spearman is **0.249461**
   over 512 rows / 4,096 draws with zero failures, above the card reference of
-  0.211. Route 8 (NASNet) is running from the same verified full GraphArch
-  parquet and frozen checkpoint.
+  0.211. Route 8 is complete: NASNet Spearman is **0.206738** over 512 rows /
+  4,096 draws with zero failures, matching the card reference of 0.209.
+- Routes 9–10 pass: mean three-space Spearman **0.287599**, one-sided
+  permutation p **0.000500**, and input-shuffle mean Spearman **-0.013240**.
+  The final evidence contains 1,536 rows and 12,288 retained draws.
 - Fifteen scoped tests pass, including fail-closed report finalization: exactly
   one pin, exactly 10 numbered routes, canonical scale, and no host-path leak.
 
@@ -99,8 +103,8 @@ uv pip install "transformers==4.53.2"   # matches checkpoint export version
 - [ ] (optional) accumulate more APPS rows locally across ticks toward 512; re-run eval via `logbook run` to add Claim-2 CSV artifact (autosync).
 
 ## NEXT (resume here)
-1. Finish exactly routes 6–8 and execute the fixed routes 9–10—do not add more.
-2. Independently verify 1,536 accuracy rows / 12,288 raw draws, sanitize and
+1. Preserve the completed exactly-10 validation—do not add more routes.
+2. Sanitize and
    publish one pinned Trackio verdict, and pass the fail-closed publication gate.
 3. Require an exact-SHA official 6/6 verdict, then continue to the next partial
    paper. The public judge's discovery loop is currently stuck because its Hub
