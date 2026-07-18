@@ -1,6 +1,28 @@
 # STATUS — RegressLM (utTapVWtc7) reproduction — REVISED (resubmitted)
 
-**Session:** autoloop. **Last updated:** 2026-07-17. **State: both official deductions repaired and republished; awaiting re-judge.** The previous official verdict at SHA `9d87c22821b0398b6bc844dd0a665b73863d1cfc` was medium quality (3/6): Claim 1 lacked accuracy evaluation and Claim 3 had only summary/unexecuted-notebook provenance. The new evidence directly evaluates accuracy and retains full raw paper-scale CodeNet provenance. HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 · GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
+**Session:** perfect-score campaign. **Last updated:** 2026-07-18.
+**State: Claim 1 paper-scale repair running with exactly 10 routes.** The latest
+official verdict at Space SHA `40a78a2a039622516af008c75f074ce07cb44cf1`
+is medium quality (5/6): Claims 2 and 3 are verified; Claim 1 remains `toy`
+because the correct ONNX `val_accuracy` experiment covered only 64
+NASBench101 rows. HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 ·
+GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
+
+## 2026-07-18 Claim 1 perfect-score repair
+
+- Primary-source audit resolves “accuracy of code” to trained-network
+  validation accuracy predicted from ONNX, not pass/fail accuracy of ordinary
+  programs.
+- `RLM-GemmaS-Code-v0` and the already-used Table-3 alias share the exact same
+  725,864,700-byte weights (SHA-256 `7e9df429…`), so memory, latency, and
+  accuracy are genuinely evaluated with one checkpoint.
+- The Claim-1 ledger is frozen at exactly 10 routes—no route 11. Routes 6–8
+  reproduce the author-card 512-row ONNX protocol on NASBench101, ENAS, and
+  NASNet; routes 9–10 provide uncertainty/permutation and input-shuffle checks.
+- Route 6 is currently running locally with resumable per-batch raw draws. The
+  full released parquet is being acquired once for ENAS/NASNet, which are
+  absent from Hugging Face's partial converted view.
+- Thirteen scoped tests pass.
 
 ## 2026-07-17 repair result
 
@@ -73,12 +95,17 @@ uv pip install "transformers==4.53.2"   # matches checkpoint export version
 - [ ] (optional) accumulate more APPS rows locally across ticks toward 512; re-run eval via `logbook run` to add Claim-2 CSV artifact (autosync).
 
 ## NEXT (resume here)
-1. Commit/push the final local raw rows, audit, STATUS, README, and logbook.
-2. Ensure the latest Space commit contains the repaired cells.
-3. Poll the official verdict until RegressLM reaches high quality (6/6), then continue to the next partial paper.
+1. Finish exactly routes 6–8 and execute the fixed routes 9–10—do not add more.
+2. Independently verify 1,536 accuracy rows / 12,288 raw draws, sanitize and
+   publish one pinned Trackio verdict, and pass the fail-closed publication gate.
+3. Require an exact-SHA official 6/6 verdict, then continue to the next partial
+   paper. The public judge's discovery loop is currently stuck because its Hub
+   pagination query ignores `offset`; keep polling without calling stale 5/6
+   perfect.
 
 ## BLOCKERS
-- None for RegressLM evidence; official re-judge is asynchronous.
+- No evidence blocker. Official re-judging is temporarily blocked by the public
+  judge service's discovery pagination bug.
 
 ## venv
 `papers/icml26-repro-utTapVWtc7-regresslm/.venv` (py3.12); `transformers==4.53.2`, `torch 2.7.1+cu126` (local sm_61-compatible build).

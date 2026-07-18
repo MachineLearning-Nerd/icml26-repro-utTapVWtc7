@@ -53,3 +53,8 @@ No per-space fine-tuning or regression head is introduced in this repair.
   output tokens, eight draws, median aggregation.
 - Input: `<space>\n\n<ONNX readable graph>`, truncated to 4,096 tokens as in
   the author dataset-card evaluator.
+
+The paper's general Appendix-C default is 2,048 tokens, while its sequence
+ablation includes 4,096 and the released GraphArch evaluation code explicitly
+uses 4,096. We follow the executable released evaluation contract and disclose
+that choice; it is a protocol subcheck inside routes 6–8, not an eleventh route.
