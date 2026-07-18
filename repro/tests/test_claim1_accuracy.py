@@ -9,6 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "repro" / "src"))
 import run_claim1_accuracy as runner  # noqa: E402
 import verify_claim1_accuracy as verifier  # noqa: E402
+import finalize_claim1_report as report  # noqa: E402
 
 
 def test_ledger_has_exactly_routes_one_through_ten():
@@ -90,3 +91,72 @@ def test_permutation_route_detects_three_space_signal():
     assert pvalue < 0.05
     assert abs(null_mean) < 0.1
     assert len(shuffled) == 3
+
+
+def test_report_finalizer_enforces_exactly_ten_and_one_pin(tmp_path):
+    root = tmp_path
+    pages = root / ".trackio/logbook/pages"
+    for slug in (
+        "claim-1-unified-multi-metric-model",
+        "methods-environment",
+        "conclusion",
+        "claim-3-codenet-17-languages-0-5",
+    ):
+        path = pages / slug / "page.md"
+        path.parent.mkdir(parents=True)
+        path.write_text('<!-- trackio-cell\n{"pinned": true, "pinned_at": "old"}\n-->\n')
+    (root / ".trackio/metadata.json").write_text(json.dumps({
+        "tags": [], "private": True, "autosync": True,
+        "local_path_artifacts": [{"abs_path": "/home/example"}],
+    }))
+
+    approaches = [
+        {"number": 1, "name": "scope", "status": "pass",
+         "paper_accuracy_target": "trained-network accuracy"},
+        {"number": 2, "name": "identity", "status": "pass",
+         "weights_sha256": "a" * 64, "critical_shared_files": 8},
+        {"number": 3, "name": "memory", "status": "pass", "n": 512,
+         "spearman": 0.92},
+        {"number": 4, "name": "latency", "status": "pass", "n": 512,
+         "spearman": 0.53},
+        {"number": 5, "name": "languages", "status": "pass", "languages": 17,
+         "average_spearman": 0.53},
+    ]
+    per_space = []
+    for number, space, rho in zip((6, 7, 8), report.EXPECTED_SPACES, (0.40, 0.30, 0.20)):
+        row = {"space": space, "n": 512, "spearman": rho,
+               "bootstrap_ci95": [rho - 0.05, rho + 0.05]}
+        per_space.append(row)
+        approaches.append({"number": number, "name": f"{space} accuracy",
+                           "status": "pass", **row})
+    approaches.extend([
+        {"number": 9, "name": "permutation", "status": "pass",
+         "mean_spearman": 0.3, "permutation_pvalue_one_sided": 0.0005,
+         "permutation_null_mean": 0.0},
+        {"number": 10, "name": "input shuffle", "status": "pass",
+         "shuffled_spearman_per_space": {space: 0.01 for space in report.EXPECTED_SPACES},
+         "shuffled_mean_spearman": 0.01},
+    ])
+    outputs = root / "outputs"
+    outputs.mkdir()
+    (outputs / "claim1_validation.json").write_text(json.dumps({
+        "status": "PASS", "approaches_executed": 10, "approaches": approaches,
+        "accuracy": {"rows": 1536, "raw_draws": 12288, "per_space": per_space,
+                     "mean_spearman": 0.3, "permutation_pvalue_one_sided": 0.0005},
+    }))
+    (outputs / "claim1_source_audit.json").write_text(json.dumps({
+        "status": "PASS",
+        "dataset": {"revision": "dataset-revision"},
+        "model_aliases": {"local_weights_bytes": 725864700,
+                          "local_weights_sha256": "a" * 64},
+    }))
+
+    report.finalize(root, "2026-07-18T00:00:00+00:00")
+    page_text = "\n".join(path.read_text() for path in pages.glob("*/page.md"))
+    assert page_text.count('"pinned": true') == 1
+    assert "Exactly 10 evidence approaches" in page_text
+    assert "12,288 raw stochastic draws" in page_text
+    assert "/home/" not in page_text
+    metadata = json.loads((root / ".trackio/metadata.json").read_text())
+    assert metadata["autosync"] is False
+    assert "local_path_artifacts" not in metadata
