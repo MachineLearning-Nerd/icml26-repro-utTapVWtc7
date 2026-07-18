@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_SPACES = ("NASBench101", "ENAS", "NASNet")
+CARD_REFERENCES = {"NASBench101": 0.384, "ENAS": 0.211, "NASNet": 0.209}
 
 
 def require(condition: bool, message: str) -> None:
@@ -87,13 +88,14 @@ def render_claim1(result: dict, created_at: str) -> str:
         "- memory across 17 CodeNet languages: n=200/language, mean ρ=0.529850; and",
         "- trained-network validation accuracy from ONNX in all three author-card spaces below.",
         "",
-        "| Accuracy space | Rows | Spearman ρ | Bootstrap 95% CI |",
-        "|---|---:|---:|---:|",
+        "| Accuracy space | Rows | Spearman ρ | Author-card ρ | Bootstrap 95% CI |",
+        "|---|---:|---:|---:|---:|",
     ]
     for row in per_space:
         ci = row["bootstrap_ci95"]
         rows.append(
             f"| {row['space']} | {row['n']} | {fmt(row['spearman'])} | "
+            f"{CARD_REFERENCES[row['space']]:.3f} | "
             f"[{fmt(ci[0])}, {fmt(ci[1])}] |"
         )
     rows.extend([
