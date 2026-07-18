@@ -156,6 +156,7 @@ def test_report_finalizer_enforces_exactly_ten_and_one_pin(tmp_path):
     assert page_text.count('"pinned": true') == 1
     assert "Exactly 10 evidence approaches" in page_text
     assert "12,288 raw stochastic draws" in page_text
+    assert "Paper-scale evidence summary" in (pages / "index.md").read_text()
     assert "/home/" not in page_text
     metadata = json.loads((root / ".trackio/metadata.json").read_text())
     assert metadata["autosync"] is False

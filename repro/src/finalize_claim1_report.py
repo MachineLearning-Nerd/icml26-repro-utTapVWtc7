@@ -135,6 +135,41 @@ def render_claim1(result: dict, created_at: str) -> str:
     return "\n".join(rows)
 
 
+def render_index(result: dict, created_at: str) -> str:
+    accuracy = {row["space"]: row for row in result["accuracy"]["per_space"]}
+    rows = [
+        "# Repro — Regression Language Models for Code (RegressLM)",
+        "",
+        "",
+        "---",
+        cell_header(
+            "cell_index_paper_scale_final",
+            "Paper-scale evidence summary with row-level provenance",
+            created_at,
+        ),
+        "This reproduction evaluates the released RegressLM checkpoint and released datasets at "
+        "the author-card scale. The headline evidence is:",
+        "",
+        f"- ONNX validation accuracy: NASBench101 ρ={fmt(accuracy['NASBench101']['spearman'])}, "
+        f"ENAS ρ={fmt(accuracy['ENAS']['spearman'])}, and "
+        f"NASNet ρ={fmt(accuracy['NASNet']['spearman'])}, each at n=512 and eight draws per row;",
+        "- APPS memory: ρ=0.926807 at n=512 (claim threshold >0.9);",
+        "- KernelBook latency: ρ=0.535279 at n=512; and",
+        "- CodeNet memory: mean per-language ρ=0.529850 across 17 languages at n=200/language.",
+        "",
+        f"The accuracy bundle has {result['accuracy']['rows']:,} row-level predictions and "
+        f"{result['accuracy']['raw_draws']:,} retained draws. Independent verification recomputes "
+        "every median and headline correlation, tests a label-permutation null, and applies an "
+        "input-shuffle falsification control. The deficient first claim was investigated through "
+        "exactly 10 pre-registered evidence approaches, never an additional route.",
+        "",
+        "Paper: https://arxiv.org/abs/2509.26476  ",
+        "Repository: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7",
+        "",
+    ]
+    return "\n".join(rows)
+
+
 def render_methods(result: dict, source_audit: dict, created_at: str) -> str:
     rows = [
         "# Methods & environment",
@@ -252,6 +287,7 @@ def finalize(root: Path, created_at: str | None = None) -> None:
     for path in pages_dir.glob("*/page.md"):
         path.write_text(remove_local_root(remove_pins(path.read_text()), root))
 
+    (pages_dir / "index.md").write_text(render_index(result, created_at))
     (pages_dir / "claim-1-unified-multi-metric-model/page.md").write_text(
         render_claim1(result, created_at)
     )

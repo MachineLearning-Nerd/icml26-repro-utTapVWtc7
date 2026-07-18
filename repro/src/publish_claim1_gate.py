@@ -40,7 +40,8 @@ def main() -> None:
     require(source_audit["dataset"]["local_matches_hub"], "full parquet does not match Hub LFS")
     require((ROOT / "outputs/claim1_accuracy/full_n512.csv").exists(), "raw accuracy CSV missing")
 
-    pages = sorted((ROOT / ".trackio/logbook/pages").glob("*/page.md"))
+    pages_root = ROOT / ".trackio/logbook/pages"
+    pages = [pages_root / "index.md", *sorted(pages_root.glob("*/page.md"))]
     page_text = "\n".join(page.read_text() for page in pages)
     require(len(page_text) <= 115_000, "report exceeds the safe judge-readable character budget")
     require(page_text.count('"pinned": true') == 1, "expected exactly one pinned report cell")
