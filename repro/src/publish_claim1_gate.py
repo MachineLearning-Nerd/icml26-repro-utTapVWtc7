@@ -42,6 +42,7 @@ def main() -> None:
 
     pages = sorted((ROOT / ".trackio/logbook/pages").glob("*/page.md"))
     page_text = "\n".join(page.read_text() for page in pages)
+    require(len(page_text) <= 115_000, "report exceeds the safe judge-readable character budget")
     require(page_text.count('"pinned": true') == 1, "expected exactly one pinned report cell")
     require("/home/" not in page_text, "absolute local path leaked into report")
     require("exactly 10" in page_text.lower(), "exact-ten disclosure missing")
@@ -57,7 +58,7 @@ def main() -> None:
     require(not metadata.get("local_path_artifacts"), "absolute local artifact metadata remains")
     print(
         "CLAIM1_PUBLISH_GATE_PASS approaches=10 accuracy_rows=1536 "
-        "accuracy_draws=12288 spaces=3 pins=1"
+        f"accuracy_draws=12288 spaces=3 pins=1 report_chars={len(page_text)}"
     )
 
 
