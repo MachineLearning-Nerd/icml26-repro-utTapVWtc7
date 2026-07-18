@@ -1,0 +1,30 @@
+{
+  "dataset": "akhauriyash/GraphArch-Regression",
+  "dataset_revision": "c557392740094b539bbdb527d03e3a78e5b34a38",
+  "model_alias": "akhauriyash/RLM-GemmaS-Code-v0",
+  "model_weights_sha256": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c",
+  "same_checkpoint_as_code_metric_runs": true,
+  "protocol": {
+    "limit_per_space": 512,
+    "num_samples": 8,
+    "batch_size": 4,
+    "max_length": 4096,
+    "seed": 42,
+    "aggregation": "median"
+  },
+  "per_space": [
+    {
+      "space": "NASBench101",
+      "n": 512,
+      "spearman": 0.4065993610622034,
+      "pearson": 0.198203355880045,
+      "mse": 52.358939258605965,
+      "nan_rate": 0.0,
+      "target_min": 9.50520858168602,
+      "target_max": 94.31089758872986
+    }
+  ],
+  "average_spearman": 0.4065993610622034,
+  "rows": 512,
+  "raw_draws": 4096
+}
