@@ -160,3 +160,9 @@ def test_report_finalizer_enforces_exactly_ten_and_one_pin(tmp_path):
     metadata = json.loads((root / ".trackio/metadata.json").read_text())
     assert metadata["autosync"] is False
     assert "local_path_artifacts" not in metadata
+
+
+def test_report_local_root_sanitizer_preserves_relative_suffix():
+    root = pathlib.Path("/home/example/reproduction")
+    text = "loading model from: /home/example/reproduction/checkpoints/model"
+    assert report.remove_local_root(text, root) == "loading model from: checkpoints/model"

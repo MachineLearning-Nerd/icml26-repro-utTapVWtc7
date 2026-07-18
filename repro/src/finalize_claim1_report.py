@@ -222,6 +222,12 @@ def remove_pins(text: str) -> str:
     return pattern.sub(clean, text)
 
 
+def remove_local_root(text: str, root: Path) -> str:
+    """Keep captured command output useful without publishing a host path."""
+    local_root = str(root.resolve())
+    return text.replace(local_root + "/", "").replace(local_root, ".")
+
+
 def finalize(root: Path, created_at: str | None = None) -> None:
     result = json.loads((root / "outputs/claim1_validation.json").read_text())
     source_audit = json.loads((root / "outputs/claim1_source_audit.json").read_text())
@@ -242,7 +248,7 @@ def finalize(root: Path, created_at: str | None = None) -> None:
     created_at = created_at or datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     pages_dir = root / ".trackio/logbook/pages"
     for path in pages_dir.glob("*/page.md"):
-        path.write_text(remove_pins(path.read_text()))
+        path.write_text(remove_local_root(remove_pins(path.read_text()), root))
 
     (pages_dir / "claim-1-unified-multi-metric-model/page.md").write_text(
         render_claim1(result, created_at)
