@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "scope": {
+    "paper_accuracy_target": "trained-neural-network validation accuracy from ONNX",
+    "ordinary_program_accuracy_target": false,
+    "source_audit": "CLAIM1_SOURCE_AUDIT.md"
+  },
+  "author_source": {
+    "repo": "google-deepmind/regress-lm",
+    "commit": "6c23ccb51ae9862d98af9faffc1286ca2149b12e",
+    "expected_prefix": "6c23ccb",
+    "matches_expected": true
+  },
+  "model_aliases": {
+    "ids": [
+      "akhauriyash/RLM-GemmaS-Code-v0",
+      "akhauriyash/RegressLM-gemma-s-RLM-table3"
+    ],
+    "revisions": {
+      "akhauriyash/RLM-GemmaS-Code-v0": "0c927733af21f156d61743c4a40d03d13e65c16b",
+      "akhauriyash/RegressLM-gemma-s-RLM-table3": "5e5002672f870399ce012896332363e271582509"
+    },
+    "critical_shared_files": {
+      "model.safetensors": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c"
+        },
+        "identical": true
+      },
+      "modeling_regresslm.py": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "3e372ae2601be0fc0861fe5d188f1562aa3404f8",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "3e372ae2601be0fc0861fe5d188f1562aa3404f8"
+        },
+        "identical": true
+      },
+      "tokenization_p10.py": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "f365a6a4078f6f32cac5844aca74e16d38e450d1",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "f365a6a4078f6f32cac5844aca74e16d38e450d1"
+        },
+        "identical": true
+      },
+      "tokenizer_config.json": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "f3fed8eab4f9eb5ee18d0e8e9d33abc95fe5136d",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "f3fed8eab4f9eb5ee18d0e8e9d33abc95fe5136d"
+        },
+        "identical": true
+      },
+      "generation_config.json": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "30a47dc0b73b696cfdc079e66f7657d12e763ef7",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "30a47dc0b73b696cfdc079e66f7657d12e763ef7"
+        },
+        "identical": true
+      },
+      "ieee_vocab.json": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "20131aae1db30433d07eb12f9c32d5d9ec32e286",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "20131aae1db30433d07eb12f9c32d5d9ec32e286"
+        },
+        "identical": true
+      },
+      "encoder_tokenizer/tokenizer.json": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd"
+        },
+        "identical": true
+      },
+      "encoder_tokenizer/tokenizer.model": {
+        "identities": {
+          "akhauriyash/RLM-GemmaS-Code-v0": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2",
+          "akhauriyash/RegressLM-gemma-s-RLM-table3": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2"
+        },
+        "identical": true
+      }
+    },
+    "local_weights_bytes": 725864700,
+    "local_weights_sha256": "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c"
+  },
+  "dataset": {
+    "id": "akhauriyash/GraphArch-Regression",
+    "revision": "c557392740094b539bbdb527d03e3a78e5b34a38",
+    "local_parquet_bytes": 4116945368,
+    "local_parquet_sha256": "2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0",
+    "hub_lfs_sha256": "2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0",
+    "hub_lfs_bytes": 4116945368,
+    "local_matches_hub": true
+  }
+}
