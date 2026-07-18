@@ -113,6 +113,9 @@ def verify(path: Path, repetitions: int = 2000, seed: int = 19) -> dict:
     table3 = json.loads((ROOT / "outputs/colab/table3_results.json").read_text())
     codenet = json.loads(
         (ROOT / "outputs/codenet/full_gpu_n200_verification.json").read_text())
+    source_audit = json.loads((ROOT / "outputs/claim1_source_audit.json").read_text())
+    if source_audit["status"] != "PASS" or not source_audit["dataset"]["local_matches_hub"]:
+        raise AssertionError("source provenance audit did not pass")
     source_weights = ROOT / "checkpoints/rlm-table3/model.safetensors"
     # The large checkpoint is intentionally gitignored, but a real verification
     # run must have used the local file and the published hash is fail-closed.
@@ -131,9 +134,11 @@ def verify(path: Path, repetitions: int = 2000, seed: int = 19) -> dict:
 
     accuracy_by_space = {row["space"]: row for row in per_space}
     approaches = [
-        {"number": 1, "name": "primary-source scope and protocol audit", "status": "pass"},
+        {"number": 1, "name": "primary-source scope and protocol audit", "status": "pass",
+         "paper_accuracy_target": source_audit["scope"]["paper_accuracy_target"]},
         {"number": 2, "name": "unified-checkpoint identity audit", "status": "pass",
-         "weights_sha256": EXPECTED_WEIGHTS},
+         "weights_sha256": EXPECTED_WEIGHTS,
+         "critical_shared_files": len(source_audit["model_aliases"]["critical_shared_files"])},
         {"number": 3, "name": "APPS memory reproduction", "status": "pass",
          "n": table3["table3"]["APPS"]["n"],
          "spearman": table3["table3"]["APPS"]["spearman"]},
