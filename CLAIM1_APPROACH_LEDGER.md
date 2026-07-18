@@ -13,7 +13,7 @@ fewer. Checks within a route are subchecks, not additional approaches.
 | 3 | APPS memory reproduction | 512 programs, eight draws per row, released model/recipe; Spearman `.9268` | complete |
 | 4 | KernelBook latency reproduction | 512 kernels, eight draws per row, released model/recipe; Spearman `.5353` | complete |
 | 5 | CodeNet multi-language memory reproduction | 17 languages × 200 rows × eight draws; mean per-language Spearman `.5299` | complete |
-| 6 | NASBench101 ONNX accuracy reproduction | 512 released rows × eight draws, author-card 4,096-token protocol | running |
+| 6 | NASBench101 ONNX accuracy reproduction | 512 released rows × eight draws; Spearman `.4066`, zero decode failures | complete |
 | 7 | ENAS ONNX accuracy reproduction | 512 released rows × eight draws, author-card 4,096-token protocol | running |
 | 8 | NASNet ONNX accuracy reproduction | 512 released rows × eight draws, author-card 4,096-token protocol | running |
 | 9 | Accuracy uncertainty and permutation route | Per-space bootstrap intervals, pooled/mean correlations, and label-permutation null | pending on routes 6–8 |
