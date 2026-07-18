@@ -54,6 +54,8 @@ def test_summary_recomputes_rank_metrics():
 def test_declared_model_weight_hash_is_full_sha256():
     assert len(runner.MODEL_WEIGHTS_SHA256) == 64
     int(runner.MODEL_WEIGHTS_SHA256, 16)
+    assert len(runner.DATASET_PARQUET_SHA256) == 64
+    int(runner.DATASET_PARQUET_SHA256, 16)
 
 
 def test_accuracy_loader_recomputes_medians_and_rejects_duplicates(tmp_path):

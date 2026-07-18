@@ -45,6 +45,8 @@ No per-space fine-tuning or regression head is introduced in this repair.
 - Author source: `google-deepmind/regress-lm@6c23ccb`.
 - GraphArch dataset revision:
   `c557392740094b539bbdb527d03e3a78e5b34a38`.
+- Full GraphArch parquet: 4,116,945,368 bytes, SHA-256
+  `2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0`.
 - Unified-model revision:
   `0c927733af21f156d61743c4a40d03d13e65c16b`.
 - Compatible Transformers version: `4.53.2` (recorded by the checkpoint and

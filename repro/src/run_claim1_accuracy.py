@@ -22,6 +22,7 @@ from pathlib import Path
 import numpy as np
 import pyarrow as pa
 import pyarrow.dataset as ds
+import pyarrow.parquet as pq
 import requests
 import torch
 from scipy import stats
@@ -30,6 +31,9 @@ from run_eval import decode_seq, load_model, pick_device
 
 
 DATASET = "akhauriyash/GraphArch-Regression"
+DATASET_PARQUET_SHA256 = (
+    "2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0"
+)
 MODEL_ALIAS = "akhauriyash/RLM-GemmaS-Code-v0"
 MODEL_WEIGHTS_SHA256 = (
     "7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c"
@@ -99,17 +103,18 @@ def fetch_spaces(
                 continue
         missing.append(space)
     if missing and full_parquet is not None and full_parquet.is_file():
-        dataset = ds.dataset(full_parquet, format="parquet")
-        predicate = pa.compute.is_in(
-            pa.compute.field("space"), value_set=pa.array(missing))
-        scanner = dataset.scanner(
-            columns=["identifier", "space", "input", "val_accuracy"],
-            filter=predicate,
+        # The source parquet has one 611,931-row group and no page index.
+        # Dataset-level filtering may pre-buffer its ~27 GB uncompressed input
+        # column. Iterating small record batches keeps memory bounded while the
+        # compressed 4.1 GB file is scanned sequentially once for all spaces.
+        parquet_file = pq.ParquetFile(full_parquet, pre_buffer=False)
+        batches = parquet_file.iter_batches(
             batch_size=128,
-            use_threads=True,
+            columns=["identifier", "space", "input", "val_accuracy"],
+            use_threads=False,
         )
         collected = {space: [] for space in missing}
-        for batch in scanner.to_batches():
+        for batch in batches:
             for row in batch.to_pylist():
                 space = row["space"]
                 if space not in collected or len(collected[space]) >= limit:
@@ -400,6 +405,7 @@ def main() -> None:
     summary = {
         "dataset": DATASET,
         "dataset_revision": "c557392740094b539bbdb527d03e3a78e5b34a38",
+        "dataset_parquet_sha256": DATASET_PARQUET_SHA256,
         "model_alias": MODEL_ALIAS,
         "model_weights_sha256": MODEL_WEIGHTS_SHA256,
         "same_checkpoint_as_code_metric_runs": True,
