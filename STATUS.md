@@ -24,7 +24,8 @@ GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
   reference of 0.384. Route 7 (ENAS) is running with resumable per-batch raw
   draws; route 8 (NASNet) follows automatically from the same verified full
   GraphArch parquet.
-- Thirteen scoped tests pass.
+- Fifteen scoped tests pass, including fail-closed report finalization: exactly
+  one pin, exactly 10 numbered routes, canonical scale, and no host-path leak.
 
 ## 2026-07-17 repair result
 
