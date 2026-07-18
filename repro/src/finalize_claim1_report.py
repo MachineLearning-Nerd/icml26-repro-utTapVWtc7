@@ -85,7 +85,8 @@ def render_claim1(result: dict, created_at: str) -> str:
         "",
         "- memory: APPS n=512, ρ=0.926807;",
         "- latency: KernelBook/KBSS n=512, ρ=0.535279;",
-        "- memory across 17 CodeNet languages: n=200/language, mean ρ=0.529850; and",
+        "- memory across 17 CodeNet languages: n=200/language, primary mean ρ=0.529850 "
+        "and independent local mean ρ=0.523403; and",
         "- trained-network validation accuracy from ONNX in all three author-card spaces below.",
         "",
         "| Accuracy space | Rows | Spearman ρ | Author-card ρ | Bootstrap 95% CI |",
@@ -157,7 +158,8 @@ def render_index(result: dict, created_at: str) -> str:
         f"NASNet ρ={fmt(accuracy['NASNet']['spearman'])}, each at n=512 and eight draws per row;",
         "- APPS memory: ρ=0.926807 at n=512 (claim threshold >0.9);",
         "- KernelBook latency: ρ=0.535279 at n=512; and",
-        "- CodeNet memory: mean per-language ρ=0.529850 across 17 languages at n=200/language.",
+        "- CodeNet memory: primary mean per-language ρ=0.529850 across 17 languages at "
+        "n=200/language; an independent local run gives ρ=0.523403.",
         "",
         f"The accuracy bundle has {result['accuracy']['rows']:,} row-level predictions and "
         f"{result['accuracy']['raw_draws']:,} retained draws. Independent verification recomputes "
@@ -237,9 +239,9 @@ def render_conclusion(result: dict, created_at: str) -> str:
         "**Claim 2: VERIFIED.** APPS memory Spearman is 0.926807 at n=512, above 0.9 and matching "
         "the author-card 0.926 reference.",
         "",
-        "**Claim 3: VERIFIED.** The mean Spearman across 17 CodeNet languages is 0.529850 at "
-        "n=200/language, with stratified bootstrap 95% CI [0.502557, 0.554246] and permutation "
-        "p=0.000500.",
+        "**Claim 3: VERIFIED.** The primary mean Spearman across 17 CodeNet languages is "
+        "0.529850 at n=200/language, with stratified bootstrap 95% CI [0.502557, 0.554246] "
+        "and permutation p=0.000500; an independent local run gives 0.523403.",
         "",
         "All headline values come from retained row-level predictions or independently recomputed "
         "verification outputs. Earlier reduced-scale and accuracy-unavailable conclusions are "
