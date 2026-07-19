@@ -1,13 +1,22 @@
 # STATUS — RegressLM (utTapVWtc7) reproduction — REVISED (resubmitted)
 
-**Session:** perfect-score campaign. **Last updated:** 2026-07-18.
-**State: Claim 1 paper-scale repair published with exactly 10/10 routes passing;
-awaiting an exact-SHA official re-verdict.** The prior
-official verdict at Space SHA `40a78a2a039622516af008c75f074ce07cb44cf1`
-is medium quality (5/6): Claims 2 and 3 are verified; Claim 1 remains `toy`
-because the correct ONNX `val_accuracy` experiment covered only 64
-NASBench101 rows. HF: https://huggingface.co/spaces/DineshAI/utTapVWtc7 ·
+**Session:** perfect-score campaign. **Last updated:** 2026-07-19.
+**State: official high-quality 6/6 at exact Space SHA
+`19231479d69a31c8e01832c24e146c37eca9a5ba`.** All three claims are
+officially `verified`; judged at `2026-07-18T23:48:57Z`. The prior stale SHA
+`40a78a2a039622516af008c75f074ce07cb44cf1` scored 5/6. HF:
+https://huggingface.co/spaces/DineshAI/utTapVWtc7 ·
 GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
+
+## Official repair verdict
+
+- Claim 1: verified from one checkpoint across memory, latency, and three
+  512-row ONNX accuracy spaces; the judge cited the permutation and
+  input-shuffle controls.
+- Claim 2: verified at APPS Spearman 0.9268 (n=512), above 0.9.
+- Claim 3: verified from the complete 17-language, 200-row-per-language run,
+  mean Spearman 0.523 with bootstrap interval entirely above 0.5.
+- Judge quality: `high`. Official score: **6/6**.
 
 ## 2026-07-18 Claim 1 perfect-score repair
 
@@ -109,12 +118,10 @@ uv pip install "transformers==4.53.2"   # matches checkpoint export version
 
 ## NEXT (resume here)
 1. Preserve the completed exactly-10 validation—do not add more routes.
-2. [complete] Publish one pinned Trackio verdict and pass the fail-closed gate.
-3. Require an exact-SHA official 6/6 verdict; do not call the stale 5/6 result
-   perfect while the working judge discovers and evaluates the new Space SHA.
+2. No further repair work: exact-SHA official high-quality 6/6 is recorded.
 
 ## BLOCKERS
-- No evidence blocker. Official re-judging is asynchronous.
+- None. Repair is complete.
 
 ## venv
 `papers/icml26-repro-utTapVWtc7-regresslm/.venv` (py3.12); `transformers==4.53.2`, `torch 2.7.1+cu126` (local sm_61-compatible build).
