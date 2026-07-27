@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "source_run_id": "b807025c-55e6-43d3-8c9f-7142caaccc48",
+  "backend": "hf",
+  "flavor": "cpu-upgrade",
+  "estimated_required_cores": 1,
+  "actual_affinity_cpu_count": 64,
+  "actual_os_cpu_count": 64,
+  "gpu_used": false,
+  "python": "3.12.12",
+  "verifier_runtime_seconds": 1.1882398740854114,
+  "orx_duration_seconds": 37,
+  "cost_usd": null,
+  "cost_note": "The local orx run record does not expose a monetary cost field."
+}

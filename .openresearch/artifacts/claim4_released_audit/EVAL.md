@@ -20,3 +20,9 @@ Success requires:
 Any discrepancy raises and exits nonzero. A successful audit does **not**
 change the scientific Claim 4 verdict from `BLOCKED`; direct all-five-space
 evidence remains required.
+
+Observed run `b807025c-55e6-43d3-8c9f-7142caaccc48` at Git SHA
+`bcedb13e09389703999d5bcc1735fc555a340e42` passed. The independent checker
+recomputed the Table 4 average as 0.4612, verified four comparator
+inequalities, matched both Kendall implementations exactly, and confirmed
+that both shuffled-target controls fail acceptance.

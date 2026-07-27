@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "source_run_id": "b807025c-55e6-43d3-8c9f-7142caaccc48",
+  "git_sha": "bcedb13e09389703999d5bcc1735fc555a340e42",
+  "status": "PASS",
+  "claim_verdict": "BLOCKED",
+  "paper_table": {
+    "rlm_average_unrounded": 0.4612,
+    "rlm_average_displayed": 0.461,
+    "reported_comparator_average": {
+      "Arch2Vec": 0.212,
+      "CATE": 0.238,
+      "GNN": 0.429,
+      "FLAN": 0.459
+    }
+  },
+  "public_target_specific_checkpoints": {
+    "Amoeba": {
+      "model_id": "akhauriyash/RLM-GemmaS-Code-Amoeba-v0",
+      "revision": "2998b2c8cef6cbb899536e7451561ccfc9e5433f",
+      "model_safetensors_size": 725864700,
+      "model_safetensors_blob_id": "0fe20950575126b960f83644e65506b95a4ca633"
+    },
+    "DARTS": {
+      "model_id": "akhauriyash/RLM-GemmaS-Code-DARTS-v0",
+      "revision": "7aedf5c3586c98bbadce5f09a97ce91a644d25cc",
+      "model_safetensors_size": 725864700,
+      "model_safetensors_blob_id": "4bfbe323369a2a767df957c341c1af9bc2e498ce"
+    },
+    "PNAS": {
+      "model_id": "akhauriyash/RLM-GemmaS-Code-PNAS-v0",
+      "revision": "57c23247f6bbdc181fc29e5fd4c43a2a18e1fb23",
+      "model_safetensors_size": 725864700,
+      "model_safetensors_blob_id": "322eed5579d78b0f2a1380d46ed69199cca5d37a"
+    }
+  },
+  "missing_target_specific_checkpoints": [
+    "ENAS",
+    "NASNet"
+  ],
+  "training_row_manifests_found": [],
+  "retained_base_checkpoint_metric_reanalysis": [
+    {
+      "space": "ENAS",
+      "n": 512,
+      "scipy_kendall_tau_b": 0.17207046356561906,
+      "manual_kendall_tau_b": 0.17207046356561906,
+      "source_csv_sha256": "3016dfb245deb56b3d0d3d06f902471bc415f80196d61ecf4d49eb773f1edd76"
+    },
+    {
+      "space": "NASNet",
+      "n": 512,
+      "scipy_kendall_tau_b": 0.13875791509221438,
+      "manual_kendall_tau_b": 0.13875791509221438,
+      "source_csv_sha256": "3016dfb245deb56b3d0d3d06f902471bc415f80196d61ecf4d49eb773f1edd76"
+    }
+  ],
+  "author_listing_sha256": "ef0bf2394909a0745389493830c0e997ae1d1087c8cede45ada75d637e8d04a6"
+}

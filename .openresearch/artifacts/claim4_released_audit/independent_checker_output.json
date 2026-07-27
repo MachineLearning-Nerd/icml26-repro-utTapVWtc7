@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "source_run_id": "b807025c-55e6-43d3-8c9f-7142caaccc48",
+  "status": "PASS",
+  "table_average_recomputed": 0.4612,
+  "comparator_inequalities_verified": 4,
+  "kendall_implementations_agree": true,
+  "negative_controls_fail_acceptance": true,
+  "claim_verdict": "BLOCKED"
+}
