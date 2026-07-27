@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "paper_id": "2509.26476",
-  "phase": "baseline",
+  "phase": "claim4_released_audit",
   "seed": 42,
   "compute": {
     "backend": "hf",
     "flavor": "cpu-upgrade",
     "estimated_required_cores": 1,
-    "runtime_class": "uncertain because the locked environment must be materialized",
+    "runtime_class": "uncertain because the locked environment and live public-artifact audit must be materialized",
     "gpu_allowed": false
   },
   "accepted_claims_to_recheck": [1, 2, 3]

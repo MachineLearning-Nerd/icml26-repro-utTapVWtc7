@@ -24,6 +24,12 @@
         "children": []
       },
       {
+        "slug": "claim-4-kendall-ranking",
+        "title": "Claim 4 — Kendall ranking and baseline comparison",
+        "file": "pages/claim-4-kendall-ranking/page.md",
+        "children": []
+      },
+      {
         "slug": "claim-2-apps-spearman-0-9",
         "title": "Claim 2 — APPS Spearman >0.9",
         "file": "pages/claim-2-apps-spearman-0-9/page.md",

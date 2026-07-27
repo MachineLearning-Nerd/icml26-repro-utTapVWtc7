@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "claim_id": 4,
+  "verdict": "BLOCKED",
+  "paper_statement": "On NAS architecture ranking, the RLM attains average Kendall tau 0.461, outperforming Arch2Vec 0.212 and CATE 0.238, exceeding GNN 0.429, and approximately matching FLAN 0.459.",
+  "metric": "Kendall tau-b rank correlation",
+  "domain": [
+    "NASNet",
+    "Amoeba",
+    "PNAS",
+    "ENAS",
+    "DARTS"
+  ],
+  "reported_rlm": {
+    "NASNet": 0.382,
+    "Amoeba": 0.488,
+    "PNAS": 0.427,
+    "ENAS": 0.481,
+    "DARTS": 0.528,
+    "average": 0.461
+  },
+  "reported_baseline_average": {
+    "Arch2Vec": 0.212,
+    "CATE": 0.238,
+    "GNN": 0.429,
+    "FLAN": 0.459
+  },
+  "protocol": {
+    "source_training_examples": 1024,
+    "target_examples": {
+      "NASNet": 16,
+      "Amoeba": 16,
+      "PNAS": 16,
+      "ENAS": 16,
+      "DARTS": 100
+    },
+    "evaluation": "Rank the remaining target search-space architectures; target-shot rows must be excluded.",
+    "baseline_trials": 3
+  },
+  "acceptance": {
+    "required_spaces": 5,
+    "required_target_specific_checkpoints_or_retraining_recipes": 5,
+    "training_and_evaluation_row_identity_required": true,
+    "negative_control": "Shuffled targets must not exceed the GNN average threshold of 0.429.",
+    "no_proxy_substitution": true
+  },
+  "current_blockers": [
+    "Public target-specific checkpoints exist only for Amoeba, DARTS, and PNAS.",
+    "Public checkpoint repositories contain no training/evaluation row manifest or seeds.",
+    "The paper repository contains no Table 4 executable configuration."
+  ]
+}
