@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "paper_id": "2509.26476",
+  "contracts": [
+    {
+      "claim": 1,
+      "verdict_before_campaign": "VERIFIED",
+      "machine_check": "Recompute all 1,536 ONNX medians and three per-space Spearman correlations; verify one released-checkpoint provenance record and preserved multi-metric summaries."
+    },
+    {
+      "claim": 2,
+      "verdict_before_campaign": "VERIFIED",
+      "machine_check": "Require APPS n=512 and rho=0.9268067718469594; require KBSS n=512 and rho=0.5352789637599933 in the preserved paper-scale summary."
+    },
+    {
+      "claim": 3,
+      "verdict_before_campaign": "VERIFIED",
+      "machine_check": "Recompute 17 separate 200-row CodeNet Spearman correlations and their unweighted mean; require mean rho=0.5298501742814378."
+    }
+  ],
+  "failure_semantics": "Any missing row, unexpected space/language, changed median, changed metric, corrupt ZIP, or SHA-256 mismatch raises and exits nonzero."
+}

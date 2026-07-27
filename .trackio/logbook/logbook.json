@@ -18,6 +18,12 @@
     "file": "pages/index.md",
     "children": [
       {
+        "slug": "current-cumulative-verification",
+        "title": "Current cumulative verification",
+        "file": "pages/current-cumulative-verification/page.md",
+        "children": []
+      },
+      {
         "slug": "claim-2-apps-spearman-0-9",
         "title": "Claim 2 — APPS Spearman >0.9",
         "file": "pages/claim-2-apps-spearman-0-9/page.md",
