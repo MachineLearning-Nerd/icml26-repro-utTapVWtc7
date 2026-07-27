@@ -58,3 +58,24 @@ uv run --locked python repro/src/verify_candidate_space.py /tmp/uttap-space-cand
 python code/verify_space_release.py
 uv run --locked python repro/src/verify_candidate_space.py /tmp/uttap-space-candidate-round3.BwTOvk .openresearch/artifacts/protected_judged_space_manifest.sha256
 ```
+
+Publication and post-publication commands:
+
+```bash
+git ls-remote https://huggingface.co/spaces/DineshAI/utTapVWtc7 refs/heads/main
+uv run --locked python  # HfApi.create_commit: repo_type=space, 67 text operations, parent_commit=19231479d69a31c8e01832c24e146c37eca9a5ba
+git clone https://huggingface.co/spaces/DineshAI/utTapVWtc7 /tmp/uttap-space-published.010cw6
+git -C /tmp/uttap-space-published.010cw6 checkout f791e670006b5d428a2e11593eb29fb568bb4b45
+shasum -a 256 -c MANIFEST.sha256
+python3 code/verify_space_release.py
+python3 code/claim4_exact_gate.py
+python3 code/claim5_exact_gate.py
+git push origin 700aa77c312993386e9ff4036abbc94a9856898b:refs/heads/master
+git push origin HEAD:refs/heads/master
+git ls-remote origin refs/heads/master
+curl -fsSL -A 'OpenResearch-Reproduction/1.0 paper-2509.26476 post-publication' https://huggingface.co/datasets/ICML-2026-agent-repro/verdicts/resolve/main/verdicts.json
+```
+
+The API call used the cached Hugging Face authentication context without
+printing credentials. It returned published revision
+`f791e670006b5d428a2e11593eb29fb568bb4b45`.

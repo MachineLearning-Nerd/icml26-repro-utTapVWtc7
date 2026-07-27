@@ -138,6 +138,8 @@ Key evidence:
 - `.openresearch/artifacts/claim5_ablation_scaling/`
 - `.trackio/logbook/pages/claim-4-kendall-ranking/page.md`
 - `.trackio/logbook/pages/claim-5-ablation-scaling/page.md`
+- `.openresearch/artifacts/release/command_ledger.md` (orchestration,
+  publication, and post-publication commands)
 
 The tutorial notebook `notebooks/regresslm_reproduction.py` embeds the accepted
 numbers and figures, so opening it does not rerun inference.
