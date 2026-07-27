@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "paper_id": "2509.26476",
-  "phase": "claim4_cpu_calibration",
+  "phase": "claim4_finalize",
   "seed": 42,
   "claim4_inference": {
     "space": "DARTS",
@@ -14,10 +14,10 @@
     "evidence_role": "runtime calibration only"
   },
   "compute": {
-    "backend": "hf",
-    "flavor": "cpu-upgrade",
-    "estimated_required_cores": 8,
-    "runtime_class": "uncertain CPU inference runtime; bounded 16-row calibration before the paper-scale run",
+    "backend": "local",
+    "flavor": "local-cpu",
+    "estimated_required_cores": 1,
+    "runtime_class": "short static evidence verification under five minutes",
     "gpu_allowed": false
   },
   "accepted_claims_to_recheck": [1, 2, 3]

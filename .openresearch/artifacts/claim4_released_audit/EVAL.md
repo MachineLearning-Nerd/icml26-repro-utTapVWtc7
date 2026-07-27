@@ -21,6 +21,10 @@ Any discrepancy raises and exits nonzero. A successful audit does **not**
 change the scientific Claim 4 verdict from `BLOCKED`; direct all-five-space
 evidence remains required.
 
+The exact scientific gate is `repro/src/claim4_exact_gate.py`. It currently
+exits 1 with `CLAIM4_EXACT_GATE_BLOCKED`; the cumulative audit requires that
+fail-closed behavior.
+
 Observed run `b807025c-55e6-43d3-8c9f-7142caaccc48` at Git SHA
 `bcedb13e09389703999d5bcc1735fc555a340e42` passed. The independent checker
 recomputed the Table 4 average as 0.4612, verified four comparator

@@ -70,3 +70,69 @@ Current code and contracts:
 - `.openresearch/artifacts/claim4_released_audit/independent_checker_output.json`
 - `.openresearch/artifacts/claim4_released_audit/negative_control_output.json`
 - `.openresearch/artifacts/claim4_released_audit/runtime.json`
+
+## Four-route final assessment
+
+Confidence remained **LOW** after three materially different routes, which
+triggered the mandatory fourth, falsification-dedicated route:
+
+| Route | Direct question | Result |
+|---:|---|---|
+| 1 | What exactly do Table 4 and the inherited FLAN protocol quantify? | Exact five-space arithmetic and protocol reconstructed; checkpoints/manifests incomplete. |
+| 2 | Does correcting Spearman to Kendall on retained predictions answer the claim? | No. ENAS τ-b 0.172070 and NASNet τ-b 0.138758 use the unified base, not target-specific few-shot models. |
+| 3 | Can a released target-specific checkpoint run end to end on CPU? | Yes. DARTS n=16 calibration passed, but is not the remaining full target domain. |
+| 4 | Is there an assumption-satisfying counterexample to the exact five-space claim? | No valid counterexample: two target checkpoints and all five row manifests are absent. |
+
+The exact claim verifier is deliberately fail-closed:
+
+```bash
+uv run --locked python repro/src/claim4_exact_gate.py
+```
+
+It exits 1 with `CLAIM4_EXACT_GATE_BLOCKED`. The cumulative fixed command
+invokes an independent checker that requires this nonzero exit.
+
+## Direct DARTS calibration — not paper-scale evidence
+
+Run `6859632e-8d63-44d9-8e5b-97c5cb7fded8`, Git SHA
+`7a489958ce0d307c491b740c3393c45fa0185418`, used the pinned target-specific
+DARTS checkpoint and exact GraphArch release:
+
+| Field | Value |
+|---|---:|
+| Rows / raw stochastic draws | 16 / 128 |
+| Median prediction Kendall τ-b | 0.550000 |
+| Independent pair-count τ-b | 0.550000 |
+| Spearman ρ | 0.764706 |
+| Shuffled-target mean τ-b (200 permutations) | -0.013583 |
+| Setup / inference time | 50.250 s / 192.011 s |
+| Linear 512-row inference estimate | 6,144.36 s |
+| Estimated active / allocated CPUs | 8 / 64 |
+| Total job duration | 5m12s |
+
+Every draw, input hash, target, median, code hash, dataset hash, and timing
+record is in
+`.openresearch/artifacts/claim4_cpu_calibration/raw_calibration_output.json`.
+The independent output is
+`.openresearch/artifacts/claim4_cpu_calibration/independent_checker_output.json`,
+and all route decisions are in
+`.openresearch/artifacts/claim4_released_audit/four_routes.json`.
+
+The calibration used a configuration-only compatibility patch because the
+author checkpoint redundantly requests a gated base config despite serializing
+the complete backbone. Author configuration SHA-256:
+`5a72f125c3d1462f5394fdd0e376ee3ed3ac56b6f5a368585f527a59eab07313`;
+compatibility configuration SHA-256:
+`d3c6e7717cf86e279c0254b8c59b2643a2e88074f233a4e65eff95cfc08919e6`.
+Model code and weights were unchanged.
+
+The n=16 result is never used as evidence for the reported 0.461 average. It
+cannot exclude unknown DARTS fine-tuning rows and covers neither the remaining
+full DARTS domain nor all five spaces.
+
+## Historical rejected baseline
+
+The earlier Spearman-only NAS diagnostic is preserved for provenance but is
+not the current verifier and must not be used to score Claim 4. The current
+verifier is `repro/src/claim4_exact_gate.py`; the current evidence-integrity
+checker is `repro/src/verify_claim4_final.py`.

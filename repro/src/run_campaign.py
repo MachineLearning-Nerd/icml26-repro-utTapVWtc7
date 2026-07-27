@@ -14,6 +14,7 @@ from threadpoolctl import threadpool_limits
 
 from run_claim4_checkpoint import run as run_claim4_checkpoint
 from verify_claim4_audit import verify as verify_claim4_audit
+from verify_claim4_final import verify as verify_claim4_final
 from verify_cumulative import verify as verify_cumulative
 
 
@@ -45,7 +46,10 @@ def main() -> None:
     if config["compute"]["gpu_allowed"]:
         raise AssertionError("campaign configuration must remain CPU-only")
     if config["phase"] not in {
-        "baseline", "claim4_released_audit", "claim4_cpu_calibration"
+        "baseline",
+        "claim4_released_audit",
+        "claim4_cpu_calibration",
+        "claim4_finalize",
     }:
         raise AssertionError(f"unsupported campaign phase: {config['phase']}")
     print("CAMPAIGN_CONFIG " + json.dumps(config, sort_keys=True), flush=True)
@@ -62,6 +66,10 @@ def main() -> None:
             result = cumulative
         elif config["phase"] == "claim4_released_audit":
             result = verify_claim4_audit()
+            result["cumulative_claims_1_to_3"] = cumulative
+        elif config["phase"] == "claim4_finalize":
+            result = verify_claim4_final()
+            result["claim4_released_audit"] = verify_claim4_audit()
             result["cumulative_claims_1_to_3"] = cumulative
         else:
             result = run_claim4_checkpoint(config)
