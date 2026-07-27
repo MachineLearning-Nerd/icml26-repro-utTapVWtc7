@@ -8,9 +8,10 @@ the current evidence it must exit 1 with `CLAIM5_EXACT_GATE_BLOCKED`.
 
 ## Evidence-integrity gate
 
-`uv run --locked python repro/src/verify_claim5_audit.py` must exit zero and
-return `status=PASS`, `claim_verdict=BLOCKED`, `confidence=LOW`. PASS means the
-audit is internally consistent; it does not mean Claim 5 passes.
+`uv run --locked python repro/src/verify_claim5_final.py` must exit zero and
+return `status=PASS`, `claim_verdict=BLOCKED`, `confidence=LOW`. The fixed
+campaign also reruns `verify_claim5_audit.py` against the public sources. PASS
+means the audit is internally consistent; it does not mean Claim 5 passes.
 
 The integrity checker requires:
 

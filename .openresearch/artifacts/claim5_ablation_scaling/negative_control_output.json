@@ -1,0 +1,11 @@
+{
+  "source_run_id": "7af2c3e8-28d9-4f45-88ed-dc4453977be8",
+  "control": "synthetic exact-artifact detector sensitivity",
+  "synthetic_paths": [
+    "configs/table5_regression_head.yaml"
+  ],
+  "expected_detection": true,
+  "observed_detection": true,
+  "passes_claim_acceptance": false,
+  "reason": "The synthetic artifact tests that the absence detector can find an exact-looking artifact. It is not an official artifact and must fail scientific acceptance."
+}

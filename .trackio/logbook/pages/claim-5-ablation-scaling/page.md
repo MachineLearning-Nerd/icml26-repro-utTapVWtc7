@@ -40,8 +40,9 @@ The fixed command is:
 uv run --locked python repro/src/run_campaign.py
 ```
 
-The current integrity checker is `repro/src/verify_claim5_audit.py`. The exact
-scientific gate is:
+The current static integrity checker is `repro/src/verify_claim5_final.py`; it
+also invokes the live public-source checker `repro/src/verify_claim5_audit.py`.
+The exact scientific gate is:
 
 ```bash
 uv run --locked python repro/src/claim5_exact_gate.py
@@ -54,6 +55,13 @@ does not mean the scientific claim passed.
 The public evidence audit covers two pinned official repository snapshots, the
 author's full public model listing, both named T5Gemma base-model metadata
 records, and the cited normalized-regression primary implementation.
+
+Run `7af2c3e8-28d9-4f45-88ed-dc4453977be8` at Git SHA
+`16d1a11f279b470db95da4f15d1ea7fcb1c05e5b` passed the evidence-integrity
+checks. It used the local backend with an estimated one active core, eight CPUs
+visible, a one-thread computation limit, 3.0505 s verifier runtime, and 50 s
+total `orx` duration. No GPU was used and the local run record exposed no
+monetary cost.
 
 | Audit item | Directly observed | What it establishes |
 |---|---|---|
@@ -97,6 +105,10 @@ falsification. Claim 5 is therefore BLOCKED, forecasts 0/2 points, and needs:
 - `.openresearch/artifacts/claim5_ablation_scaling/source_audit.md`
 - `.openresearch/artifacts/claim5_ablation_scaling/method.md`
 - `.openresearch/artifacts/claim5_ablation_scaling/four_routes.json`
+- `.openresearch/artifacts/claim5_ablation_scaling/raw_audit_output.json`
+- `.openresearch/artifacts/claim5_ablation_scaling/independent_checker_output.json`
+- `.openresearch/artifacts/claim5_ablation_scaling/negative_control_output.json`
+- `.openresearch/artifacts/claim5_ablation_scaling/runtime.json`
 - `.openresearch/artifacts/claim5_ablation_scaling/EVAL.md`
 - `.openresearch/artifacts/claim5_ablation_scaling/limitations.md`
 

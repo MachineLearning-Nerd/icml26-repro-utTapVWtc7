@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "source_run_id": "7af2c3e8-28d9-4f45-88ed-dc4453977be8",
+  "claim_verdict": "BLOCKED",
+  "confidence": "LOW",
+  "checks": {
+    "table5_values_exact": true,
+    "table6_values_exact": true,
+    "table6_difference_recomputed": 0.038000000000000034,
+    "base_parameter_ratio_recomputed": 1.8926630034109564,
+    "official_snapshots_pinned": true,
+    "exact_public_artifact_not_discovered": true,
+    "cited_source_hash_and_features_match": true,
+    "detector_control_detected": true,
+    "detector_control_rejected_as_claim_evidence": true,
+    "four_distinct_routes_complete": true,
+    "fourth_route_falsification_dedicated": true,
+    "exact_scientific_gate_exit_code": 1,
+    "claims_1_to_3_cumulative_status": "PASS",
+    "claim4_final_integrity_status": "PASS"
+  },
+  "interpretation": "PASS means the BLOCKED/LOW evidence record is internally consistent. It does not verify or falsify Claim 5."
+}

@@ -1,0 +1,17 @@
+{
+  "source_run_id": "7af2c3e8-28d9-4f45-88ed-dc4453977be8",
+  "source_git_sha": "16d1a11f279b470db95da4f15d1ea7fcb1c05e5b",
+  "fixed_command": "uv run --locked python repro/src/run_campaign.py",
+  "backend": "local",
+  "selected_flavor": "local-cpu",
+  "estimated_required_cores": 1,
+  "actual_cpu_allocation": {
+    "os_cpu_count_visible": 8,
+    "affinity_cpu_count": null,
+    "threadpool_limit": 1
+  },
+  "verifier_runtime_seconds": 3.0504820000205655,
+  "orx_total_duration_seconds": 50,
+  "gpu_used": false,
+  "cost": "No monetary-cost field exposed for local run."
+}

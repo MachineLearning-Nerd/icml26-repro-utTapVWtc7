@@ -16,6 +16,7 @@ from run_claim4_checkpoint import run as run_claim4_checkpoint
 from verify_claim4_audit import verify as verify_claim4_audit
 from verify_claim4_final import verify as verify_claim4_final
 from verify_claim5_audit import verify as verify_claim5_audit
+from verify_claim5_final import verify as verify_claim5_final
 from verify_cumulative import verify as verify_cumulative
 
 
@@ -74,7 +75,8 @@ def main() -> None:
             result["claim4_released_audit"] = verify_claim4_audit()
             result["cumulative_claims_1_to_3"] = cumulative
         elif config["phase"] == "claim5_finalize":
-            result = verify_claim5_audit()
+            result = verify_claim5_final()
+            result["claim5_public_audit"] = verify_claim5_audit()
             result["claim4_final"] = verify_claim4_final()
             result["cumulative_claims_1_to_3"] = cumulative
         else:
