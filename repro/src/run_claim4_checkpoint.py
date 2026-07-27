@@ -9,12 +9,16 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from huggingface_hub import snapshot_download
+from huggingface_hub import hf_hub_download, snapshot_download
 from scipy import stats
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from check_claim4_audit import EXPECTED_BASELINES
-from run_claim1_accuracy import fetch_space
+from run_claim1_accuracy import (
+    DATASET,
+    DATASET_PARQUET_SHA256,
+    fetch_spaces,
+)
 from run_eval import decode_seq
 from verify_claim4_audit import manual_kendall_tau_b
 
@@ -95,12 +99,23 @@ def run(config: dict) -> dict:
     torch.set_num_threads(config["compute"]["estimated_required_cores"])
     torch.set_num_interop_threads(1)
     setup_started = time.monotonic()
-    rows = fetch_space(
-        cfg["space"],
+    parquet = Path(hf_hub_download(
+        repo_id=DATASET,
+        filename="data.parquet",
+        repo_type="dataset",
+        revision=DATASET_REVISION,
+    ))
+    parquet_sha256 = sha256(parquet)
+    if parquet_sha256 != DATASET_PARQUET_SHA256:
+        raise AssertionError(
+            f"GraphArch Parquet hash mismatch: {parquet_sha256}"
+        )
+    rows = fetch_spaces(
+        (cfg["space"],),
         cfg["limit"],
         ROOT / ".trackio/cache/claim4_grapharch",
-        None,
-    )
+        parquet,
+    )[cfg["space"]]
     snapshot = Path(snapshot_download(
         repo_id=cfg["checkpoint"],
         revision=cfg["revision"],
@@ -137,6 +152,7 @@ def run(config: dict) -> dict:
         "paper_scale_evidence": False,
         "dataset": "akhauriyash/GraphArch-Regression",
         "dataset_revision": DATASET_REVISION,
+        "dataset_parquet_sha256": parquet_sha256,
         "checkpoint": cfg["checkpoint"],
         "checkpoint_revision": cfg["revision"],
         "model_weights_sha256": sha256(weight_path),
