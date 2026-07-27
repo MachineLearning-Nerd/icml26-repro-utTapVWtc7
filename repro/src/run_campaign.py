@@ -12,6 +12,7 @@ from pathlib import Path
 
 from threadpoolctl import threadpool_limits
 
+from run_claim4_checkpoint import run as run_claim4_checkpoint
 from verify_claim4_audit import verify as verify_claim4_audit
 from verify_cumulative import verify as verify_cumulative
 
@@ -43,7 +44,9 @@ def main() -> None:
     config = json.loads(CONFIG_PATH.read_text())
     if config["compute"]["gpu_allowed"]:
         raise AssertionError("campaign configuration must remain CPU-only")
-    if config["phase"] not in {"baseline", "claim4_released_audit"}:
+    if config["phase"] not in {
+        "baseline", "claim4_released_audit", "claim4_cpu_calibration"
+    }:
         raise AssertionError(f"unsupported campaign phase: {config['phase']}")
     print("CAMPAIGN_CONFIG " + json.dumps(config, sort_keys=True), flush=True)
     print("RUNTIME_START " + json.dumps({
@@ -57,8 +60,12 @@ def main() -> None:
         cumulative = verify_cumulative()
         if config["phase"] == "baseline":
             result = cumulative
-        else:
+        elif config["phase"] == "claim4_released_audit":
             result = verify_claim4_audit()
+            result["cumulative_claims_1_to_3"] = cumulative
+        else:
+            result = run_claim4_checkpoint(config)
+            result["claim4_released_audit"] = verify_claim4_audit()
             result["cumulative_claims_1_to_3"] = cumulative
     elapsed = time.monotonic() - started
     final = {

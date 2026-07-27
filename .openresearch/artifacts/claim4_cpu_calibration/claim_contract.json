@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "claim_id": 4,
+  "role": "runtime calibration only",
+  "scientific_verdict": "BLOCKED",
+  "space": "DARTS",
+  "checkpoint": "akhauriyash/RLM-GemmaS-Code-DARTS-v0",
+  "checkpoint_revision": "7aedf5c3586c98bbadce5f09a97ce91a644d25cc",
+  "rows": 16,
+  "draws_per_row": 8,
+  "seed": 42,
+  "acceptance": {
+    "all_predictions_finite": true,
+    "independent_kendall_agreement_tolerance": 1e-12,
+    "shuffled_target_mean_must_be_below": 0.429,
+    "may_change_claim_verdict": false
+  }
+}
