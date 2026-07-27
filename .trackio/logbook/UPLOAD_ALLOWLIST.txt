@@ -10,6 +10,8 @@ code/verify_claim4_final.py
 code/verify_claim5_audit.py
 code/verify_claim5_final.py
 code/verify_cumulative.py
+code/verify_cumulative_space.py
+code/verify_space_release.py
 environment/.python-version
 environment/pyproject.toml
 environment/uv.lock

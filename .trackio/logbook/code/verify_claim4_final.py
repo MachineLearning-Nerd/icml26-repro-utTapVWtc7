@@ -12,13 +12,10 @@ from collections import Counter
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
-CALIBRATION = (
-    ROOT
-    / ".openresearch/artifacts/claim4_cpu_calibration/raw_calibration_output.json"
-)
-ROUTES = ROOT / ".openresearch/artifacts/claim4_released_audit/four_routes.json"
-EXACT_GATE = ROOT / "repro/src/claim4_exact_gate.py"
+ROOT = Path(__file__).resolve().parents[1]
+CALIBRATION = ROOT / "evidence/claim4/raw_calibration_output.json"
+ROUTES = ROOT / "evidence/claim4/four_routes.json"
+EXACT_GATE = ROOT / "code/claim4_exact_gate.py"
 
 
 def manual_tau_b(xs: list[float], ys: list[float]) -> float:

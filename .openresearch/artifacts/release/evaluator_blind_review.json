@@ -1,9 +1,72 @@
 {
-  "status": "PASS",
-  "review_round": 2,
-  "start_entrypoint": "README.md",
+  "allowlist_count": 67,
+  "allowlist_mismatch": {
+    "not_allowlisted": [],
+    "not_changed": []
+  },
   "candidate_base_revision": "19231479d69a31c8e01832c24e146c37eca9a5ba",
-  "visited_count": 56,
+  "conclusions_not_verifiable": [
+    "The full-scale APPS/KBSS row-level draws were not retained in the judged repository. The candidate exposes the accepted aggregate JSON and historical n=40 row-level control, and states this limitation inline."
+  ],
+  "current_claim_checks": {
+    "1": {
+      "listed_in_visibility_matrix": true,
+      "page": "pages/current-claim-1/page.md",
+      "reachable": true,
+      "verdict_visible": true
+    },
+    "2": {
+      "listed_in_visibility_matrix": true,
+      "page": "pages/current-claim-2/page.md",
+      "reachable": true,
+      "verdict_visible": true
+    },
+    "3": {
+      "listed_in_visibility_matrix": true,
+      "page": "pages/current-claim-3/page.md",
+      "reachable": true,
+      "verdict_visible": true
+    },
+    "4": {
+      "listed_in_visibility_matrix": true,
+      "page": "pages/claim-4-kendall-ranking/page.md",
+      "reachable": true,
+      "verdict_visible": true
+    },
+    "5": {
+      "listed_in_visibility_matrix": true,
+      "page": "pages/claim-5-ablation-scaling/page.md",
+      "reachable": true,
+      "verdict_visible": true
+    }
+  },
+  "executable_checks": {
+    "claim4_exact_gate_exit_code": 1,
+    "claim4_exact_gate_failed_closed": true,
+    "claim5_exact_gate_exit_code": 1,
+    "claim5_exact_gate_failed_closed": true,
+    "release_checker_exit_code": 0,
+    "release_checker_passed": true
+  },
+  "failures": [],
+  "gates": {
+    "claim4_exact_gate_reachable": true,
+    "claim4_raw_reachable": true,
+    "claim5_exact_gate_reachable": true,
+    "claim5_raw_reachable": true,
+    "environment_lock_reachable": true
+  },
+  "historical_page_hash_mismatches": [],
+  "manifest_count": 66,
+  "manifest_mismatches": [],
+  "missing_relative_links": [],
+  "protected_missing_files": [],
+  "protected_old_file_count": 21,
+  "review_round": 3,
+  "secret_like_files": [],
+  "start_entrypoint": "README.md",
+  "status": "PASS",
+  "visited_count": 58,
   "visited_files": [
     "README.md",
     "code/claim4_exact_gate.py",
@@ -14,6 +77,8 @@
     "code/verify_claim5_audit.py",
     "code/verify_claim5_final.py",
     "code/verify_cumulative.py",
+    "code/verify_cumulative_space.py",
+    "code/verify_space_release.py",
     "environment/pyproject.toml",
     "environment/uv.lock",
     "evidence/claim4/calibration_independent_checker_output.json",
@@ -61,23 +126,5 @@
     "pages/methods-environment/page.md",
     "pages/negative-controls-falsification/page.md",
     "pages/release-report/page.md"
-  ],
-  "missing_relative_links": [],
-  "protected_old_file_count": 21,
-  "protected_missing_files": [],
-  "historical_page_hash_mismatches": [],
-  "allowlist_count": 65,
-  "allowlist_mismatch": {
-    "not_changed": [],
-    "not_allowlisted": []
-  },
-  "manifest_count": 64,
-  "manifest_mismatches": [],
-  "secret_like_files": [],
-  "current_claims_reachable": [1, 2, 3, 4, 5],
-  "current_exact_gates_reachable": [4, 5],
-  "raw_records_reachable": [1, 2, 3, 4, 5],
-  "conclusions_not_verifiable": [
-    "The full-scale APPS/KBSS row-level draws were not retained in the judged repository. The candidate exposes the accepted aggregate JSON and the historical n=40 row-level control, and states this limitation inline."
   ]
 }

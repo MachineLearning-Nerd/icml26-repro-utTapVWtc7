@@ -21,9 +21,9 @@ claim.
 
 | Claim | Canonical page | Code visible | Data inline | Raw link | Checker | Control | Exact claim tested | Reviewer verdict |
 |---|---|---|---|---|---|---|---|---|
-| 1 | [Claim 1](../current-claim-1/page.md) | [cumulative checker](../../code/verify_cumulative.py) | 1,536 rows/12,288 draws and three correlations summarized | [full ONNX CSV](../../evidence/cumulative/full_n512.csv) | [validation JSON](../../evidence/cumulative/claim1_validation.json) | permutation and input-shuffle values inline | unified released checkpoint across memory, latency, accuracy | VERIFIED / HIGH |
-| 2 | [Claim 2](../current-claim-2/page.md) | [cumulative checker](../../code/verify_cumulative.py) | ρ and n inline | [paper-scale summary](../../evidence/cumulative/table3_results.json); [historical n40 rows](../../evidence/cumulative/apps_n40_canonical.csv) | cumulative hash/statistic checker | n40 permutation/shuffle control linked; full rows not retained | APPS 0.930 and latency 0.516 at n=512 | VERIFIED / HIGH |
-| 3 | [Claim 3](../current-claim-3/page.md) | [cumulative checker](../../code/verify_cumulative.py) | all 17 correlations and means inline | [3,400-row CSV](../../evidence/cumulative/full_gpu_n200.csv) | [independent JSON](../../evidence/cumulative/codenet_independent_verification.json) | bootstrap/permutation values inline | average positive ranking across exactly 17 languages | VERIFIED / HIGH |
+| 1 | [Claim 1](../current-claim-1/page.md) | [standalone release checker](../../code/verify_space_release.py); [cumulative checker](../../code/verify_cumulative_space.py) | 1,536 rows/12,288 draws and three correlations summarized | [full ONNX CSV](../../evidence/cumulative/full_n512.csv) | executable row-level recomputation | permutation and input-shuffle values inline | unified released checkpoint across memory, latency, accuracy | VERIFIED / HIGH |
+| 2 | [Claim 2](../current-claim-2/page.md) | [standalone release checker](../../code/verify_space_release.py); [cumulative checker](../../code/verify_cumulative_space.py) | ρ and n inline | [paper-scale summary](../../evidence/cumulative/table3_results.json); [historical n40 rows](../../evidence/cumulative/apps_n40_canonical.csv) | executable hash/statistic checker | n40 permutation/shuffle control linked; full rows not retained | APPS 0.930 and latency 0.516 at n=512 | VERIFIED / HIGH |
+| 3 | [Claim 3](../current-claim-3/page.md) | [standalone release checker](../../code/verify_space_release.py); [cumulative checker](../../code/verify_cumulative_space.py) | all 17 correlations and means inline | [3,400-row CSV](../../evidence/cumulative/full_gpu_n200.csv) | executable standard-library recomputation | bootstrap/permutation values inline | average positive ranking across exactly 17 languages | VERIFIED / HIGH |
 | 4 | [Claim 4](../claim-4-kendall-ranking/page.md) | [exact gate](../../code/claim4_exact_gate.py); [checker](../../code/verify_claim4_final.py) | paper table, diagnostics, routes, runtime inline | [audit JSON](../../evidence/claim4/raw_audit_output.json); [128 draws](../../evidence/claim4/raw_calibration_output.json) | independent Kendall pair counter | 200 shuffled targets fail acceptance | exact five-space target-specific Kendall τ-b and comparators | BLOCKED / LOW |
 | 5 | [Claim 5](../claim-5-ablation-scaling/page.md) | [exact gate](../../code/claim5_exact_gate.py); [checker](../../code/verify_claim5_final.py) | Tables 5/6, artifact audit, routes, runtime inline | [raw audit JSON](../../evidence/claim5/raw_audit_output.json) | [independent JSON](../../evidence/claim5/independent_checker_output.json) | synthetic exact-artifact detector is detected and rejected | exact three-head ablation and same-settings 300M→600M comparison | BLOCKED / LOW |
 
@@ -37,12 +37,26 @@ claim.
   `torch==2.7.1`, `transformers==4.53.2`
 - Compute: CPU only; local for bounded one-core checks, Hugging Face
   `cpu-upgrade` for uncertain/longer CPU work; no GPU
-- Winning experiment branch:
-  `orx/record-claim-5-exact-audit-evidence` at
-  `638553f84622313314a6153501c33d48bbc77b81`
+- Winning scientific-evidence branch:
+  `orx/prepare-evaluator-visible-cumulative-release` at
+  `b528be1b1be0573d89f38ec6498584d666294255`
+- Additive publication-repair branch:
+  `orx/make-space-verifiers-standalone` (standalone checker paths only; no
+  scientific verdict or score change)
 
 The exact publication action, after manifest, subset, secret, link, notebook,
 and blind-review gates pass, is a text-only update to the existing
 `DineshAI/utTapVWtc7` Space. The same text paths plus the visual report and
 notebook are then mirrored to GitHub `master`. The paper will be marked
 awaiting judge; no score increase will be claimed before a live verdict.
+
+After downloading the Space, run the current evaluator-facing suite with:
+
+```bash
+python code/verify_space_release.py
+```
+
+It requires only Python's standard library. It exits nonzero if retained
+Claim 1–3 data change or if either Claim 4/5 evidence-integrity checker fails.
+The exact Claim 4/5 gates are separately expected to exit 1 because their
+verdict is honestly BLOCKED.

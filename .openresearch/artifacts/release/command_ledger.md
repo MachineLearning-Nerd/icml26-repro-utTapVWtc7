@@ -39,6 +39,8 @@ orx exp run 31c2cd5c-f6c7-45bd-b42f-c2a84339d768 --backend local
 orx exp run 9457deba-32cb-4c9a-af40-a094df7bfa0b --backend local
 orx exp run 2b60a341-625c-4b19-81c9-fd9ef67876e2 --backend local
 orx exp run ea036db1-280c-472b-8b6a-4ea62599296c --backend local
+orx exp run 040fdc5f-0eb8-47f3-906e-aadb7f3271a9 --backend local
+orx exp run c5179780-c2a8-4b87-a746-dc7541fec474 --backend local
 ```
 
 Every run was monitored with `orx exp wait <experiment-id> --timeout 480`,
@@ -53,4 +55,6 @@ Release validation commands:
 uv run --locked marimo check --strict notebooks/regresslm_reproduction.py
 uv run --locked python repro/src/build_report_figures.py reports/regression-language-models-code-2026-07-27/images
 uv run --locked python repro/src/verify_candidate_space.py /tmp/uttap-space-candidate.NpTEnt .openresearch/artifacts/protected_judged_space_manifest.sha256
+python code/verify_space_release.py
+uv run --locked python repro/src/verify_candidate_space.py /tmp/uttap-space-candidate-round3.BwTOvk .openresearch/artifacts/protected_judged_space_manifest.sha256
 ```

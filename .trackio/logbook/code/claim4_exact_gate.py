@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
-ROUTES = ROOT / ".openresearch/artifacts/claim4_released_audit/four_routes.json"
+ROOT = Path(__file__).resolve().parents[1]
+ROUTES = ROOT / "evidence/claim4/four_routes.json"
 
 
 def main() -> None:

@@ -88,7 +88,7 @@ triggered the mandatory fourth, falsification-dedicated route:
 The exact claim verifier is deliberately fail-closed:
 
 ```bash
-uv run --locked python repro/src/claim4_exact_gate.py
+python code/claim4_exact_gate.py
 ```
 
 It exits 1 with `CLAIM4_EXACT_GATE_BLOCKED`. The cumulative fixed command
@@ -135,6 +135,7 @@ full DARTS domain nor all five spaces.
 ## Historical rejected baseline
 
 The earlier Spearman-only NAS diagnostic is preserved for provenance but is
-not the current verifier and must not be used to score Claim 4. The current
-verifier is `repro/src/claim4_exact_gate.py`; the current evidence-integrity
-checker is `repro/src/verify_claim4_final.py`.
+not the current verifier and must not be used to score Claim 4. In a downloaded
+Space, the current verifier is `code/claim4_exact_gate.py`; the current
+evidence-integrity checker is `code/verify_claim4_final.py`. Both execute
+directly with the standard-library Python interpreter.

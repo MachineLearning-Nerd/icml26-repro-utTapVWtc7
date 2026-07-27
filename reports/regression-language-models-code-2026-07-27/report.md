@@ -111,6 +111,8 @@ four-route verdict, then audit and finalize Claim 5.
 | [`orx/calibrate-claim-4-with-accepted-config-compatibi`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/calibrate-claim-4-with-accepted-config-compatibi) | `uv run --locked python repro/src/run_campaign.py` | DARTS diagnostic only; BLOCKED | Hugging Face `cpu-upgrade`, 64 CPUs allocated, 5m12s |
 | [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED | Local CPU, 55s |
 | [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED; Claims 1–3 PASS | Local CPU, 1m10s |
+| [`orx/prepare-evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/prepare-evaluator-visible-cumulative-release) | `uv run --locked python repro/src/run_campaign.py` | Evaluator-visible cumulative PASS; blind review round 2 | Local CPU, 1m10s |
+| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | `uv run --locked python repro/src/run_campaign.py` | Standalone downloaded-Space suite PASS; exact gates fail closed | Local CPU, bounded release validation |
 | `master` | Not run as an experiment (publication surface) | Reader-facing report and notebook | No compute |
 
 No GPU was used in this campaign. Hugging Face jobs expose CPU allocation but

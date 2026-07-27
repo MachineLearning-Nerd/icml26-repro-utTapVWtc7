@@ -40,12 +40,15 @@ The fixed command is:
 uv run --locked python repro/src/run_campaign.py
 ```
 
-The current static integrity checker is `repro/src/verify_claim5_final.py`; it
-also invokes the live public-source checker `repro/src/verify_claim5_audit.py`.
+The campaign's current static integrity checker is
+`repro/src/verify_claim5_final.py`; its downloaded-Space copy is
+`code/verify_claim5_final.py` and runs directly with the standard-library
+Python interpreter. The live public-source checker is preserved as
+`code/verify_claim5_audit.py`; rerunning it requires network access.
 The exact scientific gate is:
 
 ```bash
-uv run --locked python repro/src/claim5_exact_gate.py
+python code/claim5_exact_gate.py
 ```
 
 The exact gate deliberately exits 1 with `CLAIM5_EXACT_GATE_BLOCKED`. An

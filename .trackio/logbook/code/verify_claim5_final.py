@@ -9,11 +9,11 @@ import sys
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
-ARTIFACT_DIR = ROOT / ".openresearch/artifacts/claim5_ablation_scaling"
+ROOT = Path(__file__).resolve().parents[1]
+ARTIFACT_DIR = ROOT / "evidence/claim5"
 RAW = ARTIFACT_DIR / "raw_audit_output.json"
 ROUTES = ARTIFACT_DIR / "four_routes.json"
-EXACT_GATE = ROOT / "repro/src/claim5_exact_gate.py"
+EXACT_GATE = ROOT / "code/claim5_exact_gate.py"
 
 
 def verify() -> dict:

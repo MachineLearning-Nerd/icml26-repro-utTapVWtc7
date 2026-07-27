@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 from collections import deque
 from pathlib import Path
 
@@ -144,6 +145,44 @@ def verify(candidate: Path, protected_manifest: Path) -> dict:
         "claim5_raw_reachable": "evidence/claim5/raw_audit_output.json" in visited,
         "environment_lock_reachable": "environment/uv.lock" in visited,
     }
+    release_checker = subprocess.run(
+        [sys.executable, str(candidate / "code/verify_space_release.py")],
+        cwd=candidate,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    claim4_gate = subprocess.run(
+        [sys.executable, str(candidate / "code/claim4_exact_gate.py")],
+        cwd=candidate,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    claim5_gate = subprocess.run(
+        [sys.executable, str(candidate / "code/claim5_exact_gate.py")],
+        cwd=candidate,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    executable_checks = {
+        "release_checker_exit_code": release_checker.returncode,
+        "release_checker_passed": (
+            release_checker.returncode == 0
+            and "SPACE_RELEASE_RESULT" in release_checker.stdout
+        ),
+        "claim4_exact_gate_exit_code": claim4_gate.returncode,
+        "claim4_exact_gate_failed_closed": (
+            claim4_gate.returncode != 0
+            and "CLAIM4_EXACT_GATE_BLOCKED" in claim4_gate.stdout
+        ),
+        "claim5_exact_gate_exit_code": claim5_gate.returncode,
+        "claim5_exact_gate_failed_closed": (
+            claim5_gate.returncode != 0
+            and "CLAIM5_EXACT_GATE_BLOCKED" in claim5_gate.stdout
+        ),
+    }
     failures = []
     if missing_old_files:
         failures.append("protected file set is not a subset")
@@ -165,9 +204,19 @@ def verify(candidate: Path, protected_manifest: Path) -> dict:
         failures.append("current claim visibility incomplete")
     if not all(gates.values()):
         failures.append("code/raw/environment traversal incomplete")
+    if not all((
+        executable_checks["release_checker_passed"],
+        executable_checks["claim4_exact_gate_failed_closed"],
+        executable_checks["claim5_exact_gate_failed_closed"],
+    )):
+        failures.append("standalone evaluator-facing executable checks failed")
     return {
         "status": "PASS" if not failures else "FAIL",
+        "review_round": 3,
         "start_entrypoint": "README.md",
+        "candidate_base_revision": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=candidate, text=True
+        ).strip(),
         "visited_files": visited,
         "visited_count": len(visited),
         "missing_relative_links": missing_links,
@@ -181,6 +230,15 @@ def verify(candidate: Path, protected_manifest: Path) -> dict:
         "secret_like_files": secret_files,
         "current_claim_checks": current_checks,
         "gates": gates,
+        "executable_checks": executable_checks,
+        "conclusions_not_verifiable": [
+            (
+                "The full-scale APPS/KBSS row-level draws were not retained "
+                "in the judged repository. The candidate exposes the accepted "
+                "aggregate JSON and historical n=40 row-level control, and "
+                "states this limitation inline."
+            )
+        ],
         "failures": failures,
     }
 

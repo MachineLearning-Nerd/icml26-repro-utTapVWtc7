@@ -12,6 +12,12 @@ Exact command:
 uv run --locked python repro/src/run_campaign.py
 ```
 
+Standalone command after downloading this Space:
+
+```bash
+python code/verify_space_release.py
+```
+
 | Claim | Verdict | Confidence | Current points | Current gate |
 |---|---|---|---:|---|
 | 1 | VERIFIED | HIGH | 2/2 | cumulative checker PASS |
@@ -22,7 +28,8 @@ uv run --locked python repro/src/run_campaign.py
 
 Current code:
 [fixed campaign](../../code/run_campaign.py),
-[cumulative checker](../../code/verify_cumulative.py),
+[standalone cumulative checker](../../code/verify_cumulative_space.py),
+[complete Space release checker](../../code/verify_space_release.py),
 [Claim 4 final checker](../../code/verify_claim4_final.py),
 and
 [Claim 5 final checker](../../code/verify_claim5_final.py).
@@ -30,10 +37,10 @@ and
 Pinned environment: Python 3.12 from `.python-version`; all resolved packages
 are in `uv.lock`; `transformers==4.53.2`; `torch==2.7.1`.
 
-The committed verifier recomputes 1,536 ONNX prediction medians and all three
+The standalone Space verifier recomputes 1,536 ONNX prediction medians and all three
 accuracy Spearman correlations, plus 17 separate CodeNet correlations and
-their mean. It integrity-checks the paper-scale APPS/KBSS summary and evidence
-bundle. Any missing row, mutated artifact, unexpected group, changed metric,
+their mean. It integrity-checks the retained paper-scale APPS/KBSS summary.
+Any missing row, mutated artifact, unexpected group, changed metric,
 or bad hash raises and exits nonzero.
 
 Raw expected output:
@@ -60,6 +67,8 @@ Artifacts and executable source:
 
 - `repro/src/run_campaign.py`
 - `repro/src/verify_cumulative.py`
+- `code/verify_space_release.py` (downloaded-Space entrypoint)
+- `code/verify_cumulative_space.py` (standard-library row-level checker)
 - `.openresearch/artifacts/cumulative_baseline/claim_contract.json`
 - `.openresearch/artifacts/cumulative_baseline/expected_output.json`
 - `.openresearch/artifacts/protected_judged_space_manifest.sha256`
