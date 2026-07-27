@@ -112,7 +112,7 @@ four-route verdict, then audit and finalize Claim 5.
 | [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED | Local CPU, 55s |
 | [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED; Claims 1–3 PASS | Local CPU, 1m10s |
 | [`orx/prepare-evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/prepare-evaluator-visible-cumulative-release) | `uv run --locked python repro/src/run_campaign.py` | Evaluator-visible cumulative PASS; blind review round 2 | Local CPU, 1m10s |
-| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | `uv run --locked python repro/src/run_campaign.py` | Standalone downloaded-Space suite PASS; exact gates fail closed | Local CPU, bounded release validation |
+| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | `uv run --locked python repro/src/run_campaign.py` | Formal cumulative and standalone downloaded-Space suites PASS; exact gates fail closed | Local CPU, one estimated core, 2m03s end to end |
 | `master` | Not run as an experiment (publication surface) | Reader-facing report and notebook | No compute |
 
 No GPU was used in this campaign. Hugging Face jobs expose CPU allocation but
@@ -158,7 +158,10 @@ Claims still BLOCKED:
 - Claim 5 needs the three exact head implementations/checkpoints and splits,
   plus the exact 300M/600M RLMs and Table 6 row identities.
 
-Publication action after all gates: update only the existing
-`DineshAI/utTapVWtc7` Space through the text-only API, verify the resulting
-revision, then mirror the same text paths and this report/notebook to GitHub
-`master`. No second Space will be created.
+The text-only release was published only to the existing
+`DineshAI/utTapVWtc7` Space at revision
+`f791e670006b5d428a2e11593eb29fb568bb4b45`. A fresh exact-revision download
+verified all 67 uploaded paths byte-for-byte, all 66 manifest hashes, all 21
+protected judged files, every relative link reached from `README.md`, and the
+standalone release checker. The revision is awaiting live judge evaluation;
+the score remains 6/10 until that evaluator records a new verdict.

@@ -17,6 +17,11 @@ decoder/normalized/standard values (0.800/0.717/0.478) and 600M/300M values
 This CPU-only campaign used local CPU for short one-core checks and Hugging Face
 `cpu-upgrade` for uncertain or longer CPU work. No GPU was used.
 
+Published to the existing Space at
+[`f791e670006b5d428a2e11593eb29fb568bb4b45`](https://huggingface.co/spaces/DineshAI/utTapVWtc7/commit/f791e670006b5d428a2e11593eb29fb568bb4b45).
+The revision is awaiting live judge evaluation; the live score remains 6/10
+until that evaluation occurs.
+
 [Read the illustrated report](reports/regression-language-models-code-2026-07-27/report.md) ·
 [Open the tutorial notebook](notebooks/regresslm_reproduction.py) ·
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/notebooks/regresslm_reproduction.py)
@@ -32,7 +37,7 @@ This CPU-only campaign used local CPU for short one-core checks and Hugging Face
 | [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | Four-route exact assessment | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED/LOW | Local CPU, 55s |
 | [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | Table 5/6 public-artifact audit and four routes | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED/LOW; cumulative PASS | Local CPU, 1m10s |
 | [`orx/prepare-evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/prepare-evaluator-visible-cumulative-release) | Evaluator-visible five-claim release and blind review | `uv run --locked python repro/src/run_campaign.py` | Cumulative PASS; historical evidence preserved | Local CPU, 1m10s |
-| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | Make the downloaded-Space verifier executable without repository paths | `uv run --locked python repro/src/run_campaign.py` | Standalone suite PASS; exact Claim 4/5 gates fail closed | Local CPU, bounded release validation |
+| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | Make the downloaded-Space verifier executable without repository paths | `uv run --locked python repro/src/run_campaign.py` | Formal cumulative and standalone suites PASS; exact Claim 4/5 gates fail closed | Local CPU, one estimated core, 2m03s end to end |
 
 The rejected baseline and two Claim 5 transport failures are documented in the
 report because they explain the lineage; they are not scientific results.

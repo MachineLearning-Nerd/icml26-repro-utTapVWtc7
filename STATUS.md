@@ -1,12 +1,20 @@
-# STATUS — RegressLM (utTapVWtc7) reproduction — REVISED (resubmitted)
+# STATUS — RegressLM (utTapVWtc7) reproduction — AWAITING JUDGE
 
-**Session:** perfect-score campaign. **Last updated:** 2026-07-19.
-**State: official high-quality 6/6 at exact Space SHA
-`19231479d69a31c8e01832c24e146c37eca9a5ba`.** All three claims are
-officially `verified`; judged at `2026-07-18T23:48:57Z`. The prior stale SHA
-`40a78a2a039622516af008c75f074ce07cb44cf1` scored 5/6. HF:
+**Session:** five-claim cumulative campaign. **Last updated:** 2026-07-27.
+**State: published candidate awaiting live judge at exact Space SHA
+`f791e670006b5d428a2e11593eb29fb568bb4b45`.** The previous live judged score
+remains **6/10** at judged SHA
+`19231479d69a31c8e01832c24e146c37eca9a5ba`; no score increase is claimed.
+Claims 1–3 remain VERIFIED/HIGH. Claims 4 and 5 are BLOCKED/LOW after four
+routes each, including dedicated falsification attempts. Post-publication
+readback verified all 67 uploaded text paths, 66 manifest hashes, 21 protected
+historical files, and the standalone downloaded-Space verifier. HF:
 https://huggingface.co/spaces/DineshAI/utTapVWtc7 ·
 GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
+
+The historical sections below describe the earlier three-claim 6/6 rubric.
+They are retained as provenance and do not supersede the current five-claim
+6/10 live judge state.
 
 ## Official repair verdict
 
