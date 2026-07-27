@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import math
+import shutil
 import time
 from pathlib import Path
 
@@ -25,6 +26,12 @@ from verify_claim4_audit import manual_kendall_tau_b
 
 ROOT = Path(__file__).resolve().parents[2]
 DATASET_REVISION = "c557392740094b539bbdb527d03e3a78e5b34a38"
+AUTHOR_CONFIG_SHA256 = (
+    "5a72f125c3d1462f5394fdd0e376ee3ed3ac56b6f5a368585f527a59eab07313"
+)
+COMPAT_CONFIG_SHA256 = (
+    "d3c6e7717cf86e279c0254b8c59b2643a2e88074f233a4e65eff95cfc08919e6"
+)
 
 
 def sha256(path: Path) -> str:
@@ -120,6 +127,20 @@ def run(config: dict) -> dict:
         repo_id=cfg["checkpoint"],
         revision=cfg["revision"],
     ))
+    author_config_code = snapshot / "configuration_regresslm.py"
+    original_config_sha256 = sha256(author_config_code)
+    if original_config_sha256 != AUTHOR_CONFIG_SHA256:
+        raise AssertionError(
+            f"unexpected author configuration code: {original_config_sha256}"
+        )
+    compatibility_config = ROOT / "repro/patches/configuration_regresslm.py"
+    compatibility_config_sha256 = sha256(compatibility_config)
+    if compatibility_config_sha256 != COMPAT_CONFIG_SHA256:
+        raise AssertionError(
+            f"unexpected compatibility configuration: {compatibility_config_sha256}"
+        )
+    author_config_code.unlink()
+    shutil.copyfile(compatibility_config, author_config_code)
     tokenizer = AutoTokenizer.from_pretrained(snapshot, trust_remote_code=True)
     model = AutoModelForSeq2SeqLM.from_pretrained(
         snapshot,
@@ -156,6 +177,11 @@ def run(config: dict) -> dict:
         "checkpoint": cfg["checkpoint"],
         "checkpoint_revision": cfg["revision"],
         "model_weights_sha256": sha256(weight_path),
+        "compatibility_patch": {
+            "scope": "configuration only; preserve serialized author backbone_config",
+            "author_configuration_sha256": original_config_sha256,
+            "patched_configuration_sha256": compatibility_config_sha256,
+        },
         "model_parameters": sum(parameter.numel() for parameter in model.parameters()),
         "protocol": {
             "space": cfg["space"],
