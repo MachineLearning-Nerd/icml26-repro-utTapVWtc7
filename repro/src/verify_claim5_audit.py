@@ -24,7 +24,7 @@ REGRESS_REVISIONS = {
     "paper_time": "b36c45898c88f96bd9e3bd73a7d17c89f9d73f0b",
     "current_audited": "6c23ccb51ae9862d98af9faffc1286ca2149b12e",
 }
-QIN_REPO = "Fsoft-AIC/transferrable-surrogates"
+QIN_REPO = "shiwenqin/transferrable-surrogates"
 QIN_REVISION = "d087a70ec483fb8cee7536c99a0f9c363609eb05"
 QIN_PATH = "lm_tuning/src/fine_tuning/bert_loo_tuning.py"
 QIN_SHA256 = "e5b2e3d31177fe2fa9572cbf99bcf87ff06e5786d2f029a251734f7d7e7558f3"
