@@ -2,12 +2,13 @@
 """Independent public-artifact audit for the exact Table 5 and Table 6 claims."""
 from __future__ import annotations
 
-import base64
 import hashlib
+import io
 import json
 import math
 import subprocess
 import sys
+import tarfile
 from pathlib import Path
 
 import requests
@@ -66,15 +67,18 @@ def get_json(url: str, **params: object) -> tuple[dict | list, bytes]:
 
 
 def github_tree_audit(revision: str) -> dict:
-    tree, raw = get_json(
-        f"https://api.github.com/repos/{REGRESS_REPO}/git/trees/{revision}",
-        recursive=1,
+    archive_url = (
+        f"https://codeload.github.com/{REGRESS_REPO}/tar.gz/{revision}"
     )
-    if not isinstance(tree, dict) or tree.get("sha") != revision:
-        raise AssertionError(f"GitHub tree did not resolve {revision}")
-    if tree.get("truncated"):
-        raise AssertionError("official repository tree audit was truncated")
-    paths = sorted(item["path"] for item in tree["tree"])
+    response = requests.get(
+        archive_url,
+        headers={"User-Agent": USER_AGENT},
+        timeout=120,
+    )
+    response.raise_for_status()
+    archive = tarfile.open(fileobj=io.BytesIO(response.content), mode="r:gz")
+    members = [member for member in archive.getmembers() if member.isfile()]
+    paths = sorted(member.name.split("/", 1)[1] for member in members)
     dedicated_paths = [
         path for path in paths
         if any(marker in path.lower() for marker in (
@@ -84,16 +88,16 @@ def github_tree_audit(revision: str) -> dict:
     ]
     marker_hits: dict[str, list[str]] = {marker: [] for marker in EXACT_MARKERS}
     inspected_text_files = 0
-    for item in tree["tree"]:
-        path = item["path"]
-        if item["type"] != "blob" or not path.endswith(
+    for member in members:
+        path = member.name.split("/", 1)[1]
+        if not path.endswith(
             (".py", ".md", ".toml", ".yaml", ".yml", ".json", ".txt", ".sh")
         ):
             continue
-        blob, _ = get_json(item["url"])
-        if not isinstance(blob, dict) or blob.get("encoding") != "base64":
-            raise AssertionError(f"unexpected GitHub blob encoding: {path}")
-        text = base64.b64decode(blob["content"]).decode("utf-8", errors="replace").lower()
+        extracted = archive.extractfile(member)
+        if extracted is None:
+            raise AssertionError(f"archive file could not be read: {path}")
+        text = extracted.read().decode("utf-8", errors="replace").lower()
         inspected_text_files += 1
         for marker in EXACT_MARKERS:
             if marker in text:
@@ -101,11 +105,8 @@ def github_tree_audit(revision: str) -> dict:
     exact_hits = {key: value for key, value in marker_hits.items() if value}
     return {
         "revision": revision,
-        "api_url": (
-            f"https://api.github.com/repos/{REGRESS_REPO}/git/trees/"
-            f"{revision}?recursive=1"
-        ),
-        "tree_sha256": hashlib.sha256(raw).hexdigest(),
+        "archive_url": archive_url,
+        "archive_sha256": hashlib.sha256(response.content).hexdigest(),
         "file_count": len(paths),
         "inspected_text_files": inspected_text_files,
         "dedicated_table_or_ablation_paths": dedicated_paths,
