@@ -1,0 +1,67 @@
+{
+  "previous_live_judged_score": "6/10",
+  "conservative_projected_range": "6-6/10",
+  "best_supported_possible_score_forecast": "6/10",
+  "claims": [
+    {
+      "claim": 1,
+      "canonical_page": "pages/current-claim-1/page.md",
+      "code_visible": true,
+      "data_inline": true,
+      "raw_link": "evidence/cumulative/full_n512.csv",
+      "checker": "evidence/cumulative/claim1_validation.json",
+      "control": "permutation and input shuffle inline",
+      "exact_claim_tested": true,
+      "reviewer_verdict": "VERIFIED",
+      "confidence": "HIGH"
+    },
+    {
+      "claim": 2,
+      "canonical_page": "pages/current-claim-2/page.md",
+      "code_visible": true,
+      "data_inline": true,
+      "raw_link": "evidence/cumulative/table3_results.json; historical raw n40 CSV",
+      "checker": "code/verify_cumulative.py",
+      "control": "historical n40 independent control; full rows not retained",
+      "exact_claim_tested": true,
+      "reviewer_verdict": "VERIFIED",
+      "confidence": "HIGH"
+    },
+    {
+      "claim": 3,
+      "canonical_page": "pages/current-claim-3/page.md",
+      "code_visible": true,
+      "data_inline": true,
+      "raw_link": "evidence/cumulative/full_gpu_n200.csv",
+      "checker": "evidence/cumulative/codenet_independent_verification.json",
+      "control": "bootstrap and permutation inline",
+      "exact_claim_tested": true,
+      "reviewer_verdict": "VERIFIED",
+      "confidence": "HIGH"
+    },
+    {
+      "claim": 4,
+      "canonical_page": "pages/claim-4-kendall-ranking/page.md",
+      "code_visible": true,
+      "data_inline": true,
+      "raw_link": "evidence/claim4/raw_audit_output.json; raw_calibration_output.json",
+      "checker": "code/verify_claim4_final.py",
+      "control": "200 shuffled targets",
+      "exact_claim_tested": true,
+      "reviewer_verdict": "BLOCKED",
+      "confidence": "LOW"
+    },
+    {
+      "claim": 5,
+      "canonical_page": "pages/claim-5-ablation-scaling/page.md",
+      "code_visible": true,
+      "data_inline": true,
+      "raw_link": "evidence/claim5/raw_audit_output.json",
+      "checker": "code/verify_claim5_final.py",
+      "control": "synthetic exact-artifact detector",
+      "exact_claim_tested": true,
+      "reviewer_verdict": "BLOCKED",
+      "confidence": "LOW"
+    }
+  ]
+}

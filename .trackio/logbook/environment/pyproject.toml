@@ -1,0 +1,37 @@
+[project]
+name = "regresslm-claim-reproduction"
+version = "0.1.0"
+description = "CPU-only, claim-by-claim reproduction harness for arXiv:2509.26476"
+requires-python = "==3.12.*"
+dependencies = [
+  "huggingface-hub>=0.33,<1",
+  "marimo>=0.14,<1",
+  "matplotlib>=3.10,<4",
+  "numpy>=2.2,<3",
+  "pandas>=2.2,<3",
+  "pyarrow>=20,<22",
+  "pytest>=8.3,<9",
+  "requests>=2.32,<3",
+  "safetensors>=0.5,<1",
+  "scipy>=1.15,<2",
+  "sentencepiece>=0.2,<1",
+  "threadpoolctl>=3.6,<4",
+  "torch==2.7.1",
+  "transformers==4.53.2",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["repro/tests"]

@@ -1,14 +1,31 @@
 # Current cumulative verification
 
-**Current campaign status: frozen 6/10 baseline.** This page supersedes no
-accepted scientific evidence; it makes the current fail-closed regression
-contract discoverable before new Claim 4/5 work begins.
+**Current campaign status: cumulative PASS; scientific forecast remains
+6/10.** Claims 1–3 are VERIFIED/HIGH. Claims 4 and 5 are BLOCKED/LOW after four
+routes each, including dedicated falsification attempts. This page is the
+current regression-suite entrypoint and supersedes the pre-Claim-4/5 campaign
+status.
 
 Exact command:
 
 ```bash
 uv run --locked python repro/src/run_campaign.py
 ```
+
+| Claim | Verdict | Confidence | Current points | Current gate |
+|---|---|---|---:|---|
+| 1 | VERIFIED | HIGH | 2/2 | cumulative checker PASS |
+| 2 | VERIFIED | HIGH | 2/2 | cumulative checker PASS |
+| 3 | VERIFIED | HIGH | 2/2 | cumulative checker PASS |
+| 4 | BLOCKED | LOW | 0/2 | exact gate exits 1; integrity checker PASS |
+| 5 | BLOCKED | LOW | 0/2 | exact gate exits 1; integrity checker PASS |
+
+Current code:
+[fixed campaign](../../code/run_campaign.py),
+[cumulative checker](../../code/verify_cumulative.py),
+[Claim 4 final checker](../../code/verify_claim4_final.py),
+and
+[Claim 5 final checker](../../code/verify_claim5_final.py).
 
 Pinned environment: Python 3.12 from `.python-version`; all resolved packages
 are in `uv.lock`; `transformers==4.53.2`; `torch==2.7.1`.
@@ -31,9 +48,9 @@ Raw expected output:
 | CodeNet primary Colab bundle | mean ρ=0.529850, 17×200 rows, 27,200 draws |
 | CodeNet independent CPU run | mean ρ=0.523403, 17×200 rows |
 
-Scope limitation: this baseline independently rechecks retained rows and
+Scope limitation: this suite independently rechecks retained rows and
 provenance; it does not regenerate model predictions. The judged revision's
-historical pages remain byte-for-byte preserved and reachable below.
+historical content is preserved and remains reachable.
 
 The frozen root's first fail-closed run exposed and rejected a provenance
 mix-up between the two valid CodeNet tracks. The current verifier recomputes

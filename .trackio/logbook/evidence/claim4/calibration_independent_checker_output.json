@@ -1,0 +1,11 @@
+{
+  "claim_verdict": "BLOCKED",
+  "claims_1_to_3": "PASS",
+  "manual_kendall_tau_b": 0.55,
+  "median_recomputation": "exact",
+  "negative_control_passes_claim_acceptance": false,
+  "raw_draws": 128,
+  "reported_kendall_tau_b": 0.5499999999999999,
+  "rows": 16,
+  "status": "PASS"
+}

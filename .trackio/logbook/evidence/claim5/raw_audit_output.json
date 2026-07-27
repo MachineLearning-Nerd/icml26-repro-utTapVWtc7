@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "claim_verdict": "BLOCKED",
+  "confidence": "LOW",
+  "source_run_id": "7af2c3e8-28d9-4f45-88ed-dc4453977be8",
+  "source_git_sha": "16d1a11f279b470db95da4f15d1ea7fcb1c05e5b",
+  "exact_claim_tested": {
+    "table5": {
+      "decoder_head": 0.8,
+      "normalized_regression_head": 0.717,
+      "standard_regression_head": 0.478
+    },
+    "table6": {
+      "t5gemma_b_b_600m": 0.782,
+      "t5gemma_s_s_300m": 0.744
+    },
+    "table6_difference": 0.038000000000000034
+  },
+  "official_repository_snapshots": {
+    "paper_time": {
+      "revision": "b36c45898c88f96bd9e3bd73a7d17c89f9d73f0b",
+      "archive_url": "https://codeload.github.com/google-deepmind/regress-lm/tar.gz/b36c45898c88f96bd9e3bd73a7d17c89f9d73f0b",
+      "archive_sha256": "20f2e76f3e6dd9c3ded90dd8cc990d2a25ec096c14bceb8a6b3f28724fb2f936",
+      "file_count": 28,
+      "inspected_text_files": 27,
+      "dedicated_table_or_ablation_paths": [],
+      "exact_marker_hits": {},
+      "exact_table_artifact_discovered": false
+    },
+    "current_audited": {
+      "revision": "6c23ccb51ae9862d98af9faffc1286ca2149b12e",
+      "archive_url": "https://codeload.github.com/google-deepmind/regress-lm/tar.gz/6c23ccb51ae9862d98af9faffc1286ca2149b12e",
+      "archive_sha256": "0d1f797454fc1705d89ee05ca72cd554459d5054c6cc3b68cb9a9a68001ff362",
+      "file_count": 34,
+      "inspected_text_files": 29,
+      "dedicated_table_or_ablation_paths": [],
+      "exact_marker_hits": {},
+      "exact_table_artifact_discovered": false
+    }
+  },
+  "author_public_models": {
+    "api_url": "https://huggingface.co/api/models?author=akhauriyash&limit=1000&full=true",
+    "listing_sha256": "ef0bf2394909a0745389493830c0e997ae1d1087c8cede45ada75d637e8d04a6",
+    "relevant_public_models": [
+      "akhauriyash/RLM-GemmaS-Code-Amoeba-v0",
+      "akhauriyash/RLM-GemmaS-Code-DARTS-v0",
+      "akhauriyash/RLM-GemmaS-Code-PNAS-v0",
+      "akhauriyash/RLM-GemmaS-Code-v0",
+      "akhauriyash/RegressLM-gemma-s-RLM-table3"
+    ],
+    "table5_or_600m_rlm_models": [],
+    "exact_claim_checkpoint_discovered": false
+  },
+  "base_models": {
+    "google/t5gemma-s-s-prefixlm": {
+      "revision": "7b875178ee4c8a97a5df548972b10cfe200ee695",
+      "gated": "manual",
+      "safetensors_parameter_count": 312517632,
+      "metadata_sha256": "7a4b62a6dd91de827bf52847bec5e721596360b38d7f3870d38f2fa5aa89e35a",
+      "unauthenticated_config_http_status": 401,
+      "config_publicly_downloadable_without_acceptance": false
+    },
+    "google/t5gemma-b-b-prefixlm": {
+      "revision": "df5e1422c2a53948a57901c54bfcf397c92bfa1d",
+      "gated": "manual",
+      "safetensors_parameter_count": 591490560,
+      "metadata_sha256": "ad87590a1bdb3a46fbaf54fded3aeceee03940f77d7f29c08e4ac1c50d425500",
+      "unauthenticated_config_http_status": 401,
+      "config_publicly_downloadable_without_acceptance": false
+    }
+  },
+  "base_parameter_ratio": 1.8926630034109564,
+  "cited_normalized_head_reference": {
+    "url": "https://raw.githubusercontent.com/shiwenqin/transferrable-surrogates/d087a70ec483fb8cee7536c99a0f9c363609eb05/lm_tuning/src/fine_tuning/bert_loo_tuning.py",
+    "sha256": "e5b2e3d31177fe2fa9572cbf99bcf87ff06e5786d2f029a251734f7d7e7558f3",
+    "features": {
+      "sequence_classification_regressor": true,
+      "one_output_label": true,
+      "regression_problem_type": true,
+      "per_dataset_minmax_0_1": true
+    }
+  },
+  "negative_control": {
+    "synthetic_paths": [
+      "configs/table5_regression_head.yaml"
+    ],
+    "expected_detection": true,
+    "observed_detection": true,
+    "passes_claim_acceptance": false,
+    "reason": "Synthetic file only tests detector sensitivity; it is not evidence."
+  },
+  "routes_completed": 4,
+  "fourth_route": "falsification attempted; no valid counterexample",
+  "exact_claim_gate": {
+    "exit_code": 1,
+    "stdout": "CLAIM5_EXACT_GATE_BLOCKED missing exact Table 5 implementations, training splits, checkpoints, and the Table 6 600M RLM checkpoint"
+  }
+}

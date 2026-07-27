@@ -1,3 +1,42 @@
+# Claim-by-claim reproduction — Regression Language Models for Code
+
+**Current evidence: 6/10 remains the honest forecast.** The campaign reproduces
+the released checkpoint’s unified memory/latency/accuracy ranking and the APPS
+and 17-language claims. It also replaces the missing Claim 4/5 coverage with
+exact, fail-closed contracts: both are **BLOCKED**, not passed, because the
+target checkpoints, experiment implementations, and row identities needed for
+a faithful test are not public.
+
+Paper versus observed: APPS memory **0.930 → 0.926807**; kernel latency
+**0.516 → 0.535279**; CodeNet mean **0.529850 observed** across 17 languages at
+200 rows/language. Claim 4’s reported Kendall mean is 0.461, but two of five
+target checkpoints and all split manifests are unavailable. Claim 5’s reported
+decoder/normalized/standard values (0.800/0.717/0.478) and 600M/300M values
+(0.782/0.744) cannot be reconstructed from the released artifacts.
+
+This CPU-only campaign used local CPU for short one-core checks and Hugging Face
+`cpu-upgrade` for uncertain or longer CPU work. No GPU was used.
+
+[Read the illustrated report](reports/regression-language-models-code-2026-07-27/report.md) ·
+[Open the tutorial notebook](notebooks/regresslm_reproduction.py) ·
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/notebooks/regresslm_reproduction.py)
+
+## Experiment log
+
+| Branch / experiment | Purpose or change | Exact run command | Assessment / outcome | Compute |
+|---|---|---|---|---|
+| `master` | Publication surface | Not run as an experiment (publication surface) | Report, notebook, and release metadata | No compute |
+| [`orx/correct-dual-codenet-provenance`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/correct-dual-codenet-provenance) | Freeze valid Claims 1–3 evidence | `uv run --locked python repro/src/run_campaign.py` | PASS; Claims 1–3 VERIFIED | Hugging Face `cpu-upgrade`, 48s |
+| [`orx/claim-4-released-checkpoint-kendall-audit`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/claim-4-released-checkpoint-kendall-audit) | Correct metric and audit Table 4 artifacts | `uv run --locked python repro/src/run_campaign.py` | Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 37s |
+| [`orx/calibrate-claim-4-with-accepted-config-compatibi`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/calibrate-claim-4-with-accepted-config-compatibi) | Pinned DARTS CPU checkpoint calibration | `uv run --locked python repro/src/run_campaign.py` | n=16 diagnostic only; Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 64 CPUs allocated, 5m12s |
+| [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | Four-route exact assessment | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED/LOW | Local CPU, 55s |
+| [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | Table 5/6 public-artifact audit and four routes | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED/LOW; cumulative PASS | Local CPU, 1m10s |
+
+The rejected baseline and two Claim 5 transport failures are documented in the
+report because they explain the lineage; they are not scientific results.
+
+---
+
 # Repro — Regression Language Models for Code (RegressLM), ICML 2026
 
 Reproduction of *Regression Language Models for Code* (RegressLM; Akhauri, Song et al.,

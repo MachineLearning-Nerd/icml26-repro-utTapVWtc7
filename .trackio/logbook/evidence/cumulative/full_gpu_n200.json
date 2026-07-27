@@ -1,0 +1,94 @@
+{
+  "num_samples": 8,
+  "limit": 200,
+  "n_langs": 17,
+  "avg_spearman": 0.5234034026121069,
+  "claim_threshold": 0.5,
+  "per_lang": [
+    {
+      "language": "C++",
+      "n": 200,
+      "spearman": 0.7875703786112256
+    },
+    {
+      "language": "Python",
+      "n": 200,
+      "spearman": 0.6109206813152552
+    },
+    {
+      "language": "Java",
+      "n": 200,
+      "spearman": 0.4560287379647812
+    },
+    {
+      "language": "C",
+      "n": 200,
+      "spearman": 0.7350963371224605
+    },
+    {
+      "language": "Ruby",
+      "n": 200,
+      "spearman": 0.4094448153702033
+    },
+    {
+      "language": "C#",
+      "n": 200,
+      "spearman": 0.3674079391548636
+    },
+    {
+      "language": "Rust",
+      "n": 200,
+      "spearman": 0.5874052437632312
+    },
+    {
+      "language": "Go",
+      "n": 200,
+      "spearman": 0.7201143804776121
+    },
+    {
+      "language": "Haskell",
+      "n": 200,
+      "spearman": 0.5851790044873265
+    },
+    {
+      "language": "Kotlin",
+      "n": 200,
+      "spearman": 0.5349484857725428
+    },
+    {
+      "language": "JavaScript",
+      "n": 200,
+      "spearman": 0.32908877101266076
+    },
+    {
+      "language": "PHP",
+      "n": 200,
+      "spearman": 0.2365872996179201
+    },
+    {
+      "language": "D",
+      "n": 200,
+      "spearman": 0.5780801173261673
+    },
+    {
+      "language": "Scala",
+      "n": 200,
+      "spearman": 0.44584571520066285
+    },
+    {
+      "language": "OCaml",
+      "n": 200,
+      "spearman": 0.6245816560727914
+    },
+    {
+      "language": "Perl",
+      "n": 200,
+      "spearman": 0.4772349886718073
+    },
+    {
+      "language": "Fortran",
+      "n": 200,
+      "spearman": 0.41232329246430627
+    }
+  ]
+}

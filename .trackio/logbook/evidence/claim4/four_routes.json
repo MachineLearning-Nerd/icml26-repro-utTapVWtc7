@@ -1,0 +1,48 @@
+{
+  "claim": "On NAS-Bench architecture ranking, the RLM attains average Kendall tau 0.461, outperforming Arch2Vec 0.212 and CATE 0.238 and matching a GNN baseline 0.429.",
+  "confidence_after_three_routes": "LOW",
+  "final_verdict": "BLOCKED",
+  "routes": [
+    {
+      "route": 1,
+      "name": "Exact source and protocol reconstruction",
+      "interpretation": "Treat Table 4 as a five-space full-target-domain Kendall tau-b comparison under the FLAN few-shot protocol.",
+      "method": "Hash the paper HTML, reconstruct Table 4 arithmetic, and trace the inherited FLAN protocol: 1024 source rows, 16 target shots for four spaces, 100 for DARTS, then evaluate the remaining target space.",
+      "control": "Recompute the RLM mean from all five displayed cells and require 0.4612 rounding to 0.461.",
+      "result": "Protocol and arithmetic verified, but two target-specific checkpoints and every train/evaluation row manifest are unavailable.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 2,
+      "name": "Independent metric correction on retained predictions",
+      "interpretation": "Test whether the prior Spearman-only evidence can directly answer the Kendall component without treating it as target-specific Table 4 evidence.",
+      "method": "Recompute Kendall tau-b with SciPy and an independent pair counter on 512 retained ENAS and NASNet predictions from the unified base checkpoint.",
+      "control": "Two hundred shuffled-target permutations must fail the GNN threshold.",
+      "result": "ENAS tau-b 0.172070 and NASNet tau-b 0.138758; implementations agree exactly and controls fail acceptance. The checkpoint is the wrong model for Table 4.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 3,
+      "name": "Direct released target-checkpoint execution",
+      "interpretation": "Test the released target-specific implementation path and calibrate faithful CPU inference without promoting a bounded sample to paper-scale evidence.",
+      "method": "Run pinned DARTS checkpoint revision 7aedf5c on 16 deterministic released GraphArch rows with eight stochastic draws and median aggregation.",
+      "control": "Record 128 raw draws, independently recompute medians and Kendall pairs, and apply 200 target permutations.",
+      "result": "End-to-end path passed: tau-b 0.55 on n=16, 192.011 s inference, 64 CPUs allocated. The rows are not the full remaining target domain and unknown fine-tuning rows cannot be excluded.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 4,
+      "name": "Dedicated exact-claim falsification attempt",
+      "interpretation": "Seek an assumption-satisfying counterexample to the exact five-space average and comparator statement, not a failed reproduction or a nearby model.",
+      "method": "Require target-specific RLM predictions for NASNet, Amoeba, PNAS, ENAS, and DARTS over every remaining target-domain row after excluding the exact few-shot rows; recompute five tau-b values and their mean independently.",
+      "control": "Reject the unified-base ENAS/NASNet diagnostics and the 16-row DARTS calibration as counterexamples because they violate the model or evaluation-domain assumptions.",
+      "result": "No valid counterexample can be constructed: ENAS and NASNet target-specific checkpoints are absent and all five row manifests are absent. Failure to access those artifacts is not falsification.",
+      "outcome": "BLOCKED"
+    }
+  ],
+  "unblockers": [
+    "Pinned ENAS and NASNet target-specific checkpoints.",
+    "Exact few-shot training-row and remaining evaluation-row identifiers for all five spaces.",
+    "The Table 4 training and evaluation configuration, including seeds and checkpoint selection."
+  ]
+}

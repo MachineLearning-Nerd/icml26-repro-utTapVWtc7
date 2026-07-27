@@ -1,0 +1,13 @@
+{
+  "source": "Colab GPU (Phase B, regresslm_table3.ipynb) — released checkpoint, authors' exact recipe, transformers==4.53.2. Raw output file outputs/colab/regresslm_table3_results.csv (the notebook's saved artifact).",
+  "date": "2026-07-17",
+  "table3": {
+    "APPS":    {"spearman": 0.9268067718469594, "n": 512,  "reference": 0.926, "claim": ">0.9",          "verdict": "VERIFIED"},
+    "KBSS":    {"spearman": 0.5352789637599933, "n": 512,  "reference": 0.527, "claim": "-",              "verdict": "matches reference"},
+    "CDSS_avg": {"spearman": 0.532183541184516, "n_langs": 17, "rows_per_lang": 200, "reference": "0.787 (pooled overall, not per-lang avg)", "claim": ">0.5 average", "verdict": "VERIFIED"}
+  },
+  "claims": {
+    "C2": "VERIFIED at paper scale: APPS Spearman = 0.9268 (n=512) > 0.9; matches card reference 0.926.",
+    "C3": "VERIFIED at paper scale with raw Colab provenance: average Spearman across 17 CodeNet languages = 0.5322 (n=200/lang) > 0.5. Raw Colab output file: outputs/colab/regresslm_table3_results.csv."
+  }
+}

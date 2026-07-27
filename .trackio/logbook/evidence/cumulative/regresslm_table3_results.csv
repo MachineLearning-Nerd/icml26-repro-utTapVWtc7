@@ -1,0 +1,4 @@
+space,spearman_repro,n,table3_ref,claim
+KBSS,0.5352789637599933,512,0.527,-
+CDSS-avg,0.532183541184516,17,0.787 (overall),>0.5 avg
+APPS,0.9268067718469594,512,0.926,>0.9

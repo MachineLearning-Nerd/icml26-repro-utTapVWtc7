@@ -11,11 +11,11 @@
     "icml2026-repro",
     "paper-utTapVWtc7"
   ],
-  "updated_at": "2026-07-18T23:09:32+00:00",
+  "updated_at": "2026-07-27T00:00:00+00:00",
   "root": {
-    "slug": "index",
+    "slug": "current-index",
     "title": "Repro — Regression Language Models for Code (RegressLM)",
-    "file": "pages/index.md",
+    "file": "pages/current-index/page.md",
     "children": [
       {
         "slug": "current-cumulative-verification",
@@ -24,21 +24,39 @@
         "children": []
       },
       {
+        "slug": "release-report",
+        "title": "Release report and visibility matrix",
+        "file": "pages/release-report/page.md",
+        "children": []
+      },
+      {
+        "slug": "current-claim-1",
+        "title": "Current Claim 1 — unified memory, latency, and accuracy",
+        "file": "pages/current-claim-1/page.md",
+        "children": []
+      },
+      {
+        "slug": "current-claim-2",
+        "title": "Current Claim 2 — APPS and latency",
+        "file": "pages/current-claim-2/page.md",
+        "children": []
+      },
+      {
+        "slug": "current-claim-3",
+        "title": "Current Claim 3 — CodeNet 17 languages",
+        "file": "pages/current-claim-3/page.md",
+        "children": []
+      },
+      {
         "slug": "claim-4-kendall-ranking",
-        "title": "Claim 4 — Kendall ranking and baseline comparison",
+        "title": "Current Claim 4 — Kendall ranking and baselines",
         "file": "pages/claim-4-kendall-ranking/page.md",
         "children": []
       },
       {
         "slug": "claim-5-ablation-scaling",
-        "title": "Claim 5 — regression-head ablation and model scaling",
+        "title": "Current Claim 5 — head ablation and scaling",
         "file": "pages/claim-5-ablation-scaling/page.md",
-        "children": []
-      },
-      {
-        "slug": "claim-2-apps-spearman-0-9",
-        "title": "Claim 2 — APPS Spearman >0.9",
-        "file": "pages/claim-2-apps-spearman-0-9/page.md",
         "children": []
       },
       {
@@ -48,27 +66,39 @@
         "children": []
       },
       {
-        "slug": "claim-3-codenet-17-languages-0-5",
-        "title": "Claim 3 — CodeNet 17 languages >0.5",
-        "file": "pages/claim-3-codenet-17-languages-0-5/page.md",
-        "children": []
-      },
-      {
         "slug": "methods-environment",
         "title": "Methods & environment",
         "file": "pages/methods-environment/page.md",
         "children": []
       },
       {
-        "slug": "conclusion",
-        "title": "Conclusion",
-        "file": "pages/conclusion/page.md",
+        "slug": "historical-judged-index",
+        "title": "Historical judged index (preserved)",
+        "file": "pages/index.md",
         "children": []
       },
       {
-        "slug": "claim-1-unified-multi-metric-model",
-        "title": "Claim 1 — unified memory, latency, and accuracy model",
+        "slug": "historical-judged-claim-1",
+        "title": "Historical judged Claim 1 page (preserved)",
         "file": "pages/claim-1-unified-multi-metric-model/page.md",
+        "children": []
+      },
+      {
+        "slug": "historical-judged-claim-2",
+        "title": "Historical judged Claim 2 page (preserved)",
+        "file": "pages/claim-2-apps-spearman-0-9/page.md",
+        "children": []
+      },
+      {
+        "slug": "historical-judged-claim-3",
+        "title": "Historical judged Claim 3 page (preserved)",
+        "file": "pages/claim-3-codenet-17-languages-0-5/page.md",
+        "children": []
+      },
+      {
+        "slug": "historical-judged-conclusion",
+        "title": "Historical judged conclusion (preserved)",
+        "file": "pages/conclusion/page.md",
         "children": []
       }
     ]

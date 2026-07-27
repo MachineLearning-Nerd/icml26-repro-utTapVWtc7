@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source_run_id": "b807025c-55e6-43d3-8c9f-7142caaccc48",
+  "seed": 20260926476,
+  "permutations_per_space": 200,
+  "acceptance_threshold": 0.429,
+  "controls": [
+    {
+      "space": "ENAS",
+      "mean_shuffled_target_tau_b": 0.001141264147397162,
+      "maximum_shuffled_target_tau_b": 0.07244346514149233,
+      "passes_acceptance": false
+    },
+    {
+      "space": "NASNet",
+      "mean_shuffled_target_tau_b": 0.005365308602242793,
+      "maximum_shuffled_target_tau_b": 0.07427881771268285,
+      "passes_acceptance": false
+    }
+  ],
+  "status": "PASS"
+}

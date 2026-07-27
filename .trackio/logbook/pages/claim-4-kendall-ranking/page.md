@@ -57,19 +57,21 @@ Compute record: estimated one active core; Hugging Face `cpu-upgrade`;
 64 CPUs visible to the job; verifier runtime 1.188 s; total run duration 37 s;
 no GPU. The run record exposes no monetary-cost field.
 
-Current code and contracts:
+Current evaluator-visible code and downloads:
 
-- `repro/src/verify_claim4_audit.py`
-- `repro/src/check_claim4_audit.py`
-- `.openresearch/artifacts/claim4_released_audit/claim_contract.json`
-- `.openresearch/artifacts/claim4_released_audit/source_audit.md`
-- `.openresearch/artifacts/claim4_released_audit/method.md`
-- `.openresearch/artifacts/claim4_released_audit/EVAL.md`
-- `.openresearch/artifacts/claim4_released_audit/limitations.md`
-- `.openresearch/artifacts/claim4_released_audit/raw_audit_output.json`
-- `.openresearch/artifacts/claim4_released_audit/independent_checker_output.json`
-- `.openresearch/artifacts/claim4_released_audit/negative_control_output.json`
-- `.openresearch/artifacts/claim4_released_audit/runtime.json`
+- [exact scientific gate](../../code/claim4_exact_gate.py)
+- [final independent checker](../../code/verify_claim4_final.py)
+- [live public-artifact audit](../../code/verify_claim4_audit.py)
+- [claim contract](../../evidence/claim4/claim_contract.json)
+- [four-route record](../../evidence/claim4/four_routes.json)
+- [raw audit output](../../evidence/claim4/raw_audit_output.json)
+- [full calibration rows and 128 draws](../../evidence/claim4/raw_calibration_output.json)
+- [released-audit independent output](../../evidence/claim4/released_audit_independent_checker_output.json)
+- [calibration independent output](../../evidence/claim4/calibration_independent_checker_output.json)
+- [negative control](../../evidence/claim4/negative_control_output.json)
+- [method](../../evidence/claim4/method.md),
+  [source audit](../../evidence/claim4/source_audit.md),
+  [limitations](../../evidence/claim4/limitations.md)
 
 ## Four-route final assessment
 

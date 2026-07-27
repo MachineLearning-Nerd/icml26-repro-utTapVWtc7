@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "claim_id": 5,
+  "verdict": "BLOCKED",
+  "paper_statement": "Table 5 reports Spearman rho 0.800 for the decoder-head formulation versus 0.717 for a normalized regression head and 0.478 for a standard regression head; Table 6 reports that scaling T5Gemma prefix-LM from 300M to 600M parameters improves Spearman rho from 0.744 to 0.782.",
+  "source": {
+    "paper_id": "2509.26476",
+    "html_url": "https://ar5iv.labs.arxiv.org/html/2509.26476",
+    "retrieved_utc_date": "2026-07-27",
+    "html_sha256": "5947f4512cc86850a63409adf52af25ac1f40b15dcc797348fd8ae91a2740913",
+    "anchors": [
+      "S6.SS2",
+      "S6.T5",
+      "S6.T6"
+    ]
+  },
+  "table5": {
+    "metric": "Spearman rank correlation",
+    "evaluation_domain": "512 NASBench101 validation samples",
+    "training_domains": [
+      "NASBench101",
+      "SNAS",
+      "OFA ResNet",
+      "OFA ProxylessNAS",
+      "OFA MobileNet"
+    ],
+    "reported": {
+      "standard_regression_head": 0.478,
+      "normalized_regression_head": 0.717,
+      "decoder_head": 0.800
+    },
+    "acceptance": "Reproduce all three formulations under the paper's same data split, optimization, checkpoint-selection, input, and evaluation protocol, with independently recomputed Spearman correlations and negative controls."
+  },
+  "table6": {
+    "metric": "Spearman rank correlation",
+    "evaluation_domain": "1024 CodeNet samples",
+    "training_domain": "a smaller subset of CodeNet, APPS, and KernelBook",
+    "reported": {
+      "t5gemma_s_s_prefixlm_300m": 0.744,
+      "t5gemma_b_b_prefixlm_600m": 0.782,
+      "difference": 0.038
+    },
+    "acceptance": "Reproduce both sizes with the exact same settings and data identities, independently recompute correlations and uncertainty, and show a positive 600M-minus-300M difference."
+  },
+  "required_evidence": [
+    "Exact Table 5 implementations and hyperparameters for all three heads.",
+    "Exact Table 5 training and validation row identities and deterministic seeds.",
+    "Exact Table 5 checkpoints or a complete reproducible training recipe.",
+    "Exact Table 6 300M and 600M RLM checkpoints or a complete reproducible training recipe.",
+    "Exact Table 6 smaller-subset and evaluation row identities and seeds.",
+    "Raw predictions, independent metric checker, and shuffled-target controls."
+  ],
+  "non_substitutions": [
+    "A generic sequence-classification regressor is not the missing Table 5 experiment.",
+    "Public base-model parameter metadata is not the Table 6 scaling result.",
+    "The released 181.5M RLM is not a counterexample unless it is identified as an exact Table 6 checkpoint.",
+    "A failure caused by gated access or absent artifacts is not falsification."
+  ]
+}

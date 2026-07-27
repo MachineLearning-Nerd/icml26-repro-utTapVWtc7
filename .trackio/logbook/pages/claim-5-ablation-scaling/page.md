@@ -99,18 +99,18 @@ falsification. Claim 5 is therefore BLOCKED, forecasts 0/2 points, and needs:
 
 ## Visible code and evidence
 
-- `repro/src/verify_claim5_audit.py`
-- `repro/src/claim5_exact_gate.py`
-- `.openresearch/artifacts/claim5_ablation_scaling/claim_contract.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/source_audit.md`
-- `.openresearch/artifacts/claim5_ablation_scaling/method.md`
-- `.openresearch/artifacts/claim5_ablation_scaling/four_routes.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/raw_audit_output.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/independent_checker_output.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/negative_control_output.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/runtime.json`
-- `.openresearch/artifacts/claim5_ablation_scaling/EVAL.md`
-- `.openresearch/artifacts/claim5_ablation_scaling/limitations.md`
+- [exact scientific gate](../../code/claim5_exact_gate.py)
+- [final independent checker](../../code/verify_claim5_final.py)
+- [live public-artifact audit](../../code/verify_claim5_audit.py)
+- [claim contract](../../evidence/claim5/claim_contract.json)
+- [four-route record](../../evidence/claim5/four_routes.json)
+- [raw audit output](../../evidence/claim5/raw_audit_output.json)
+- [independent checker output](../../evidence/claim5/independent_checker_output.json)
+- [negative control](../../evidence/claim5/negative_control_output.json)
+- [runtime](../../evidence/claim5/runtime.json)
+- [method](../../evidence/claim5/method.md),
+  [source audit](../../evidence/claim5/source_audit.md),
+  [limitations](../../evidence/claim5/limitations.md)
 
 ## Historical rejected baseline
 

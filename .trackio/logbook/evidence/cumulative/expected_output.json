@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "claim_1_accuracy": {
+    "rows": 1536,
+    "raw_draws": 12288,
+    "NASBench101_spearman": 0.4065993610622034,
+    "ENAS_spearman": 0.24946117751369043,
+    "NASNet_spearman": 0.20673752343866375
+  },
+  "claim_2": {
+    "APPS_n": 512,
+    "APPS_spearman": 0.9268067718469594,
+    "KBSS_n": 512,
+    "KBSS_spearman": 0.5352789637599933
+  },
+  "claim_3": {
+    "languages": 17,
+    "rows_per_language": 200,
+    "primary_colab_mean_spearman": 0.5298501742814378,
+    "independent_cpu_mean_spearman": 0.5234034026121069
+  },
+  "negative_control_expectation": "Any artifact mutation or structural mismatch exits nonzero.",
+  "scope_limitation": "This baseline recomputes preserved metrics; it does not rerun model inference."
+}
