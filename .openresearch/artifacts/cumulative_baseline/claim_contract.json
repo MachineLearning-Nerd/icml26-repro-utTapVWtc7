@@ -15,7 +15,7 @@
     {
       "claim": 3,
       "verdict_before_campaign": "VERIFIED",
-      "machine_check": "Recompute 17 separate 200-row CodeNet Spearman correlations and their unweighted mean; require mean rho=0.5298501742814378."
+      "machine_check": "Independently recompute both retained 17-language tracks: the Colab bundle mean rho=0.5298501742814378 from 27,200 draws and the independent CPU CSV mean rho=0.5234034026121069."
     }
   ],
   "failure_semantics": "Any missing row, unexpected space/language, changed median, changed metric, corrupt ZIP, or SHA-256 mismatch raises and exits nonzero."

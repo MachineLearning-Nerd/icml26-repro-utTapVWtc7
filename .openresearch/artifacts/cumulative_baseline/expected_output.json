@@ -16,7 +16,8 @@
   "claim_3": {
     "languages": 17,
     "rows_per_language": 200,
-    "mean_spearman": 0.5298501742814378
+    "primary_colab_mean_spearman": 0.5298501742814378,
+    "independent_cpu_mean_spearman": 0.5234034026121069
   },
   "negative_control_expectation": "Any artifact mutation or structural mismatch exits nonzero.",
   "scope_limitation": "This baseline recomputes preserved metrics; it does not rerun model inference."

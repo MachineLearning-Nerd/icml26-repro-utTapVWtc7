@@ -28,11 +28,16 @@ Raw expected output:
 | NASNet accuracy | ρ=0.206738, n=512 |
 | APPS memory | ρ=0.926807, n=512 |
 | KBSS latency | ρ=0.535279, n=512 |
-| CodeNet | mean ρ=0.529850, 17×200 rows |
+| CodeNet primary Colab bundle | mean ρ=0.529850, 17×200 rows, 27,200 draws |
+| CodeNet independent CPU run | mean ρ=0.523403, 17×200 rows |
 
 Scope limitation: this baseline independently rechecks retained rows and
 provenance; it does not regenerate model predictions. The judged revision's
 historical pages remain byte-for-byte preserved and reachable below.
+
+The frozen root's first fail-closed run exposed and rejected a provenance
+mix-up between the two valid CodeNet tracks. The current verifier recomputes
+each track separately.
 
 Artifacts and executable source:
 

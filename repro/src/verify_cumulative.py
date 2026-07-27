@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import io
 import json
 import math
 import zipfile
@@ -112,9 +113,10 @@ def check_codenet() -> dict:
             stats.spearmanr(target, prediction).statistic
         )
     average = float(np.mean(list(per_language.values())))
-    if not math.isclose(average, 0.5298501742814378, abs_tol=1e-12):
-        raise AssertionError(f"CodeNet mean Spearman changed: {average}")
+    if not math.isclose(average, 0.5234034026121069, abs_tol=1e-12):
+        raise AssertionError(f"independent CodeNet mean Spearman changed: {average}")
     return {
+        "provenance": "independent CPU run",
         "languages": len(grouped),
         "rows_per_language": 200,
         "average_spearman": average,
@@ -146,12 +148,52 @@ def check_bundle() -> dict:
         if bad_member:
             raise AssertionError(f"corrupt evidence ZIP member: {bad_member}")
         summary = json.loads(archive.read("summary.json"))
+        observed = []
+        for expected in summary["claim_3_codenet"]["per_language"]:
+            rows = list(csv.DictReader(io.TextIOWrapper(
+                archive.open(expected["task"] + ".csv")
+            )))
+            if len(rows) != 200:
+                raise AssertionError(
+                    f"{expected['task']}: expected 200 rows, got {len(rows)}"
+                )
+            targets = []
+            predictions = []
+            for row in rows:
+                draws = np.asarray([float(row[f"draw_{i}"]) for i in range(8)])
+                prediction = float(row["prediction"])
+                if not math.isclose(
+                    prediction, float(np.nanmedian(draws)), abs_tol=1e-12
+                ):
+                    raise AssertionError(
+                        f"{expected['task']}: prediction is not draw median"
+                    )
+                targets.append(float(row["target"]))
+                predictions.append(prediction)
+            rho = float(stats.spearmanr(targets, predictions).statistic)
+            if not math.isclose(rho, expected["spearman"], abs_tol=1e-12):
+                raise AssertionError(
+                    f"{expected['task']}: stored Spearman changed"
+                )
+            observed.append(rho)
+        primary_average = float(np.mean(observed))
+        if not math.isclose(primary_average, 0.5298501742814378, abs_tol=1e-12):
+            raise AssertionError(
+                f"primary CodeNet mean Spearman changed: {primary_average}"
+            )
     return {
         "members": 19,
         "model_commit": summary["model"]["checkpoint_commit"],
         "parameters": summary["model"]["parameters"],
         "transformers": summary["environment"]["transformers"],
         "seed": summary["environment"]["seed"],
+        "primary_codenet": {
+            "provenance": "Colab evidence bundle",
+            "languages": len(observed),
+            "rows_per_language": 200,
+            "raw_draws": len(observed) * 200 * 8,
+            "average_spearman": primary_average,
+        },
     }
 
 

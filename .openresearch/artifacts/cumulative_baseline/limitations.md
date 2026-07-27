@@ -7,3 +7,5 @@
 - The baseline does not claim that retained evidence was regenerated.
 - The original evidence used GPU runs; this campaign is CPU-only. Historical
   hardware provenance is preserved, not rewritten.
+- CodeNet has two retained full-scale runs. Their rows and means are verified
+  separately; the verifier never pools or silently chooses between them.
