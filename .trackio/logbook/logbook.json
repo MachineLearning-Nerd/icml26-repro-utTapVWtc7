@@ -30,6 +30,12 @@
         "children": []
       },
       {
+        "slug": "claim-5-ablation-scaling",
+        "title": "Claim 5 — regression-head ablation and model scaling",
+        "file": "pages/claim-5-ablation-scaling/page.md",
+        "children": []
+      },
+      {
         "slug": "claim-2-apps-spearman-0-9",
         "title": "Claim 2 — APPS Spearman >0.9",
         "file": "pages/claim-2-apps-spearman-0-9/page.md",

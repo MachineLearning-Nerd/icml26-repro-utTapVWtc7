@@ -1,0 +1,49 @@
+{
+  "claim": "Table 5 reports decoder-head Spearman rho 0.800 versus normalized regression head 0.717 and standard regression head 0.478; Table 6 reports 600M T5Gemma rho 0.782 versus 300M rho 0.744.",
+  "confidence_after_three_routes": "LOW",
+  "final_verdict": "BLOCKED",
+  "routes": [
+    {
+      "route": 1,
+      "name": "Exact source and official-artifact reconstruction",
+      "interpretation": "Treat Tables 5 and 6 as comparisons of named formulations and model sizes under the paper's stated evaluation domains, with the unreported split and training identities held fixed.",
+      "method": "Hash the paper HTML; reconstruct both tables; recursively inspect the paper-time and current official regress-lm repository trees and the author's public Hugging Face model listing for dedicated ablation configurations, implementations, checkpoints, manifests, or a 600M RLM.",
+      "control": "A synthetic table5_regression_head.yaml path must be detected by the same artifact-name detector.",
+      "result": "The table values, domains, and rounded size labels are reconstructable, but no exact Table 5 artifact or Table 6 600M RLM/checkpoint is discoverable in the audited public releases.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 2,
+      "name": "Cited normalized-head implementation reconstruction",
+      "interpretation": "Use the paper's cited Qin et al. primary implementation to determine what normalized regression means without treating a related implementation as the paper's exact experiment.",
+      "method": "Pin and hash the cited repository implementation; verify its one-output AutoModelForSequenceClassification regression head and per-dataset MinMaxScaler transformation to [0,1].",
+      "control": "Require all four implementation markers at the pinned revision and explicitly reject the cited code as a substitute for the absent paper split, pooling/head details, hyperparameters, and checkpoint.",
+      "result": "The cited normalization pattern is independently confirmed, but it does not identify the exact Table 5 implementation or reproduce any Table 5 number.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 3,
+      "name": "Scaling identity and access audit",
+      "interpretation": "Test the exact architecture-size reading of Table 6 and whether the public artifacts make its 0.038 correlation difference reproducible.",
+      "method": "Pin Hugging Face metadata for T5Gemma s-s and b-b prefix-LM, verify 312,517,632 and 591,490,560 serialized parameters, calculate their ratio and the reported correlation difference, and audit gated access and the author's public RLM releases.",
+      "control": "Do not infer the performance delta from parameter counts and do not relabel the released 181.5M RLM as the paper's 300M or 600M checkpoint.",
+      "result": "The rounded 300M/600M labels and reported 0.038 arithmetic are consistent. Both base models require manual access acceptance, no 600M RLM is publicly discoverable, and the exact data subset, training schedule, seed, and checkpoints remain unidentified.",
+      "outcome": "BLOCKED"
+    },
+    {
+      "route": 4,
+      "name": "Dedicated exact-claim falsification attempt",
+      "interpretation": "Seek a counterexample satisfying the exact Table 5 formulation/data assumptions or the exact Table 6 same-settings/model/data assumptions.",
+      "method": "Require raw predictions from all three exact Table 5 models or both exact Table 6 RLMs on the specified evaluation rows; independently recompute Spearman values and test the displayed ordering and 600M-minus-300M difference.",
+      "control": "Reject missing access, unavailable checkpoints, generic head implementations, base-model metadata, and the released 181.5M RLM discrepancy as counterexamples because they do not satisfy the experiment identity assumptions.",
+      "result": "No assumption-satisfying prediction pair or complete training recipe is publicly available, so no valid counterexample can be constructed. Artifact absence is not falsification.",
+      "outcome": "BLOCKED"
+    }
+  ],
+  "unblockers": [
+    "Pinned Table 5 checkpoints or complete code/config for all three formulations.",
+    "Exact Table 5 training and NASBench101 evaluation row identifiers, seeds, and checkpoint-selection rule.",
+    "Pinned Table 6 300M and 600M RLM checkpoints or complete same-settings training configurations.",
+    "Exact Table 6 smaller training subset and 1024 CodeNet evaluation row identifiers and seeds."
+  ]
+}

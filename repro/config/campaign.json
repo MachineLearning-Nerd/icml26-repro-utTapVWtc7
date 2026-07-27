@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "paper_id": "2509.26476",
-  "phase": "claim4_finalize",
+  "phase": "claim5_finalize",
   "seed": 42,
   "claim4_inference": {
     "space": "DARTS",
@@ -17,7 +17,7 @@
     "backend": "local",
     "flavor": "local-cpu",
     "estimated_required_cores": 1,
-    "runtime_class": "short static evidence verification under five minutes",
+    "runtime_class": "short public-artifact verification under five minutes",
     "gpu_allowed": false
   },
   "accepted_claims_to_recheck": [1, 2, 3]
