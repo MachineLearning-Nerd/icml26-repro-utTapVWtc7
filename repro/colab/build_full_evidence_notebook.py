@@ -79,7 +79,7 @@ print(json.dumps(environment, indent=2), flush=True)
 from huggingface_hub import snapshot_download, hf_hub_download
 REPO = "akhauriyash/RegressLM-gemma-s-RLM-table3"
 CKPT_DIR = snapshot_download(REPO)
-PATCH_RAW = "https://raw.githubusercontent.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/master/repro/patches"
+PATCH_RAW = "https://raw.githubusercontent.com/MachineLearning-Nerd/icml26-regression-language-models-code/master/repro/patches"
 for fn in ["configuration_regresslm.py", "modeling_regresslm.py"]:
     urllib.request.urlretrieve(f"{PATCH_RAW}/{fn}", os.path.join(CKPT_DIR, fn))
 for d in glob.glob(os.path.expanduser("~/.cache/huggingface/modules/transformers_modules/*")):

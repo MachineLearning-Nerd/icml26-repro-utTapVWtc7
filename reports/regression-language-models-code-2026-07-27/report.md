@@ -105,18 +105,20 @@ four-route verdict, then audit and finalize Claim 5.
 
 | Experiment / branch | Exact fixed command | Outcome | Compute |
 |---|---|---|---|
-| [`orx/frozen-6-10-cumulative-baseline`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/frozen-6-10-cumulative-baseline) | `uv run --locked python repro/src/run_campaign.py` | Rejected provenance mix-up | Local CPU, 4m20s |
-| [`orx/correct-dual-codenet-provenance`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/correct-dual-codenet-provenance) | `uv run --locked python repro/src/run_campaign.py` | Claims 1–3 cumulative PASS | Hugging Face `cpu-upgrade`, 48s |
-| [`orx/claim-4-released-checkpoint-kendall-audit`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/claim-4-released-checkpoint-kendall-audit) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 37s |
-| [`orx/calibrate-claim-4-with-accepted-config-compatibi`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/calibrate-claim-4-with-accepted-config-compatibi) | `uv run --locked python repro/src/run_campaign.py` | DARTS diagnostic only; BLOCKED | Hugging Face `cpu-upgrade`, 64 CPUs allocated, 5m12s |
-| [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED | Local CPU, 55s |
-| [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED; Claims 1–3 PASS | Local CPU, 1m10s |
-| [`orx/prepare-evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/prepare-evaluator-visible-cumulative-release) | `uv run --locked python repro/src/run_campaign.py` | Evaluator-visible cumulative PASS; blind review round 2 | Local CPU, 1m10s |
-| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | `uv run --locked python repro/src/run_campaign.py` | Formal cumulative and standalone downloaded-Space suites PASS; exact gates fail closed | Local CPU, one estimated core, 2m03s end to end |
-| `master` | Not run as an experiment (publication surface) | Reader-facing report and notebook | No compute |
+| [`baseline/frozen-6-10`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/baseline/frozen-6-10) | `uv run --locked python repro/src/run_campaign.py` | Rejected provenance mix-up | Local CPU, 4m20s |
+| [`audit/codenet-dual-provenance`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/audit/codenet-dual-provenance) | `uv run --locked python repro/src/run_campaign.py` | Claims 1–3 cumulative PASS | Hugging Face `cpu-upgrade`, 48s |
+| [`audit/claim-4-kendall-checkpoint`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/audit/claim-4-kendall-checkpoint) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 37s |
+| [`audit/claim-4-config-compatibility`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/audit/claim-4-config-compatibility) | `uv run --locked python repro/src/run_campaign.py` | DARTS diagnostic only; BLOCKED | Hugging Face `cpu-upgrade`, 64 CPUs allocated, 5m12s |
+| [`audit/claim-4-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/audit/claim-4-blocked-verdict) | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED | Local CPU, 55s |
+| [`audit/claim-5-evidence`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/audit/claim-5-evidence) | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED; Claims 1–3 PASS | Local CPU, 1m10s |
+| [`release/evaluator-visible`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/release/evaluator-visible) | `uv run --locked python repro/src/run_campaign.py` | Evaluator-visible cumulative PASS; blind review round 2 | Local CPU, 1m10s |
+| [`release/standalone-verifiers`](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/tree/release/standalone-verifiers) | `uv run --locked python repro/src/run_campaign.py` | Formal cumulative and standalone downloaded-Space suites PASS; exact gates fail closed | Local CPU, one estimated core, 2m03s end to end |
+| `main` | Not run as an experiment (publication surface) | Reader-facing report and notebook | No compute |
 
-No GPU was used in this campaign. Hugging Face jobs expose CPU allocation but
-no monetary-cost field; local runs likewise report no monetary cost.
+The bounded checks used local CPU and Hugging Face CPU-upgrade jobs. The
+paper-scale evidence bundle used a Colab Tesla T4; no model training was
+performed. Hugging Face jobs expose CPU allocation but no monetary-cost field;
+local runs likewise report no monetary cost.
 
 ## Reproduce and inspect
 

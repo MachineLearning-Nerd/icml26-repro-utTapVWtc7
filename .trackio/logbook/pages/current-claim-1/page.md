@@ -51,7 +51,7 @@ Exactly 10 approaches were executed for deficient Claim 1—no more and no fewer
 | 9 | accuracy uncertainty and permutation route | PASS | Mean ρ=0.287599; one-sided permutation p=0.0005. |
 | 10 | ONNX input-shuffle falsification route | PASS | Input-identity shuffle: NASBench101=0.043387, ENAS=0.015207, NASNet=-0.098314; mean=-0.013240. |
 
-Primary sources: [paper](https://arxiv.org/abs/2509.26476), [released model](https://huggingface.co/akhauriyash/RLM-GemmaS-Code-v0), [released GraphArch data](https://huggingface.co/datasets/akhauriyash/GraphArch-Regression), and [reproduction repository](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7). Row-level evidence: [full CSV](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/claim1_accuracy/full_n512.csv) and [independent validation JSON](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/claim1_validation.json).
+Primary sources: [paper](https://arxiv.org/abs/2509.26476), [released model](https://huggingface.co/akhauriyash/RLM-GemmaS-Code-v0), [released GraphArch data](https://huggingface.co/datasets/akhauriyash/GraphArch-Regression), and [reproduction repository](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code). Row-level evidence: [full CSV](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/blob/main/outputs/claim1_accuracy/full_n512.csv) and [independent validation JSON](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/blob/main/outputs/claim1_validation.json).
 
 
 ---

@@ -130,9 +130,9 @@ def render_claim1(result: dict, created_at: str) -> str:
         "Primary sources: [paper](https://arxiv.org/abs/2509.26476), "
         "[released model](https://huggingface.co/akhauriyash/RLM-GemmaS-Code-v0), "
         "[released GraphArch data](https://huggingface.co/datasets/akhauriyash/GraphArch-Regression), "
-        "and [reproduction repository](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7). "
-        "Row-level evidence: [full CSV](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/claim1_accuracy/full_n512.csv) "
-        "and [independent validation JSON](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/outputs/claim1_validation.json).",
+        "and [reproduction repository](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code). "
+        "Row-level evidence: [full CSV](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/blob/main/outputs/claim1_accuracy/full_n512.csv) "
+        "and [independent validation JSON](https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code/blob/main/outputs/claim1_validation.json).",
         "",
     ])
     return "\n".join(rows)
@@ -168,7 +168,7 @@ def render_index(result: dict, created_at: str) -> str:
         "exactly 10 pre-registered evidence approaches, never an additional route.",
         "",
         "Paper: https://arxiv.org/abs/2509.26476",
-        "Repository: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7",
+        "Repository: https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code",
         "",
     ]
     return "\n".join(rows)

@@ -35,19 +35,19 @@ claim.
 - Fixed command: `uv run --locked python repro/src/run_campaign.py`
 - Environment: Python 3.12, repository-level `.venv`, `uv.lock`,
   `torch==2.7.1`, `transformers==4.53.2`
-- Compute: CPU only; local for bounded one-core checks, Hugging Face
-  `cpu-upgrade` for uncertain/longer CPU work; no GPU
+- Compute: local CPU for bounded checks, Hugging Face
+  `cpu-upgrade` for uncertain/longer CPU work, and a Colab Tesla T4 for the paper-scale bundle; no model training
 - Winning scientific-evidence branch:
-  `orx/prepare-evaluator-visible-cumulative-release` at
-  `b528be1b1be0573d89f38ec6498584d666294255`
+  `release/evaluator-visible` at
+  `7a0311e5e2721d4b6d36ac853993620edcec823b`
 - Additive publication-repair branch:
-  `orx/make-space-verifiers-standalone` (standalone checker paths only; no
+  `release/standalone-verifiers` (standalone checker paths only; no
   scientific verdict or score change)
 
 The exact publication action, after manifest, subset, secret, link, notebook,
 and blind-review gates pass, is a text-only update to the existing
 `DineshAI/utTapVWtc7` Space. The same text paths plus the visual report and
-notebook are then mirrored to GitHub `master`. The paper will be marked
+notebook are then mirrored to GitHub `main`. The paper will be marked
 awaiting judge; no score increase will be claimed before a live verdict.
 
 After downloading the Space, run the current evaluator-facing suite with:
