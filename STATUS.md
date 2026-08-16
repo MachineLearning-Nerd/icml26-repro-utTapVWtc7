@@ -1,135 +1,64 @@
-# STATUS — RegressLM (utTapVWtc7) reproduction — AWAITING JUDGE
+# RegressLM reproduction status
 
-**Session:** five-claim cumulative campaign. **Last updated:** 2026-07-27.
-**State: published candidate awaiting live judge at exact Space SHA
-`f791e670006b5d428a2e11593eb29fb568bb4b45`.** The previous live judged score
-remains **6/10** at judged SHA
-`19231479d69a31c8e01832c24e146c37eca9a5ba`; no score increase is claimed.
-Claims 1–3 remain VERIFIED/HIGH. Claims 4 and 5 are BLOCKED/LOW after four
-routes each, including dedicated falsification attempts. Post-publication
-readback verified all 67 uploaded text paths, 66 manifest hashes, 21 protected
-historical files, and the standalone downloaded-Space verifier. HF:
-https://huggingface.co/spaces/DineshAI/utTapVWtc7 ·
-GitHub: https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7.
+Last audit: 2026-08-16
 
-The historical sections below describe the earlier three-claim 6/6 rubric.
-They are retained as provenance and do not supersede the current five-claim
-6/10 live judge state.
+## Publication state
 
-## Official repair verdict
+The repository is the paper-first reproduction surface for
+*Regression Language Models for Code*. Its historical challenge result is
+6/10 at judged Space revision
+19231479d69a31c8e01832c24e146c37eca9a5ba. Candidate revision
+f791e670006b5d428a2e11593eb29fb568bb4b45 was published to
+[DineshAI/utTapVWtc7](https://huggingface.co/spaces/DineshAI/utTapVWtc7) for
+live evaluation. No later score is asserted here.
 
-- Claim 1: verified from one checkpoint across memory, latency, and three
-  512-row ONNX accuracy spaces; the judge cited the permutation and
-  input-shuffle controls.
-- Claim 2: verified at APPS Spearman 0.9268 (n=512), above 0.9.
-- Claim 3: verified from the complete 17-language, 200-row-per-language run,
-  mean Spearman 0.523 with bootstrap interval entirely above 0.5.
-- Judge quality: `high`. Official score: **6/6**.
+The repository’s current audit has five explicit contracts:
 
-## 2026-07-18 Claim 1 perfect-score repair
+| Contract | Status | Meaning |
+| --- | --- | --- |
+| C1 | VERIFIED_SCOPED | One released checkpoint produces positive memory, latency, and ONNX validation-accuracy ranking evidence |
+| C2 | VERIFIED_SCOPED | APPS and KBSS Table 3 evaluation pathway is reproduced at n=512 |
+| C3 | VERIFIED_SCOPED | The challenge-era 17-language CodeNet subset exceeds mean Spearman 0.5 |
+| C4 | BLOCKED_LOW | Exact five-space Kendall comparison cannot be run without target-specific artifacts |
+| C5 | BLOCKED_LOW | Exact head ablation and 300M/600M scaling comparisons cannot be run without artifacts |
 
-- Primary-source audit resolves “accuracy of code” to trained-network
-  validation accuracy predicted from ONNX, not pass/fail accuracy of ordinary
-  programs.
-- `RLM-GemmaS-Code-v0` and the already-used Table-3 alias share the exact same
-  725,864,700-byte weights (SHA-256 `7e9df429…`), so memory, latency, and
-  accuracy are genuinely evaluated with one checkpoint.
-- The Claim-1 ledger is frozen at exactly 10 routes—no route 11. Routes 6–8
-  reproduce the author-card 512-row ONNX protocol on NASBench101, ENAS, and
-  NASNet; routes 9–10 provide uncertainty/permutation and input-shuffle checks.
-- Route 6 is complete at the full 512-row scale: NASBench101 Spearman is
-  **0.406599** (4,096 raw draws, zero decode failures), above the author-card
-  reference of 0.384. Route 7 is also complete: ENAS Spearman is **0.249461**
-  over 512 rows / 4,096 draws with zero failures, above the card reference of
-  0.211. Route 8 is complete: NASNet Spearman is **0.206738** over 512 rows /
-  4,096 draws with zero failures, matching the card reference of 0.209.
-- Routes 9–10 pass: mean three-space Spearman **0.287599**, one-sided
-  permutation p **0.000500**, and input-shuffle mean Spearman **-0.013240**.
-  The final evidence contains 1,536 rows and 12,288 retained draws.
-- Fifteen scoped tests pass, including fail-closed report finalization: exactly
-  one pin, exactly 10 numbered routes, canonical scale, and no host-path leak.
-- Final GitHub report commit: `2c661158807328ea744740c3fa602607669ce70c`.
-  Public Space SHA: `19231479d69a31c8e01832c24e146c37eca9a5ba`.
-  Anonymous readback confirms `RUNNING`, correct tags, 98,358 report characters,
-  6,819 agent-view tokens, exactly one pin, all scale/control disclosures, and
-  no host paths.
+## Verified evidence
 
-## 2026-07-17 repair result
+- C1 validation has exactly 10 routes and includes 512-row NASBench101,
+  ENAS, and NASNet evaluations with eight draws per row.
+- C1 accuracy correlations are 0.406599, 0.249461, and 0.206738; the
+  three-space mean is 0.287599 with permutation p=0.000500.
+- C2 retains APPS Spearman 0.926807 and KBSS Spearman 0.535279, with
+  independent statistical checks.
+- C3 retains 17 languages × 200 rows, with primary mean 0.529850 and an
+  independent CPU mean 0.523403. The primary bundle includes bootstrap and
+  permutation controls.
+- The current arXiv version discusses 24 CodeNet languages. C3 is deliberately
+  labeled as a 17-language scoped result.
 
-- **Claim 1 accuracy gap closed:** released checkpoint on real `GraphArch-Regression` NASBench101 ONNX strings, `val_accuracy`, n=64, 8 draws/row: **Spearman 0.350603** (dataset-card reference 0.384).
-- **Claim 3 full raw Colab evidence:** 17 languages × 200 rows × 8 draws: **mean per-language Spearman 0.529850**. Stratified bootstrap 95% CI **[0.502557, 0.554246]**, permutation p=0.000500, shuffled control 0.0352.
-- **Independent full local corroboration:** 17 × 200 × 8, mean Spearman **0.523403**, permutation p=0.000500, shuffled control 0.0116.
-- Colab evidence contains 3,464 raw rows and 27,712 raw draws. `verify_evidence_bundle.py` confirmed every prediction is the exact median of its 8 draws and recomputed every headline statistic. Bundle SHA-256: `b1d33e20922194cab7dfd20526cac13680f1ca16ce51ad7836a358feee5ebd1f`.
-- Raw bundle: `outputs/colab/regresslm_evidence_bundle.zip`; audit: `outputs/colab/evidence_bundle_verification.json`; local raw rows: `outputs/codenet/full_gpu_n200.csv`.
+## Blocked evidence
 
+C4’s exact Table 4 contract requires target-specific RLM checkpoints for the
+five NAS spaces, exact few-shot and evaluation row manifests, and the training
+configuration. A unified-base diagnostic and a 16-row DARTS calibration are
+retained as diagnostics only.
 
-## ⚡ BREAKTHROUGH (this tick)
-A prior tick DEFERRED this paper because the model was input-insensitive (constant ≈0
-output) under transformers 5.1. **Root cause found + fixed:** the checkpoint was exported
-with **transformers 4.53.2** (`config.transformers_version`), but the package pin
-`transformers>5.0.0` had pulled **5.1.0**. transformers 5.x rewrote seq2seq generation
-and broke the encoder→decoder signal flow for this custom T5Gemma model.
+C5’s exact Table 5 and Table 6 contracts require the three head variants, the
+300M and 600M RLM checkpoints or complete training recipes, exact splits, and
+seeds. Related normalization code and base-model parameter metadata are
+provenance, not substitutes for the missing experiments.
 
-**Fix: pin `transformers==4.53.2` + `use_cache=True`.** Result — greedy on 8 diverse APPS
-inputs now tracks targets (tgt 6036→5720, 13235→13137, 5354→5418, 6162→6012; 7/8 distinct).
-Sampling+top_p=0.95 also works (no NaN; tgt 6036→6026 median). Reproduction unblocked.
+The evidence-level explanation is in
+[CLAIM_EVIDENCE.md](CLAIM_EVIDENCE.md); machine-readable status is in
+[claims.json](claims.json).
 
-```
-uv pip install "transformers==4.53.2"   # matches checkpoint export version
-```
+## Resume command
 
-## Paper
-- **Title:** Regression Language Models for Code (RegressLM). OpenReview `utTapVWtc7`.
-- **Code:** `google-deepmind/regress-lm` (pinned `6c23ccb`) → `upstream/`.
-- **Checkpoint:** `akhauriyash/RegressLM-gemma-s-RLM-table3` → `checkpoints/rlm-table3/` (725 MB, 181.5M params, T5Gemma-s + IEEE numeric decoder, 13-token decoder vocab).
-- **Data:** `akhauriyash/Code-Regression` — single 5.6 GB parquet, 7,502,559 rows.
+~~~bash
+uv run --locked python repro/src/run_campaign.py
+~~~
 
-## Official claims (judge scores, verbatim)
-1. A single RLM predicts **memory + latency + accuracy** of code across multiple languages.
-2. 300M RLM (T5Gemma init) obtains **>0.9 Spearman on APPS**.
-3. Unified model obtains **>0.5 average Spearman across 17 CodeNet languages**.
-
-## EVAL CONTRACT (confirmed)
-- `target` = the metric VALUE (memory **bytes** for APPS/CDSS; latency **ms** for KBSS), NOT accuracy. (Card's "val_accuracy" label is misleading.) Spearman is rank-based → scale irrelevant.
-- Canonical Table 3 (card): **KBSS=0.527, CDSS=0.787, APPS=0.926**.
-- Input prefix (REQUIRED): APPS/KBSS → `"{SPACE}\n{input}"`; CDSS → `"# CDSS\n# Language: {lang}\n{input}"`.
-- Recipe: `generate(do_sample=True, top_p=0.95, temperature=1.0, min=max_new_tokens=9, use_cache=True)`, 8 samples, `token_ids_to_floats`[0], median, scipy.spearmanr.
-- CDSS top-17 langs (CodeNet): C++,Python,Java,C,Ruby,C#,Rust,Go,Haskell,Kotlin,JavaScript,PHP,D,Scala,OCaml,Perl,Fortran.
-
-## GOTCHAS
-- **transformers MUST be 4.53.2** (checkpoint export version). 5.x breaks generate (input-insensitive output). Package pin `>5.0.0` is wrong for this checkpoint — override.
-- GTX 1050 (sm_61) requires torch 2.7.1+cu126; the cu130 build lacks sm_61 kernels. Colab T4 remains much faster.
-- `datasets` streaming too slow over 5.6 GB parquet → pyarrow column projection + filter pushdown + scanner.head().
-- OOM: reap orphaned pyarrow worker procs after kills.
-
-## CODE
-- `repro/src/run_eval.py` — faithful Table-3 evaluator (recipe above), local-ckpt load, CPU/GPU.
-- `repro/src/inspect_data.py` — cheap probe (target ranges + CDSS languages).
-- `repro/src/verify_independent.py` — Pearson + bootstrap CI + permutation p + shuffled-target false-positive control.
-- `repro/src/verify_codenet.py` — language-stratified bootstrap/permutation verification.
-- `repro/src/verify_evidence_bundle.py` — raw ZIP/draw/median/statistic audit.
-- `repro/src/run_grapharch.py` — real ONNX accuracy evaluator.
-- `repro/colab/regresslm_full_evidence_colab.ipynb` — one-click full CodeNet + ONNX accuracy evidence.
-
-## PROGRESS
-- [x] install; checkpoint+data verified; eval contract understood.
-- [x] **version fix (4.53.2) → model input-sensitive & accurate**.
-- [x] Phase A (local CPU): **40 APPS rows → Spearman 0.937** (>0.9 ✅; ref 0.926), Pearson 0.920.
-- [x] verify_independent: Pearson 0.920, perm p=0.0005, **shuffled-control ρ=-0.205 (SIGNAL OK)**; unit tests 4/4.
-- [x] **Logbook PUBLISHED → https://huggingface.co/spaces/DineshAI/utTapVWtc7** (public, tagged icml2026-repro + paper-utTapVWtc7).
-- [x] local git commit (31b193f, 32 files, secrets-clean).
-- [x] GitHub public repository and full raw evidence pushed.
-- [x] Phase B Colab GPU: CodeNet 17×200 and NASBench101 accuracy n=64 complete with raw draws.
-- [x] Independent local GPU: second CodeNet 17×200 run complete.
-- [x] Repaired Claim 1, Claim 3, and conclusion logbook cells added and synced.
-- [ ] (optional) accumulate more APPS rows locally across ticks toward 512; re-run eval via `logbook run` to add Claim-2 CSV artifact (autosync).
-
-## NEXT (resume here)
-1. Preserve the completed exactly-10 validation—do not add more routes.
-2. No further repair work: exact-SHA official high-quality 6/6 is recorded.
-
-## BLOCKERS
-- None. Repair is complete.
-
-## venv
-`papers/icml26-repro-utTapVWtc7-regresslm/.venv` (py3.12); `transformers==4.53.2`, `torch 2.7.1+cu126` (local sm_61-compatible build).
+The model and datasets are external artifacts. Pinning transformers 4.53.2,
+the upstream commit, model revisions, dataset revisions, and the exact
+sampling protocol is required; see [ENVIRONMENT.md](ENVIRONMENT.md) and
+[SOURCE_AUDIT.md](SOURCE_AUDIT.md).

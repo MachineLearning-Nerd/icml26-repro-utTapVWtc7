@@ -1,140 +1,188 @@
-# Claim-by-claim reproduction — Regression Language Models for Code
+# Regression Language Models for Code
 
-**Current evidence: 6/10 remains the honest forecast.** The campaign reproduces
-the released checkpoint’s unified memory/latency/accuracy ranking and the APPS
-and 17-language claims. It also replaces the missing Claim 4/5 coverage with
-exact, fail-closed contracts: both are **BLOCKED**, not passed, because the
-target checkpoints, experiment implementations, and row identities needed for
+Paper-first reproduction and claim audit for the ICML 2026 paper
+*Regression Language Models for Code* (RegressLM).
+
+## Current status
+
+This repository is a scoped, evidence-backed reproduction. Claims 1–3 are
+verified within the released-checkpoint and 17-language challenge scope.
+Claims 4–5 are explicitly blocked at low confidence because the target
+checkpoints, split manifests, and exact experiment implementations needed for
 a faithful test are not public.
 
-Paper versus observed: APPS memory **0.930 → 0.926807**; kernel latency
-**0.516 → 0.535279**; CodeNet mean **0.529850 observed** across 17 languages at
-200 rows/language. Claim 4’s reported Kendall mean is 0.461, but two of five
-target checkpoints and all split manifests are unavailable. Claim 5’s reported
-decoder/normalized/standard values (0.800/0.717/0.478) and 600M/300M values
-(0.782/0.744) cannot be reconstructed from the released artifacts.
+The last public challenge result recorded in the repository is 6/10 at judged
+Space revision
+19231479d69a31c8e01832c24e146c37eca9a5ba. The later candidate revision
+f791e670006b5d428a2e11593eb29fb568bb4b45 was published for evaluation; this
+repository does not claim a new judge score.
 
-This CPU-only campaign used local CPU for short one-core checks and Hugging Face
-`cpu-upgrade` for uncertain or longer CPU work. No GPU was used.
+## Repository identity
 
-Published to the existing Space at
-[`f791e670006b5d428a2e11593eb29fb568bb4b45`](https://huggingface.co/spaces/DineshAI/utTapVWtc7/commit/f791e670006b5d428a2e11593eb29fb568bb4b45).
-The revision is awaiting live judge evaluation; the live score remains 6/10
-until that evaluation occurs.
+- Current name: MachineLearning-Nerd/icml26-regression-language-models-code
+- Previous name: MachineLearning-Nerd/icml26-repro-utTapVWtc7
+- Challenge record: OpenReview utTapVWtc7
+- Reproduction owner: MachineLearning-Nerd
+- Reproduction command: uv run --locked python repro/src/run_campaign.py
 
-[Read the illustrated report](reports/regression-language-models-code-2026-07-27/report.md) ·
-[Open the tutorial notebook](notebooks/regresslm_reproduction.py) ·
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/MachineLearning-Nerd/icml26-repro-utTapVWtc7/blob/master/notebooks/regresslm_reproduction.py)
+The repository name describes the paper rather than the opaque challenge
+identifier. The complete old-to-new branch map is in
+[BRANCH_AUDIT.md](BRANCH_AUDIT.md).
 
-## Experiment log
+## Paper identity and version boundary
 
-| Branch / experiment | Purpose or change | Exact run command | Assessment / outcome | Compute |
-|---|---|---|---|---|
-| `master` | Publication surface | Not run as an experiment (publication surface) | Report, notebook, and release metadata | No compute |
-| [`orx/correct-dual-codenet-provenance`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/correct-dual-codenet-provenance) | Freeze valid Claims 1–3 evidence | `uv run --locked python repro/src/run_campaign.py` | PASS; Claims 1–3 VERIFIED | Hugging Face `cpu-upgrade`, 48s |
-| [`orx/claim-4-released-checkpoint-kendall-audit`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/claim-4-released-checkpoint-kendall-audit) | Correct metric and audit Table 4 artifacts | `uv run --locked python repro/src/run_campaign.py` | Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 37s |
-| [`orx/calibrate-claim-4-with-accepted-config-compatibi`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/calibrate-claim-4-with-accepted-config-compatibi) | Pinned DARTS CPU checkpoint calibration | `uv run --locked python repro/src/run_campaign.py` | n=16 diagnostic only; Claim 4 BLOCKED | Hugging Face `cpu-upgrade`, 64 CPUs allocated, 5m12s |
-| [`orx/finalize-claim-4-four-route-blocked-verdict`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/finalize-claim-4-four-route-blocked-verdict) | Four-route exact assessment | `uv run --locked python repro/src/run_campaign.py` | Claim 4 final BLOCKED/LOW | Local CPU, 55s |
-| [`orx/record-claim-5-exact-audit-evidence`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/record-claim-5-exact-audit-evidence) | Table 5/6 public-artifact audit and four routes | `uv run --locked python repro/src/run_campaign.py` | Claim 5 final BLOCKED/LOW; cumulative PASS | Local CPU, 1m10s |
-| [`orx/prepare-evaluator-visible-cumulative-release`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/prepare-evaluator-visible-cumulative-release) | Evaluator-visible five-claim release and blind review | `uv run --locked python repro/src/run_campaign.py` | Cumulative PASS; historical evidence preserved | Local CPU, 1m10s |
-| [`orx/make-space-verifiers-standalone`](https://github.com/MachineLearning-Nerd/icml26-repro-utTapVWtc7/tree/orx/make-space-verifiers-standalone) | Make the downloaded-Space verifier executable without repository paths | `uv run --locked python repro/src/run_campaign.py` | Formal cumulative and standalone suites PASS; exact Claim 4/5 gates fail closed | Local CPU, one estimated core, 2m03s end to end |
+The current paper record is:
 
-The rejected baseline and two Claim 5 transport failures are documented in the
-report because they explain the lineage; they are not scientific results.
+- Title: *Regression Language Models for Code*
+- Authors: Yash Akhauri, Xingyou Song, Arissa Wongpanich, Bryan Lewandowski,
+  and Mohamed S. Abdelfattah
+- Current paper: [arXiv:2509.26476](https://arxiv.org/abs/2509.26476)
+- Challenge record: [OpenReview: utTapVWtc7](https://openreview.net/forum?id=utTapVWtc7)
+- Official implementation: [google-deepmind/regress-lm](https://github.com/google-deepmind/regress-lm)
 
----
+The archived challenge contract and this reproduction evaluate the 17-language
+CodeNet subset used by the challenge-era evidence. The current arXiv version
+describes a 24-language CodeNet result. Therefore the verified Claim 3 below
+must not be presented as a reproduction of the full current 24-language
+abstract claim. The version comparison and hashes are recorded in
+[SOURCE_AUDIT.md](SOURCE_AUDIT.md).
 
-# Repro — Regression Language Models for Code (RegressLM), ICML 2026
+## What the paper does
 
-Reproduction of *Regression Language Models for Code* (RegressLM; Akhauri, Song et al.,
-Google DeepMind/Cornell) for the
-[ICML 2026 Agent Reproduction Challenge](https://huggingface.co/spaces/ICML-2026-agent-repro/challenge).
-OpenReview `utTapVWtc7`.
+RegressLM treats source code and problem text as inputs to a sequence-to-
+sequence model and predicts numeric performance metrics directly. A
+T5Gemma-based encoder represents the input; a numeric decoder emits floating
+point values. Depending on the dataset, the target is memory, execution
+latency, or validation accuracy of a trained neural-network architecture
+represented in ONNX. The model is intended to learn one code-to-metric
+interface that transfers across languages and performance modalities.
 
-RegressLM is a seq2seq model that **regresses numeric performance metrics** (memory, latency,
-accuracy) directly from source code / problem text, via a T5Gemma encoder + a numeric decoder
-that emits IEEE/P10 float tokens.
+This distinction matters: the accuracy target in the NAS experiments is
+trained-network validation accuracy, not pass/fail correctness of an ordinary
+program.
 
-## Official claims (max 6 pts)
-1. A single RLM simultaneously predicts **memory + latency + accuracy** across multiple languages.
-2. 300M RLM (T5Gemma init) obtains **>0.9 Spearman on APPS** (Table 3 = **0.930**).
-3. **>0.5 average Spearman across 17 CodeNet languages**.
+## Claim scorecard
 
-## Artifacts (all released, public)
-- Code: [google-deepmind/regress-lm](https://github.com/google-deepmind/regress-lm) — vendored unmodified in `upstream/` (commit `6c23ccb`).
-- Checkpoint: [`akhauriyash/RegressLM-gemma-s-RLM-table3`](https://huggingface.co/akhauriyash/RegressLM-gemma-s-RLM-table3) (not gated).
-- Data: [`akhauriyash/Code-Regression`](https://huggingface.co/datasets/akhauriyash/Code-Regression) (`data.parquet`, 5.6 GB).
-- Accuracy data: [`akhauriyash/GraphArch-Regression`](https://huggingface.co/datasets/akhauriyash/GraphArch-Regression) (ONNX-readable graphs, `val_accuracy`).
+| Claim | Contract used here | Status | Evidence headline |
+| --- | --- | --- | --- |
+| C1 | One released checkpoint predicts memory, latency, and ONNX validation accuracy | VERIFIED_SCOPED | Positive correlations on APPS/KBSS and NASBench101, ENAS, and NASNet; exactly 10 validation routes |
+| C2 | Released checkpoint reaches the APPS and KBSS Table 3 correlation pathway | VERIFIED_SCOPED | APPS Spearman 0.926807 and KBSS Spearman 0.535279, n=512 each |
+| C3 | Released checkpoint exceeds 0.5 mean Spearman on the 17-language CodeNet subset | VERIFIED_SCOPED | Primary mean 0.529850; independent CPU run 0.523403 |
+| C4 | Exact five-space Kendall comparison in Table 4 | BLOCKED_LOW | Missing target-specific ENAS/NASNet checkpoints and all row manifests |
+| C5 | Exact Table 5 head ablation and Table 6 300M/600M scaling | BLOCKED_LOW | Missing exact implementations, checkpoints, splits, and the 600M RLM |
 
-## Reproduce
+“Verified” means that the stated scoped contract is supported by retained
+raw or independently recomputable evidence. It does not silently upgrade a
+subset result into a broader paper claim. The detailed production paths,
+controls, and blockers are in
+[CLAIM_EVIDENCE.md](CLAIM_EVIDENCE.md), while machine-readable contracts are
+in [claims.json](claims.json).
 
-### ⚠️ Critical: pin transformers==4.53.2
-The checkpoint was exported with **transformers 4.53.2** (`config.transformers_version`).
-`regress-lm[extras]` pins `transformers>5.0.0`, but **5.x breaks this T5Gemma model**: its
-rewritten seq2seq `generate()` never feeds the encoder signal to the decoder, so the model
-emits a near-constant ≈0 output regardless of input (Spearman ≈ 0). Install 4.53.2 *after*
-extras so it wins:
+## How each claim is produced
 
-```bash
-uv pip install "transformers==4.53.2"
-```
+| Claim | Inputs and protocol | Code path | Retained evidence |
+| --- | --- | --- | --- |
+| C1 | One 181,458,944-parameter released checkpoint; 512 rows per NAS space; eight stochastic draws per row; median prediction; Spearman correlation | repro/src/run_campaign.py, repro/src/run_grapharch.py, repro/src/verify_claim1_accuracy.py | outputs/claim1_validation.json, outputs/claim1_accuracy/, outputs/claim1_source_audit.json |
+| C2 | APPS and KBSS rows; required dataset prefix; eight draws; median decoded metric; SciPy Spearman statistic | repro/src/run_eval.py, repro/src/verify_independent.py | outputs/colab/table3_results.json, outputs/phaseA/independent_verification.json |
+| C3 | 17 CodeNet languages, 200 rows per language, eight draws per row; language-stratified mean and bootstrap/permutation controls | repro/src/run_codenet.py, repro/src/verify_codenet.py, repro/src/verify_evidence_bundle.py | outputs/colab/evidence_bundle_verification.json, outputs/codenet/full_gpu_n200_verification.json, raw CSV/ZIP evidence |
+| C4 | Four-route audit of exact Table 4 protocol, metric, target checkpoints, row manifests, and a dedicated falsification attempt | repro/src/check_claim4_audit.py, repro/src/verify_claim4_audit.py, repro/src/claim4_exact_gate.py | .openresearch/artifacts/claim4_released_audit/ |
+| C5 | Four-route audit of exact Table 5/6 formulations, model sizes, training identities, and a dedicated falsification attempt | repro/src/verify_claim5_audit.py, repro/src/verify_claim5_final.py, repro/src/claim5_exact_gate.py | .openresearch/artifacts/claim5_ablation_scaling/ |
 
-### Phase A — local small-scale validation (CPU)
-```bash
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -e "./upstream[extras]" scipy pyarrow pandas pytest
-uv pip install --python .venv/bin/python "transformers==4.53.2"   # MUST override >5.0.0
+All five contracts are fail-closed. A missing artifact is recorded as missing;
+it is never converted into a passing result by substituting a nearby model,
+dataset, or diagnostic.
 
-# 40 APPS rows × 8 samples → Spearman (≈0.937; claim >0.9; card ref 0.926)
-.venv/bin/python repro/src/run_eval.py --space APPS --limit 40 --num_samples 8 \
-    --batch_size 4 --device cpu --out outputs/phaseA/apps_n40.csv
-# independent verification + false-positive controls
-.venv/bin/python repro/src/verify_independent.py --inputs outputs/phaseA/apps_n40.csv \
-    --out outputs/phaseA/independent_verification.json
-```
-On a CPU box the 40-row run takes ~20 min (the GTX 1050 is sm_61, unsupported by torch cu130 → CPU only).
+## Reproduction protocol
 
-### Phase B — full claim evidence (Colab GPU)
-Open `repro/colab/regresslm_full_evidence_colab.ipynb` on a T4/L4/A100 runtime. It pins
-`transformers==4.53.2`, runs 17 CodeNet languages × 200 rows × 8 samples, evaluates real
-NASBench101 ONNX `val_accuracy`, records environment/model hashes and all raw draws, then
-downloads a self-contained evidence ZIP.
+The lockfile targets Python 3.12. The public source, model, and dataset are
+external artifacts and are intentionally not copied into this repository:
 
-## Inference protocol (authors' dataset-card recipe)
-The regression `target` is the **metric value** — memory bytes for APPS/CDSS, latency ms for
-KBSS (the card's "val_accuracy" label is misleading; Spearman is rank-based so scale is irrelevant).
-Input prefix is **required**: `"{SPACE}\n{input}"` for APPS/KBSS,
-`"# CDSS\n# Language: {lang}\n{input}"` for CDSS. Then
-`generate(do_sample=True, top_p=0.95, temperature=1.0, min=max_new_tokens=9, use_cache=True)`,
-8 samples → `token_ids_to_floats`[0] → `np.nanmedian` → scipy `spearmanr`.
+1. Clone google-deepmind/regress-lm at commit 6c23ccb into upstream/.
+2. Download the released checkpoint and data revisions listed in
+   [SOURCE_AUDIT.md](SOURCE_AUDIT.md).
+3. Install the locked environment and run:
 
-## Results
+~~~bash
+uv run --locked python repro/src/run_campaign.py
+~~~
 
-- Claim 1 accuracy (same released checkpoint, n=512/space, eight draws/row):
-  **NASBench101 ρ=0.406599**, **ENAS ρ=0.249461**, **NASNet ρ=0.206738**
-  (card references 0.384/0.211/0.209). Mean ρ=0.287599; permutation p=0.000500;
-  input-shuffle mean ρ=-0.013240. The retained evidence has 1,536 rows and
-  12,288 raw draws.
-- Claim 2: APPS **ρ=0.9268, n=512** (>0.9; card reference 0.926).
-- Claim 3: CodeNet 17-language mean **ρ=0.529850, n=200/language**, stratified bootstrap
-  95% CI **[0.502557, 0.554246]**, permutation p=0.000500. A second full local run gave
-  **ρ=0.523403**.
-- The Colab bundle retains 3,464 raw rows and 27,712 stochastic draws. The independent
-  verifier recomputes all medians and statistics exactly.
+The checkpoint was exported with transformers 4.53.2. Using a newer
+transformers 5.x generation path can remove the encoder signal and produce
+near-constant predictions, so the pinned version is part of the experiment
+identity. The full environment, seeds, sample counts, prefixes, and
+hardware-specific evidence are in [ENVIRONMENT.md](ENVIRONMENT.md).
 
-Logbook: https://huggingface.co/spaces/DineshAI/utTapVWtc7
+## Final branch map
 
-## Layout
-```
-upstream/          vendored regress-lm (pinned 6c23ccb; re-clone per README, gitignored)
-repro/src/         evaluators plus independent bundle/CodeNet verification
-repro/colab/       regresslm_full_evidence_colab.ipynb (one-click full evidence)
-repro/tests/       verification tests (6/6 pass)
-outputs/phaseA/    apps_n40.csv (+.json), independent_verification.json
-docs/              methodology.md
-.trackio/          Trackio logbook → publishes to DineshAI/utTapVWtc7
-STATUS.md          live resume state for the autonomous loop
-```
+The publication surface is main. Descriptive audit and release branches
+preserve the useful experiment lineage:
 
-See `STATUS.md` for current progress, and `icml-2026-reproduction-challenge/COORDINATION.md`
-for the multi-session registry this paper is tracked in.
+| Branch | Purpose |
+| --- | --- |
+| main | Paper-first README, current scorecard, and release surface |
+| audit/claim-4-blocked-verdict | Final four-route Claim 4 assessment |
+| audit/claim-4-config-compatibility | Bounded accepted-config calibration |
+| audit/claim-4-cpu-inference | CPU inference calibration |
+| audit/claim-4-evidence | Earlier Claim 4 evidence record |
+| audit/claim-4-full-parquet | Claim 4 data/provenance calibration |
+| audit/claim-4-kendall-checkpoint | Kendall metric and released-checkpoint audit |
+| audit/claim-5-ablation-scaling | Final Table 5/6 audit |
+| audit/claim-5-evidence | Claim 5 evidence record |
+| audit/claim-5-source-provenance | Cited normalized-head source audit |
+| audit/claim-5-source-transport | Claim 5 source-transport repair |
+| audit/codenet-dual-provenance | Independent CodeNet provenance tracks |
+| baseline/frozen-6-10 | Frozen cumulative challenge baseline |
+| release/evaluator-visible | Evaluator-visible cumulative release |
+| release/standalone-verifiers | Standalone downloaded-release verifiers |
+
+The exact old branch names, old tips, and rename rationale are preserved in
+[BRANCH_AUDIT.md](BRANCH_AUDIT.md).
+
+## Evidence, limitations, and provenance
+
+- The released checkpoint is the Table 3 alias
+  akhauriyash/RegressLM-gemma-s-RLM-table3, revision
+  5e5002672f870399ce012896332363e271582509.
+- Its common weights hash is
+  7e9df42926babb54c4e47c14a8fd1daecdf54e382f62b07d63d6c7c5fa9f000c.
+- The unified model alias akhauriyash/RLM-GemmaS-Code-v0 was checked for
+  identical critical files and weights; it is not treated as a separate model.
+- The GraphArch-Regression dataset is pinned to revision
+  c557392740094b539bbdb527d03e3a78e5b34a38; its retained parquet hash is
+  2a5992248d27a060c031d7a9485207310a77f58bd2c289cbe37d53d0fd894ce0.
+- C1’s local checkpoint has 181.5M parameters, while the paper uses a rounded
+  300M label. That discrepancy is disclosed rather than hidden.
+- The current v3 paper’s 24-language statement and the challenge-era
+  17-language contract are both preserved in the source audit.
+- Raw large datasets, model weights, and the vendored upstream checkout remain
+  external and are not required for a documentation-only clone.
+
+The fail-closed publication verifier is [verify_final.py](verify_final.py).
+The evidence manifest is [EVIDENCE_MANIFEST.json](EVIDENCE_MANIFEST.json).
+
+## Citation
+
+If this reproduction or its audit artifacts are useful, please cite the paper
+and this repository. A ready-to-use citation is in
+[CITATION.cff](CITATION.cff).
+
+~~~bibtex
+@inproceedings{akhauri2026regression,
+  title     = {Regression Language Models for Code},
+  author    = {Akhauri, Yash and Song, Xingyou and Wongpanich, Arissa
+               and Lewandowski, Bryan and Abdelfattah, Mohamed S.},
+  booktitle = {International Conference on Machine Learning},
+  year      = {2026},
+  note      = {ICML 2026; arXiv:2509.26476}
+}
+~~~
+
+## Thank you
+
+Thank you to Yash Akhauri, Xingyou Song, Arissa Wongpanich, Bryan Lewandowski,
+and Mohamed S. Abdelfattah for the paper, the public regress-lm
+implementation, the released checkpoints, and the GraphArch-Regression and
+Code-Regression data resources. Thanks also to the Google DeepMind and Cornell
+research communities and to the ICML 2026 reproduction organizers for making
+the artifacts and evaluation contract available. This repository is an
+independent reproduction and audit; it is not an official author release.

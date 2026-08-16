@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this reproduction or its audit artifacts, please cite the paper and this repository."
+title: "ICML 2026 Reproduction: Regression Language Models for Code"
+type: software
+authors:
+  - family-names: Jinjala
+    given-names: Dinesh
+    email: MachineLearning-Nerd@users.noreply.github.com
+    affiliation: MachineLearning-Nerd
+repository-code: "https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code"
+url: "https://github.com/MachineLearning-Nerd/icml26-regression-language-models-code"
+version: "1.0.0"
+date-released: 2026-08-16
+license: "MIT"
+keywords:
+  - ICML 2026
+  - reproduction
+  - regression language models
+  - code intelligence
+  - performance prediction
+  - reproducibility audit
+references:
+  - type: article
+    title: "Regression Language Models for Code"
+    authors:
+      - family-names: Akhauri
+        given-names: Yash
+      - family-names: Song
+        given-names: Xingyou
+      - family-names: Wongpanich
+        given-names: Arissa
+      - family-names: Lewandowski
+        given-names: Bryan
+      - family-names: Abdelfattah
+        given-names: "Mohamed S."
+    year: 2026
+    url: "https://arxiv.org/abs/2509.26476"
+    notes:
+      - "ICML 2026"
+      - "arXiv:2509.26476"

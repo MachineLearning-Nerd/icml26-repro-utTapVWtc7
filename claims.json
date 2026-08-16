@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "repository": {
+    "current_name": "icml26-regression-language-models-code",
+    "previous_name": "icml26-repro-utTapVWtc7",
+    "owner": "MachineLearning-Nerd",
+    "challenge_id": "utTapVWtc7",
+    "paper": {
+      "title": "Regression Language Models for Code",
+      "authors": [
+        "Yash Akhauri",
+        "Xingyou Song",
+        "Arissa Wongpanich",
+        "Bryan Lewandowski",
+        "Mohamed S. Abdelfattah"
+      ],
+      "arxiv": "https://arxiv.org/abs/2509.26476",
+      "current_version": "v3",
+      "conference": "ICML 2026"
+    }
+  },
+  "scope": {
+    "challenge_language_count": 17,
+    "current_paper_language_count": 24,
+    "version_boundary": "The retained C3 evidence is the challenge-era 17-language subset and is not presented as the current v3 24-language result.",
+    "model_revision": "5e5002672f870399ce012896332363e271582509",
+    "model_parameter_count": 181458944,
+    "upstream_revision": "6c23ccb",
+    "dataset_revisions": {
+      "grapharch_regression": "c557392740094b539bbdb527d03e3a78e5b34a38",
+      "code_regression": "public-release"
+    }
+  },
+  "collection_status": {
+    "status": "VERIFIED_SCOPED_WITH_LIMITATIONS",
+    "historical_judge_score": "6/10",
+    "new_judge_score_claimed": false
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "title": "One released checkpoint covers memory, latency, and ONNX validation accuracy",
+      "status": "VERIFIED_SCOPED",
+      "acceptance": "The same released checkpoint produces positive ranking evidence for metric-valued memory and latency targets and trained-network ONNX validation accuracy.",
+      "production_path": [
+        "repro/src/run_campaign.py",
+        "repro/src/run_eval.py",
+        "repro/src/run_grapharch.py",
+        "repro/src/verify_claim1_accuracy.py"
+      ],
+      "evidence": [
+        "outputs/claim1_validation.json",
+        "outputs/claim1_source_audit.json",
+        "outputs/claim1_accuracy/",
+        "outputs/colab/table3_results.json",
+        "repro/src/verify_cumulative.py"
+      ],
+      "result": {
+        "accuracy_spearman": {
+          "NASBench101": 0.4065993610622034,
+          "ENAS": 0.24946117751369043,
+          "NASNet": 0.20673752343866375,
+          "three_space_mean": 0.28759935400485254
+        },
+        "rows_per_accuracy_space": 512,
+        "draws_per_row": 8,
+        "validation_routes": 10,
+        "permutation_p": 0.0004997501249375312,
+        "input_shuffle_mean": -0.01324
+      },
+      "limitations": [
+        "The released checkpoint has 181.5M parameters while the paper uses a rounded 300M label.",
+        "This is a released-checkpoint reproduction, not a reconstruction of the original training run."
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "APPS and KBSS correlation pathway",
+      "status": "VERIFIED_SCOPED",
+      "acceptance": "At n=512 per dataset, the released checkpoint produces the retained APPS and KBSS metric-ranking correlations with the pinned decoding protocol.",
+      "production_path": [
+        "repro/src/run_eval.py",
+        "repro/src/verify_independent.py",
+        "repro/src/verify_cumulative.py"
+      ],
+      "evidence": [
+        "outputs/colab/table3_results.json",
+        "outputs/phaseA/independent_verification.json"
+      ],
+      "result": {
+        "APPS": {
+          "rows": 512,
+          "spearman": 0.9268067718469594
+        },
+        "KBSS": {
+          "rows": 512,
+          "spearman": 0.5352789637599933
+        }
+      },
+      "limitations": [
+        "The contract does not claim that every Table 3 dataset or split is identical to the retained release.",
+        "The target is a numeric metric value, not ordinary program pass/fail correctness."
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "17-language CodeNet ranking",
+      "status": "VERIFIED_SCOPED",
+      "acceptance": "The mean of per-language Spearman values exceeds 0.5 on the fixed challenge-era 17-language CodeNet subset.",
+      "production_path": [
+        "repro/src/run_codenet.py",
+        "repro/src/verify_codenet.py",
+        "repro/src/verify_evidence_bundle.py"
+      ],
+      "evidence": [
+        "outputs/colab/evidence_bundle_verification.json",
+        "outputs/colab/regresslm_evidence_bundle.zip",
+        "outputs/codenet/full_gpu_n200_verification.json",
+        "outputs/codenet/full_gpu_n200.csv"
+      ],
+      "result": {
+        "languages": 17,
+        "rows_per_language": 200,
+        "draws_per_row": 8,
+        "primary_mean_spearman": 0.5298501742814378,
+        "independent_cpu_mean_spearman": 0.5234034026121069,
+        "bootstrap_95_percent_interval": [
+          0.5025569766,
+          0.5542456354
+        ],
+        "permutation_p": 0.0004997501249375312,
+        "shuffled_target_control": 0.0351678566
+      },
+      "limitations": [
+        "Current arXiv v3 wording discusses 24 languages; this result covers 17 only."
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Exact five-space Kendall comparison",
+      "status": "BLOCKED_LOW",
+      "acceptance": "Reproduce the target-specific five-space Table 4 Kendall comparison and its average 0.461 with exact rows, checkpoints, and protocol.",
+      "production_path": [
+        "repro/src/check_claim4_audit.py",
+        "repro/src/verify_claim4_audit.py",
+        "repro/src/claim4_exact_gate.py"
+      ],
+      "evidence": [
+        ".openresearch/artifacts/claim4_released_audit/four_routes.json",
+        ".openresearch/artifacts/claim4_released_audit/independent_checker_output.json",
+        ".openresearch/artifacts/claim4_released_audit/negative_control_output.json"
+      ],
+      "result": {
+        "reported_table_average_recomputed": 0.4612,
+        "independent_checker_status": "PASS",
+        "claim_verdict": "BLOCKED"
+      },
+      "blockers": [
+        "Target-specific ENAS and NASNet checkpoints are unavailable.",
+        "Exact few-shot and remaining evaluation row manifests are unavailable.",
+        "The exact training configuration, seeds, and checkpoint-selection rule are unavailable."
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Exact decoder-head ablation and model scaling",
+      "status": "BLOCKED_LOW",
+      "acceptance": "Reproduce Table 5 head variants and Table 6 300M/600M scaling with exact implementations, splits, seeds, and checkpoints.",
+      "production_path": [
+        "repro/src/verify_claim5_audit.py",
+        "repro/src/verify_claim5_final.py",
+        "repro/src/claim5_exact_gate.py"
+      ],
+      "evidence": [
+        ".openresearch/artifacts/claim5_ablation_scaling/four_routes.json",
+        ".openresearch/artifacts/claim5_ablation_scaling/independent_checker_output.json",
+        ".openresearch/artifacts/claim5_ablation_scaling/negative_control_output.json"
+      ],
+      "result": {
+        "table_5_reported_values": [
+          0.8,
+          0.717,
+          0.478
+        ],
+        "table_6_reported_values": {
+          "600M": 0.782,
+          "300M": 0.744
+        },
+        "independent_checker_status": "PASS",
+        "claim_verdict": "BLOCKED"
+      },
+      "blockers": [
+        "Exact Table 5 implementations or checkpoints are unavailable.",
+        "Exact Table 5 split, row, seed, and checkpoint-selection identities are unavailable.",
+        "The exact 600M RLM is not publicly discoverable.",
+        "Exact Table 6 training subset, rows, seed, and checkpoints are unavailable."
+      ]
+    }
+  ],
+  "source_audit": {
+    "paper_pdf_v1": {
+      "path": "paper_2509.26476v1.pdf",
+      "sha256": "fb8f644ea37b3f3ff9201ea76613bf5bd35a4ddb7445b1a8e15fb59a8e5cd43d"
+    },
+    "paper_pdf_v3": {
+      "path": "paper_2509.26476v3.pdf",
+      "sha256": "932f9b77f16a99d6ceafeedf69c97affcdf956e3aa93357031534c6ddca8f9eb"
+    },
+    "paper_url": "https://arxiv.org/abs/2509.26476",
+    "openreview_url": "https://openreview.net/forum?id=utTapVWtc7",
+    "version_note": "v1/v2 challenge-era abstract wording says 17 CodeNet languages; v3 abstract says 24; this repository retains the 17-language challenge contract."
+  }
+}
